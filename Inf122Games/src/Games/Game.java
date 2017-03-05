@@ -1,6 +1,6 @@
 package Games;
 
-public class Game
+public class Game implements Createable
 {
 
 }
