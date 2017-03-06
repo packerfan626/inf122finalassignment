@@ -2,7 +2,7 @@ import java.net.Socket;
 import java.io.PrintWriter;
 public class ClientTest
 {
-	private static Socket socket;
+	private static Socket socket;	//test
 	private static PrintWriter printWriter;
 	public static void main(String[] args)
 	{
