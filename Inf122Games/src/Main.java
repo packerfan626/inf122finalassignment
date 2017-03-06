@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		 GUI g = new GUI(10,10,3,3); //row, column, spacebetween, spacebetween
+		 GUI g = new GUI(9,9,3,3); //row, column, spacebetween, spacebetween
 		 
 	
 }
