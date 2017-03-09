@@ -389,11 +389,11 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 							{
 								if(grid[i][j] == e.getSource())
 								{
-									grid[i][j].setText("c");	
-									grid[i][j+1].setText("c");
-									grid[i][j+2].setText("c");
-									grid[i][j+3].setText("c");
-									grid[i][j+4].setText("c");
+									grid[i][j].setText(type);	
+									grid[i][j+1].setText(type);
+									grid[i][j+2].setText(type);
+									grid[i][j+3].setText(type);
+									grid[i][j+4].setText(type);
 								}
 							}
 						}
