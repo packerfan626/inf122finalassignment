@@ -249,14 +249,14 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 
 						if(isOutOfBound)
 						{
-							JOptionPane.showMessageDialog(this, currentShip.Get_type() + 
+							JOptionPane.showMessageDialog(this, currentShip.get_type() + 
 									" can't be placed here, ship-overboard.", "Out-of-bound Error!", JOptionPane.ERROR_MESSAGE	);
 						}
 						else //need to debug more
 						{
 							if(checkOther(currentShip))
 							{
-								JOptionPane.showMessageDialog(this, currentShip.Get_type() + 
+								JOptionPane.showMessageDialog(this, currentShip.get_type() + 
 										" can't be placed here, another ship is here", "Error!, Ships-collide", JOptionPane.ERROR_MESSAGE	);
 							//	System.out.println("SHIP IN THE WAY");
 							}

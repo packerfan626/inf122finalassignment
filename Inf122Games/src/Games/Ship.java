@@ -48,20 +48,20 @@ public class Ship
 	public void set_xCoord(int x) {	this.xCoord = x; }
 	public void set_yCoord(int y) { this.yCoord = y; }
 
-	public void set_x1Coord(int x1) { this.x1Coord = x1; }
-	public void set_y1Coord(int y1) { this.y1Coord = y1; }
+//	public void set_x1Coord(int x1) { this.x1Coord = x1; }
+//	public void set_y1Coord(int y1) { this.y1Coord = y1; }
 	public void incementHits() { this.hits++; }
 	public void set_direction(String dir) { 
 		this.direction = dir;
 		if(dir.equalsIgnoreCase("vertical"))
 		{
-			x1Coord = xCoord;
-			y1Coord = yCoord + shipLength-1;
+//			x1Coord = xCoord;
+//			y1Coord = yCoord + shipLength-1;
 		}
 		else
 		{
-			x1Coord = xCoord + shipLength-1;
-			y1Coord = yCoord;
+//			x1Coord = xCoord + shipLength-1;
+//			y1Coord = yCoord;
 		}
 	}
 	
