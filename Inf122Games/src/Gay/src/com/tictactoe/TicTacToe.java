@@ -1,4 +1,4 @@
-package Gay.src.com.mrwayfarout.tictactoe;
+package Gay.src.com.tictactoe;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
