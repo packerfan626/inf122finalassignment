@@ -69,7 +69,7 @@ public class TicTacToe implements Runnable {
 	private String enemyWonString = "Opponent won!";
 	private String tieString = "Game ended in a tie.";
 
-	private int[][] wins = new int[][] { { 0, 1, 2 }, { 3, 4, 5 }, { 6, 7, 8 }, { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 }, { 0, 4, 8 }, { 2, 4, 6 } };
+	private int[][] wins = new int[][] { { 0, 1, 2 },{ 3, 4, 5 }, { 6, 7, 8 }, { 0, 3, 6 }, { 1, 4, 7 }, { 2, 5, 8 }, { 0, 4, 8 }, { 2, 4, 6 } };
 
 	/**
 	 * <pre>
@@ -80,9 +80,11 @@ public class TicTacToe implements Runnable {
 	 */
 
 	public TicTacToe() {
-		System.out.println("Please input the IP: ");
+		
+		//include the next 4 lines in order to select ip and port number.
+		//System.out.println("Please input the IP: ");
 		//ip = scanner.nextLine();
-		System.out.println("Please input the port: ");
+		//System.out.println("Please input the port: ");
 		//port = scanner.nextInt();
 		while (port < 1 || port > 65535) {
 			System.out.println("The port you entered was invalid, please input another port: ");
