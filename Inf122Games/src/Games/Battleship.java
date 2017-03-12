@@ -22,19 +22,50 @@ public class Battleship extends Game
 		ships.add(new Ship(CRUISER, 3));
 		ships.add(new Ship(DESTROYER, 2));
 	}
-	
+	s
 	public void makeBoard(int x, int y)
 	{
-		// TODO Auto-generated method stub
-		board = new int [x][y];		
+		board = new int[x][y];
+		isValid = new boolean[x][y];
+		
+		for (int i = 0; i < x; i++){ //SET THE BOARD
+			for (int j = 0; j<y; j++){
+				board[i][j] = 0;
+			}
+		}
+		
+		for (int i = 0; i < x; i++){ //SET THE VALID MOVES
+			for (int j = 0; j<y; j++){
+				isValid[i][j] = true;
+			}
+		}
 	}
 	
 	public void placeShip(Ship ship, int x, int y, String dir)
 	{
+
 		ship.set_xCoord(x);
 		ship.set_yCoord(y);
 		ship.set_direction(dir);
 		ship.setShipCoordinates();
+
+// 		try{
+// 			ship.setShipCoordinates(x, y, dir);
+// 			ArrayList<Integer> placeArray = ship.get_Placement();
+			
+// 			if (dir.equals("vertical")){
+// 				for (int i = 0; i < placeArray.size(); i++){
+// 					board[x][placeArray.get(i)] = ship.get_shipLength(); //ARBITRARY
+// 				}
+// 			}
+// 			else if (dir.equals("horizontal")){
+// 				for (int i = 0; i < placeArray.size(); i++){
+// 					board[placeArray.get(i)][y] = ship.get_shipLength(); //ARBITRARY
+// 				}
+// 			}
+// 		}catch(ArrayIndexOutOfBoundsException e){
+// 			System.out.println("~~ERROR: SHIP OUT OF BOUNDS~~");
+// 		}
 	}
 	
 	public String gameInto()
@@ -43,6 +74,7 @@ public class Battleship extends Game
 	}
 	
 	//setters
+
 	public void set_hit(int x, int y) 
 	{ 
 		if(isValid[x][y])
@@ -57,9 +89,57 @@ public class Battleship extends Game
 			}			
 			isValid[x][y] = false;
 		}
+
+	public void set_move(int x, int y) 
+	{ 
+		if(isValid[x][y]) //returns TRUE if move is not yet made
+		{
+			//check all ships
+			for (Ship s : ships)
+			{
+				if(s.isValidHit(x, y)){
+					s.makeHit(x,y);
+					if (s.checkDestroy())
+					{
+						System.out.println("You just sunk their " + s.get_type() + "!");
+					}
+					break;
+				}
+				else
+					System.out.println("YOU SUCK");
+			}	
+			board[x][y] = 1;
+			isValid[x][y] = false;
+		}
+		else{ //isValid[x][y] returns FALSE, move has been made
+			System.out.println("Already fired here.");
+		}
+
 	}
 	
 	//getters
 	public boolean get_hit(int x, int y) { return isValid[x][y]; }
 	public ArrayList<Ship> get_ships() { return ships;}
+	
+	
+	
+	//TEST METHODS
+	public void display()
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j< 10; j++){
+				System.out.print(board[j][i] + " ");
+			}
+			System.out.println();
+		}
+	}
+	public void displayShips()
+	{
+		for (int i = 0; i < ships.size(); i++){
+			System.out.print(ships.get(i).get_type() + " - ");
+			System.out.println(ships.get(i).get_shipLength());
+		}
+		
+	}
 }

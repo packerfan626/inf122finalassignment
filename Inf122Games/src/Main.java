@@ -12,7 +12,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+
 		// GUI g = new GUI(10,10,3,3); //row, column, spacebetween, spacebetween
 		 BattleshipGUI1 frame = new BattleshipGUI1();
 		frame.setVisible(true);
