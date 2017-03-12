@@ -112,7 +112,7 @@ public class TicTacToe implements Runnable {
 	
 	public void createFrame(){
 		frame = new JFrame();
-		frame.setTitle("Tic-Tac-Toe");
+		frame.setTitle("TicTacToe");
 		frame.setContentPane(painter);
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setLocationRelativeTo(null);
