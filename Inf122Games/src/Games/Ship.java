@@ -10,7 +10,7 @@ public class Ship
 		hits;						//number of hits
 	private ArrayList<Integer> x1Coord, y1Coord;
 	private boolean isDestroyed;
-	private boolean shipCoords [][]; //I DON'T THINK WE NEED THIS
+	private boolean shipCoords [][] = new boolean[10][10]; //I DON'T THINK WE NEED THIS
 
 	
 	//constructors
