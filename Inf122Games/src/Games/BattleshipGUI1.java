@@ -336,9 +336,9 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 				}
 			}
 		}
-		ship.clearCord();		
+		ship.clearCord();
+		
 	}
-  
 	private void setShipCord(Ship ship, int x, int y, String dir)
 	{
 		ship.set_xCoord(x);
@@ -565,3 +565,5 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 //		
 //	}
 }
+
+
