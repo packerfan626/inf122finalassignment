@@ -9,7 +9,7 @@ public class Ship
 		shipLength,					//length of ship		
 		hits;						//number of hits
 	private boolean isDestroyed;
-	private boolean shipCoords [][];
+	private boolean shipCoords [][] = new boolean[10][10];
 	
 	//constructors
 	public Ship(String type, int len)
@@ -34,7 +34,14 @@ public class Ship
 
 	public boolean checkShot(int x, int y) { return shipCoords[x][y]; }
 	public boolean checkDestroy() { return hits == shipLength; }
-	
+	public void clearCord()
+	{
+		for(int i = 0; i < 10;++i)
+		{
+			for(int j =0 ; j < 10; ++j)
+				shipCoords[i][j]=false;
+		}
+	}
 	//setter functions
 	public void set_xCoord(int x) {	this.xCoord = x; }
 	public void set_yCoord(int y) { this.yCoord = y; }
@@ -42,24 +49,26 @@ public class Ship
 	public void set_y1Coord(int y1) { this.y1Coord = y1; }
 	public void incementHits() { this.hits++; }
 	public void set_direction(String dir) { 
+		this.direction = dir;
 		if(dir.equalsIgnoreCase("vertical"))
 		{
 			x1Coord = xCoord;
-			y1Coord = yCoord + shipLength;
+			y1Coord = yCoord + shipLength-1;
 		}
 		else
 		{
-			x1Coord = xCoord + shipLength;
+			x1Coord = xCoord + shipLength-1;
 			y1Coord = yCoord;
 		}
 	}
+	
 	public void setShipCoordinates()
 	{		
 		if(direction.equalsIgnoreCase("vertical"))
 		{
-			int inc = yCoord;
+//			int inc = xCoord;
 			for(int i = 0; i < shipLength; i++)
-				this.shipCoords[xCoord][inc++] = true;		}	
+				this.shipCoords[yCoord+i][xCoord] = true;		}	
 		else
 		{
 			int inc = xCoord;
