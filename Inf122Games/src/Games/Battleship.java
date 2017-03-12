@@ -22,7 +22,7 @@ public class Battleship extends Game
 		ships.add(new Ship(CRUISER, 3));
 		ships.add(new Ship(DESTROYER, 2));
 	}
-	
+	s
 	public void makeBoard(int x, int y)
 	{
 		board = new int[x][y];
@@ -72,13 +72,11 @@ public class Battleship extends Game
 	//setters
 	public void set_move(int x, int y) 
 	{ 
-		if(isValid[x][y])
+		if(isValid[x][y]) //returns TRUE if move is not yet made
 		{
-			System.out.println(isValid[x][y]);
 			//check all ships
 			for (Ship s : ships)
 			{
-				System.out.println("checking if " + s.get_type());
 				if(s.isValidHit(x, y)){
 					s.makeHit(x,y);
 					if (s.checkDestroy())
@@ -90,8 +88,11 @@ public class Battleship extends Game
 				else
 					System.out.println("YOU SUCK");
 			}	
-			board[x][y] = 0;
+			board[x][y] = 1;
 			isValid[x][y] = false;
+		}
+		else{ //isValid[x][y] returns FALSE, move has been made
+			System.out.println("Already fired here.");
 		}
 	}
 	

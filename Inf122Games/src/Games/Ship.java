@@ -90,7 +90,7 @@ public class Ship
 	//getter functions
 	public int get_shipLength() { return shipLength; }
 	public int get_xCoord() { return xCoord; }
-	public int get_yCoord() { return yCoord; }	
+	public int get_yCoord() { return yCoord; }
 	public ArrayList<Integer> get_Placement() 
 	{ 
 		if (this.direction.equals("vertical")){
