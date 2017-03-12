@@ -11,6 +11,7 @@ public class Ship
 	private ArrayList<Integer> x1Coord, y1Coord;
 	private boolean isDestroyed;
 	private boolean shipCoords [][]; //I DON'T THINK WE NEED THIS
+
 	
 	//constructors
 	public Ship(String type, int len)
@@ -35,10 +36,50 @@ public class Ship
 
 	public boolean checkShot(int x, int y) { return shipCoords[x][y]; }
 	public boolean checkDestroy() { return hits == shipLength; }
-	
+	public void clearCord()
+	{
+		for(int i = 0; i < 10;++i)
+		{
+			for(int j =0 ; j < 10; ++j)
+				shipCoords[i][j]=false;
+		}
+	}
 	//setter functions
 	public void set_xCoord(int x) {	this.xCoord = x; }
 	public void set_yCoord(int y) { this.yCoord = y; }
+
+	public void set_x1Coord(int x1) { this.x1Coord = x1; }
+	public void set_y1Coord(int y1) { this.y1Coord = y1; }
+	public void incementHits() { this.hits++; }
+	public void set_direction(String dir) { 
+		this.direction = dir;
+		if(dir.equalsIgnoreCase("vertical"))
+		{
+			x1Coord = xCoord;
+			y1Coord = yCoord + shipLength-1;
+		}
+		else
+		{
+			x1Coord = xCoord + shipLength-1;
+			y1Coord = yCoord;
+		}
+	}
+	
+  public void setShipCoordinates()
+	{		
+		if(direction.equalsIgnoreCase("vertical"))
+		{
+//			int inc = xCoord;
+			for(int i = 0; i < shipLength; i++)
+				this.shipCoords[yCoord+i][xCoord] = true;		}	
+		else
+		{
+			int inc = xCoord;
+			for(int i = 0; i < shipLength; i++)
+				this.shipCoords[inc++][yCoord] = true;
+		}
+	}
+
 	public void makeHit(int x, int y) { 
 		this.hits++;
 		int toRemove = 0;
@@ -59,6 +100,7 @@ public class Ship
 			x1Coord.remove(toRemove);
 		}
 	}
+  
 	public void setShipCoordinates(int x, int y, String dir) throws ArrayIndexOutOfBoundsException
 	{	
 		if(dir.equalsIgnoreCase("vertical"))
@@ -74,6 +116,7 @@ public class Ship
 			}
 		}
 		else // direction is horizontal
+
 		{
 			this.direction = "horizontal";
 			this.xCoord = x;
@@ -101,6 +144,7 @@ public class Ship
 		}
 	}
 	public int get_hits() { return hits; }
+	public boolean isValid(int x, int y) { return true; }
 	public String get_type() { return type; }	
 	public boolean isValidHit(int x, int y)
 	{
