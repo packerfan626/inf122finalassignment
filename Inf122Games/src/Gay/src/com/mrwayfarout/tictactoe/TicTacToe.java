@@ -41,29 +41,27 @@ public class TicTacToe implements Runnable {
 	private ServerSocket serverSocket;
 
 	private BufferedImage board;
-//	private BufferedImage redX;
-//	private BufferedImage blueX;
-//	private BufferedImage redCircle;
-//	private BufferedImage blueCircle;
 
-	private String[] spaces = new String[9];
+
+	private String[] spots = new String[9];
 
 	private boolean yourTurn = false;
 	private boolean circle = true;
-	private boolean accepted = false;
-	private boolean unableToCommunicateWithOpponent = false;
 	private boolean playerWon = false;
 	private boolean opponentWon = false;
 	private boolean tieGame = false;
+	private boolean accepted = false;
+	private boolean unableToCommunicateWithOpponent = false;
+
 
 	private int lengthOfSpace = 160;
 	private int errors = 0;
 	private int firstSpot = -1;
 	private int secondSpot = -1;
 
-	private Font font = new Font("Verdana", Font.BOLD, 32);
-	private Font smallerFont = new Font("Verdana", Font.BOLD, 20);
-	private Font largerFont = new Font("Verdana", Font.BOLD, 50);
+	private Font font = new Font("Arial", Font.BOLD, 24);
+	private Font smallerFont = new Font("Arial", Font.BOLD, 20);
+	private Font largerFont = new Font("Arial", Font.BOLD, 24);
 
 	private String waitingString = "Waiting for another player";
 	private String unableToCommunicateWithOpponentString = "Unable to communicate with opponent.";
@@ -91,12 +89,20 @@ public class TicTacToe implements Runnable {
 			port = scanner.nextInt();
 		}
 
-		loadImages();
+		loadBoard();
 
 		painter = new Painter();
 		painter.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-		if (!connect()) initializeServer();
+		if (!connect()){
+			try {
+				serverSocket = new ServerSocket(port, 8, InetAddress.getByName(ip));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			yourTurn = true;
+			circle = false;
+		}
 
 		createFrame();
 
@@ -121,9 +127,22 @@ public class TicTacToe implements Runnable {
 			painter.repaint();
 
 			if (!circle && !accepted) {
-				listenForServerRequest();
+				runner();
 			}
 
+		}
+	}
+	
+	public void runner(){
+		Socket socket = null;
+		try {
+			socket = serverSocket.accept();
+			dos = new DataOutputStream(socket.getOutputStream());
+			dis = new DataInputStream(socket.getInputStream());
+			accepted = true;
+			System.out.println("CLIENT HAS REQUESTED TO JOIN, AND WE HAVE ACCEPTED");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -140,29 +159,29 @@ public class TicTacToe implements Runnable {
 		}
 
 		if (accepted) {
-			for (int i = 0; i < spaces.length; i++) {
-				if (spaces[i] != null) {
-					if (spaces[i].equals("X")) {
+			for (int i = 0; i < spots.length; i++) {
+				if (spots[i] != null) {
+					if (spots[i].equals("X")) {
 						if (circle) {
 							g.setColor(Color.RED);
-							g.setFont(new Font("Arial", 2, 100));
+							g.setFont(new Font("Arial", Font.BOLD, 100));
 							g.drawString("X", (i % 3) * lengthOfSpace + 60, (int) (i / 3) * lengthOfSpace +110);
 							
 						} else {
 							g.setColor(Color.CYAN);
-							g.setFont(new Font("Arial", 2, 100 ));
+							g.setFont(new Font("Arial", Font.BOLD, 100 ));
 							g.drawString("X", (i % 3) * lengthOfSpace + 60, (int) (i / 3) * lengthOfSpace + 110);
 							
 						}
-					} else if (spaces[i].equals("O")) {
+					} else if (spots[i].equals("O")) {
 						if (circle) {
 							g.setColor(Color.CYAN);
-							g.setFont(new Font("Arial", 2, 100 ));
+							g.setFont(new Font("Arial", Font.BOLD, 100 ));
 							g.drawString("O", (i % 3) * lengthOfSpace + 60, (int) (i / 3) * lengthOfSpace + 110);
 							
 						} else {
 							g.setColor(Color.RED);
-							g.setFont(new Font("Arial", 2, 100 ));
+							g.setFont(new Font("Arial", Font.BOLD, 100 ));
 							g.drawString("O", (i % 3) * lengthOfSpace + 60, (int) (i / 3) * lengthOfSpace +110 );
 							
 						}
@@ -205,13 +224,15 @@ public class TicTacToe implements Runnable {
 	}
 
 	private void tick() {
-		if (errors >= 10) unableToCommunicateWithOpponent = true;
+		if (errors >= 10){
+			unableToCommunicateWithOpponent = true;
+		}
 
 		if (!yourTurn && !unableToCommunicateWithOpponent) {
 			try {
 				int space = dis.readInt();
-				if (circle) spaces[space] = "X";
-				else spaces[space] = "O";
+				if (circle) spots[space] = "X";
+				else spots[space] = "O";
 				checkForEnemyWin();
 				checkForTie();
 				yourTurn = true;
@@ -225,13 +246,13 @@ public class TicTacToe implements Runnable {
 	private void checkForWin() {
 		for (int i = 0; i < wins.length; i++) {
 			if (circle) {
-				if (spaces[wins[i][0]] == "O" && spaces[wins[i][1]] == "O" && spaces[wins[i][2]] == "O") {
+				if (spots[wins[i][0]] == "O" && spots[wins[i][1]] == "O" && spots[wins[i][2]] == "O") {
 					firstSpot = wins[i][0];
 					secondSpot = wins[i][2];
 					playerWon = true;
 				}
 			} else {
-				if (spaces[wins[i][0]] == "X" && spaces[wins[i][1]] == "X" && spaces[wins[i][2]] == "X") {
+				if (spots[wins[i][0]] == "X" && spots[wins[i][1]] == "X" && spots[wins[i][2]] == "X") {
 					firstSpot = wins[i][0];
 					secondSpot = wins[i][2];
 					playerWon = true;
@@ -243,13 +264,13 @@ public class TicTacToe implements Runnable {
 	private void checkForEnemyWin() {
 		for (int i = 0; i < wins.length; i++) {
 			if (circle) {
-				if (spaces[wins[i][0]] == "X" && spaces[wins[i][1]] == "X" && spaces[wins[i][2]] == "X") {
+				if (spots[wins[i][0]] == "X" && spots[wins[i][1]] == "X" && spots[wins[i][2]] == "X") {
 					firstSpot = wins[i][0];
 					secondSpot = wins[i][2];
 					opponentWon = true;
 				}
 			} else {
-				if (spaces[wins[i][0]] == "O" && spaces[wins[i][1]] == "O" && spaces[wins[i][2]] == "O") {
+				if (spots[wins[i][0]] == "O" && spots[wins[i][1]] == "O" && spots[wins[i][2]] == "O") {
 					firstSpot = wins[i][0];
 					secondSpot = wins[i][2];
 					opponentWon = true;
@@ -259,26 +280,14 @@ public class TicTacToe implements Runnable {
 	}
 
 	private void checkForTie() {
-		for (int i = 0; i < spaces.length; i++) {
-			if (spaces[i] == null) {
+		for (int i = 0; i < spots.length; i++) {
+			if (spots[i] == null) {
 				return;
 			}
 		}
 		tieGame = true;
 	}
 
-	private void listenForServerRequest() {
-		Socket socket = null;
-		try {
-			socket = serverSocket.accept();
-			dos = new DataOutputStream(socket.getOutputStream());
-			dis = new DataInputStream(socket.getInputStream());
-			accepted = true;
-			System.out.println("CLIENT HAS REQUESTED TO JOIN, AND WE HAVE ACCEPTED");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	private boolean connect() {
 		try {
@@ -294,23 +303,11 @@ public class TicTacToe implements Runnable {
 		return true;
 	}
 
-	private void initializeServer() {
-		try {
-			serverSocket = new ServerSocket(port, 8, InetAddress.getByName(ip));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		yourTurn = true;
-		circle = false;
-	}
 
-	private void loadImages() {
+
+	private void loadBoard() {
 		try {
 			board = ImageIO.read(getClass().getResourceAsStream("/Gay/res/board.png"));
-			//redX = ImageIO.read(getClass().getResourceAsStream("/Gay/res/redX.png"));
-			//redCircle = ImageIO.read(getClass().getResourceAsStream("/Gay/res/redCircle.png"));
-			//blueX = ImageIO.read(getClass().getResourceAsStream("/Gay/res/blueX.png"));
-			//blueCircle = ImageIO.read(getClass().getResourceAsStream("/Gay/res/blueCircle.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -325,6 +322,10 @@ public class TicTacToe implements Runnable {
 		private static final long serialVersionUID = 1L;
 
 		public Painter() {
+			setUpPainter();
+		}
+		
+		public void setUpPainter(){
 			setFocusable(true);
 			requestFocus();
 			setBackground(Color.WHITE);
@@ -346,9 +347,9 @@ public class TicTacToe implements Runnable {
 					y *= 3;
 					int position = x + y;
 
-					if (spaces[position] == null) {
-						if (!circle) spaces[position] = "X";
-						else spaces[position] = "O";
+					if (spots[position] == null) {
+						if (!circle) spots[position] = "X";
+						else spots[position] = "O";
 						yourTurn = false;
 						repaint();
 						Toolkit.getDefaultToolkit().sync();
