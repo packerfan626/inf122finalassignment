@@ -11,7 +11,7 @@ public class ClientTest
 			socket = new Socket("localhost",63400);
 			printWriter = new PrintWriter(socket.getOutputStream(),true);
 			printWriter.println("Hello Socket");
-			printWriter.println("EYYYYYAAAAAAAA!!!!");
+			printWriter.println("EYYYYYAAAAAAAAA!!!!");
 		}
 		catch(Exception e)
 		{
