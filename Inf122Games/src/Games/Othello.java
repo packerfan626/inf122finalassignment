@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Othello 
 {
-	Player player1;
-	Player player2;
-	Player currentPlayer;
-	Player oppositePlayer;
+	OthelloPlayer player1;
+	OthelloPlayer player2;
+	OthelloPlayer currentPlayer;
+	OthelloPlayer oppositePlayer;
 	Piece[][] board;
 	ArrayList<Integer> validMovesRow;
 	ArrayList<Integer> validMovesColumn;
@@ -18,8 +18,8 @@ public class Othello
     
 	public void initializeGame()
 	{
-		player1 = new Player("Chris", Piece.BLACK); // SAMPLE
-		player2 = new Player("Janay", Piece.WHITE); // SAMPLE
+		player1 = new OthelloPlayer("Chris", Piece.BLACK); // SAMPLE
+		player2 = new OthelloPlayer("Janay", Piece.WHITE); // SAMPLE
 		currentPlayer = player1;
 		oppositePlayer = player2;
 		board = new Piece[ROWS][COLUMNS];
@@ -42,7 +42,7 @@ public class Othello
 		}
 	}
 	
-	public boolean isValid(int row, int column, Player p){
+	public boolean isValid(int row, int column, OthelloPlayer p){
 		checkValidMoves(p);
 		boolean isValid = false;
 		for(int i = 0; i < validMovesRow.size(); i++){
@@ -53,7 +53,7 @@ public class Othello
 		return isValid;
 	}
 	
-	public void checkValidMoves(Player player)
+	public void checkValidMoves(OthelloPlayer player)
 	{
 		validMovesRow = new ArrayList<Integer>();
 		validMovesColumn = new ArrayList<Integer>();
@@ -360,7 +360,7 @@ public class Othello
 		
 	}
 	
-	public void makeMove(int row, int column, Player p)
+	public void makeMove(int row, int column, OthelloPlayer p)
 	{
 	
 		System.out.println(p.getPlayerName() + ", make your move!");
@@ -369,8 +369,6 @@ public class Othello
 		// GUI FLIPS TILES
 		// ADD FLIPPED TILES TO TOTAL NUMBER OF PIECES OWNED FOR PLAYER
 		
-		//Before flipping the tokens begins I would still need to check if it's a valid move or not
-		//Might place valid move check before, in the GUI
 		
 		if (board[row][column] == Piece.EMPTY)
 		{

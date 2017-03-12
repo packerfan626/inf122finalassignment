@@ -1,12 +1,12 @@
 package Games;
 
-public class Player 
+public class OthelloPlayer 
 {
 	private String name;
 	private Piece color;
 	private int numOfPiecesOwned;
 	
-	Player(String n, Piece c)
+	OthelloPlayer(String n, Piece c)
 	{
 		name = n;
 		color = c;
