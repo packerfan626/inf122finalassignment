@@ -10,7 +10,7 @@ public class Ship
 		hits;						//number of hits
 	private ArrayList<Integer> x1Coord, y1Coord;
 	private boolean isDestroyed;
-	private boolean shipCoords [][]; //I DON'T THINK WE NEED THIS
+	private boolean shipCoords [][] = new boolean[10][10]; //I DON'T THINK WE NEED THIS
 
 	
 	//constructors
@@ -69,14 +69,12 @@ public class Ship
 	{		
 		if(direction.equalsIgnoreCase("vertical"))
 		{
-//			int inc = xCoord;
 			for(int i = 0; i < shipLength; i++)
 				this.shipCoords[yCoord+i][xCoord] = true;		}	
 		else
 		{
-			int inc = xCoord;
 			for(int i = 0; i < shipLength; i++)
-				this.shipCoords[inc++][yCoord] = true;
+				this.shipCoords[yCoord][xCoord+i] = true;
 		}
 	}
 
@@ -169,4 +167,6 @@ public class Ship
 			return false;
 		}
 	}
+	public boolean[][] get_cordinate() { return shipCoords; }
+	public String get_direction() { return direction; }
 }

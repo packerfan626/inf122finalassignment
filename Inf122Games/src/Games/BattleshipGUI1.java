@@ -1,22 +1,11 @@
 package Games;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.JComboBox;
-import java.awt.GridBagLayout;
-
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -25,10 +14,12 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
-public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListener
+public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseListener
 {
+	private final String VERTICAL = "Vertical", HORIZONTAL = "Horizontal";
 	private JPanel contentPane, opponentView, yourView;
-	private final JButton[][] grid = new JButton[10][10];
+	private JButton[][] grid = new JButton[10][10];
+	private JButton[][] oppGrid = new JButton[10][10]; 
 	Battleship bsGame = new Battleship();
 	private JTextField txtYourBoard;
 	private JTextField txtOpponentsBoard;
@@ -38,10 +29,17 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 		bCruiser, 
 		bDestroyer,
 		bQuit,
-		bDeploy;
+		bDeploy,
+		bDirection;
 	private Ship currentShip;
-	private boolean click;
-	private int xCord, yCord;
+	private int xCord, yCord, destroyCounter = 0;
+	private String direction = VERTICAL;
+	private boolean AC_Deployed, B_Deployed, S_Deployed, C_Deployed, D_Deployed;
+//		AC_Destroy, B_Destroy, S_Destroy, C_Destroy, D_Destroy;
+	private JTextField tvShipDir;
+	private ArrayList<Ship> oppShips = new ArrayList<>();
+	Battleship enemeyShip = new Battleship();
+	
 	
 	public BattleshipGUI1()
 	{
@@ -69,14 +67,15 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 		bQuit.addActionListener(this);
 		
 		bDeploy = new JButton("Deploy");
-		bDeploy.setBounds(666, 305, 134, 23);
+		bDeploy.setBounds(666, 342, 134, 29);
 		contentPane.add(bDeploy);
+		bDeploy.setEnabled(false);
 		bDeploy.addActionListener(this);
 	
 		
 		//ships buttons START
 		JPanel panel_ships = new JPanel();
-		panel_ships.setBounds(666, 62, 134, 232);
+		panel_ships.setBounds(666, 99, 134, 232);
 		contentPane.add(panel_ships);
 		panel_ships.setLayout(new GridLayout(5, 0, 0, 0));		
 		bAircraftCarrier = new JButton("Aircraft Carrier");		
@@ -108,183 +107,201 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 		txtOpponentsBoard.setBounds(108, 366, 102, 20);
 		contentPane.add(txtOpponentsBoard);
 		
+		bDirection = new JButton(VERTICAL);
+		bDirection.setBounds(666, 59, 134, 29);
+		contentPane.add(bDirection);
+		bDirection.addActionListener(this);
+		
+		tvShipDir = new JTextField();
+		tvShipDir.setText("Ship Direction:");
+		tvShipDir.setBounds(666, 39, 86, 20);
+		contentPane.add(tvShipDir);
+		tvShipDir.setColumns(10);
+		
 		buildBoard();
 	}
 	
-	private void buildBoard() {
+	private void buildBoard() 
+	{
 		for(int i = 0; i < 10; ++i)
 		{
 			for(int j = 0; j < 10; ++j)
-			{
-				JButton b = new JButton();
+			{			
+				//Your Grid layout
 				grid[i][j] = new JButton();
-				grid[i][j].addMouseListener(this);
-				opponentView.add(b);
+//				grid[i][j].addMouseListener(this);
+				grid[i][j].addActionListener(new boardAction());
 				yourView.add(grid[i][j]);
+				
+				//opponent grid layout
+				oppGrid[i][j] = new JButton();
+				oppGrid[i][j].setEnabled(false);
+				opponentView.add(oppGrid[i][j]);				
 			}
 		}
 	}
-
-	private void placeShip(Ship ship, int x, int y)
-	{
-
-		
-	}
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		int length = 0;
 		// TODO Auto-generated method stub
-		if(e.getSource() == bAircraftCarrier)
-		{
-//			Ship carrier = bsGame.get_ships().get(0);
-			currentShip = bsGame.get_ships().get(0);
-			//System.out.println(carrier.Get_type());	//test 
-//			final int len = carrier.get_shipLength();	
-			
-//			bAircraftCarrier.addMouseListener(this);
-
-		}
 		
+		//change direction of ship
+		if(e.getSource() == bDirection)
+		{
+			if(direction.equalsIgnoreCase(VERTICAL))
+			{
+				direction = HORIZONTAL;
+				bDirection.setText(HORIZONTAL);
+			}
+			else
+			{
+				direction = VERTICAL;
+				bDirection.setText(VERTICAL);
+			}			
+		}
+			
+		//ship placement buttons
+		if(e.getSource() == bAircraftCarrier)		
+			currentShip = bsGame.get_ships().get(0);		
 		if(e.getSource() == bBattleship)
-		{
-//			Ship battleship =  bsGame.get_ships().get(1);
-//			System.out.println(battleship.Get_type());	//test 
-			currentShip = bsGame.get_ships().get(1);
-//			bBattleship.addMouseListener(this);
-		}
-		
+			currentShip = bsGame.get_ships().get(1);		
 		if(e.getSource() == bSubmarine)
-		{
-//			Ship submarine =  bsGame.get_ships().get(2);
-//			System.out.println(submarine.Get_type());	//test 
-//			length = submarine.get_shipLength();
-			
-			currentShip = bsGame.get_ships().get(2);
-//			bSubmarine.addMouseListener(this);
-//			paintLengthOfShip(currentShip, "s", "vertical");	
-		}
-		
+			currentShip = bsGame.get_ships().get(2);		
 		if(e.getSource() == bCruiser)
-		{
-//			Ship cruiser =  bsGame.get_ships().get(3);
-//			System.out.println(cruiser.Get_type());	//test 
-//			length = cruiser.get_shipLength();
-			
-			currentShip = bsGame.get_ships().get(3);
-//			bCruiser.addMouseListener(this);
-//			paintLengthOfShip(currentShip, "cs", "vertical");	
-			
-		}	
-		
+			currentShip = bsGame.get_ships().get(3);		
 		if(e.getSource() == bDestroyer)
-		{
-//			Ship destroy =  bsGame.get_ships().get(4);
-//			System.out.println(destroy.Get_type());	//test 
-//			length = destroy.get_shipLength();
-			
 			currentShip = bsGame.get_ships().get(4);
-//			bDestroyer.addMouseListener(this);
-//			paintLengthOfShip(currentShip, "d", "vertical");	
-		}	
 		
 		if(e.getSource() == bQuit)
-		{
-			dispose();
-		}
-		
+			dispose();		
 		if(e.getSource() == bDeploy)
 		{
 			//disable all ships button
-			//show status of your ships' health
+			disableShipPlacementButtons();
+			
+			//REPLACE WITH OPPONENT SHIPS
+			oppShips = enemeyShip.get_ships();
+			oppShips.get(0).set_xCoord(0);
+			oppShips.get(0).set_yCoord(0);
+			oppShips.get(0).set_direction(VERTICAL);
+			oppShips.get(0).setShipCoordinates();
+			
+			oppShips.get(1).set_xCoord(1);
+			oppShips.get(1).set_yCoord(0);
+			oppShips.get(1).set_direction(VERTICAL);
+			oppShips.get(1).setShipCoordinates();
+			
+			oppShips.get(2).set_xCoord(2);
+			oppShips.get(2).set_yCoord(0);
+			oppShips.get(2).set_direction(VERTICAL);
+			oppShips.get(2).setShipCoordinates();
+			
+			oppShips.get(3).set_xCoord(3);
+			oppShips.get(3).set_yCoord(0);
+			oppShips.get(3).set_direction(VERTICAL);
+			oppShips.get(3).setShipCoordinates();
+			
+			oppShips.get(4).set_xCoord(4);
+			oppShips.get(4).set_yCoord(0);
+			oppShips.get(4).set_direction(VERTICAL);
+			oppShips.get(4).setShipCoordinates();
+			
+			set_oppBoard(oppShips);
 		}
 		//System.out.println(length);	//test 
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		if(currentShip!=null)
-		{
-			for(int i = 0; i < 10; i++) //y
-			{
-				for(int j = 0; j < 10; j++) //x
-				{
-					if(grid[i][j] == e.getSource())
-					{
-						xCord = j;
-						yCord = i;
-						
-						boolean isOutOfBound = false;
-						//check if ship is within grid
-						//if(vertical)
-							if(yCord+currentShip.get_shipLength()>10) { isOutOfBound = true; }
-						//else
-							if(xCord+currentShip.get_shipLength()>10) { isOutOfBound = true; }
-					
-
-						if(isOutOfBound)
-						{
-							JOptionPane.showMessageDialog(this, currentShip.get_type() + 
-									" can't be placed here, ship-overboard.", "Out-of-bound Error!", JOptionPane.ERROR_MESSAGE	);
-						}
-						else //need to debug more
-						{
-							if(checkOther(currentShip))
-							{
-								JOptionPane.showMessageDialog(this, currentShip.get_type() + 
-										" can't be placed here, another ship is here", "Error!, Ships-collide", JOptionPane.ERROR_MESSAGE	);
-							//	System.out.println("SHIP IN THE WAY");
-							}
-							else
-							{
-								//clear Ship coordinates
-								//METHOD TO CLEAR SHIP; needs to be implemented
-								clearBoard(currentShip);
-								
-								//place ship coordinates
-								setShipCord(currentShip, xCord, yCord, "vertical");
-								
-								//set board with ship coordinates
-								setBoard(currentShip);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void mouseClicked(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//		
+//	}
+//
+//	@Override
+//	public void mouseEntered(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mouseExited(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void mousePressed(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		if(currentShip!=null)
+//		{
+//			for(int i = 0; i < 10; i++) //y
+//			{
+//				for(int j = 0; j < 10; j++) //x
+//				{
+//					if(grid[i][j] == e.getSource())
+//					{
+//						xCord = j;
+//						yCord = i;
+//						
+//						boolean isOutOfBound = false;
+//						//check if ship is within grid
+//						if(direction.equalsIgnoreCase(VERTICAL))
+//							if(yCord+currentShip.get_shipLength()>10) { 
+//								isOutOfBound = true; 
+//								}
+//						if(direction.equalsIgnoreCase(HORIZONTAL))
+//							if(xCord+currentShip.get_shipLength()>10) 
+//						{ 
+//							isOutOfBound = true; 						
+//						}
+//					
+//
+//						if(isOutOfBound)
+//						{
+//							JOptionPane.showMessageDialog(this, currentShip.get_type() + 
+//									" can't be placed here, ship-overboard.", "Out-of-bound Error!", JOptionPane.ERROR_MESSAGE	);
+//						}
+//						else //need to debug more
+//						{
+//							if(checkOther(currentShip))
+//							{
+//								JOptionPane.showMessageDialog(this, currentShip.get_type() + 
+//										" can't be placed here, another ship is here", "Error!, Ships-collide", JOptionPane.ERROR_MESSAGE	);
+//							//	System.out.println("SHIP IN THE WAY");
+//							}
+//							else
+//							{
+//								//clear Ship coordinates
+//								//METHOD TO CLEAR SHIP; needs to be implemented
+//								clearBoard(currentShip);
+//								
+//								//place ship coordinates
+//								setShipCord(currentShip, xCord, yCord, direction);
+//								
+//								//set board with ship coordinates
+//								setBoard(currentShip);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	@Override
+//	public void mouseReleased(MouseEvent e)
+//	{
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 	private boolean checkOther(Ship ship)
 	{
@@ -293,14 +310,14 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 		int xAdd = ship.get_shipLength()+yCord;
 		
 		//if direction
-		boolean isVertical = true;
+		//boolean isVertical = true;
 	
 		//need ships orientation
 		for(Ship s: tempList)
 		{
 			if(s!=ship)
 			{
-				if(isVertical)
+				if(direction.equalsIgnoreCase(VERTICAL))
 				{
 					for(int y = yCord; y < xAdd; y++)
 					{
@@ -345,7 +362,9 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 		ship.set_yCoord(y);
 		ship.set_direction(dir);
 		ship.setShipCoordinates();
-		//NEED A METHOD TO TRACK IF SHIP IS SET IN SHIP CLASS
+		
+		//USE THIS WHEN FUNCTIONING
+//		ship.setShipCoordinates(x, y, dir);
 	}
 	
 	private void setBoard(Ship ship)
@@ -360,210 +379,301 @@ public class BattleshipGUI1 extends JFrame implements ActionListener, MouseListe
 				}
 			}
 		}
+		checkIfAllShipsDeployed();		
 	}
+	
+	private void checkIfAllShipsDeployed() 
+	{
+		if(currentShip.get_type().equalsIgnoreCase("Aircraft Carrier"))
+		{
+			bAircraftCarrier.setBackground(Color.GREEN);
+			AC_Deployed=true;		
+		}
+		
+		if(currentShip.get_type().equalsIgnoreCase("Battleship"))
+		{
+			bBattleship.setBackground(Color.GREEN);
+			B_Deployed=true;
+		}
+		if(currentShip.get_type().equalsIgnoreCase("Submarine"))
+		{
+			bSubmarine.setBackground(Color.GREEN);
+			S_Deployed=true;
+		}
+		if(currentShip.get_type().equalsIgnoreCase("Cruiser"))
+		{
+			bCruiser.setBackground(Color.GREEN);
+			C_Deployed=true;
+		}
+		if(currentShip.get_type().equalsIgnoreCase("Destroyer"))
+		{
+			bDestroyer.setBackground(Color.GREEN);
+			D_Deployed=true;
+		}
+		
+		if(!AC_Deployed || !B_Deployed || !S_Deployed || !C_Deployed || !D_Deployed)
+			bDeploy.setEnabled(false);
+		else
+			bDeploy.setEnabled(true);
+	}
+	
+	private void disableShipPlacementButtons()
+	{
+		bAircraftCarrier.setEnabled(false);
+		bBattleship.setEnabled(false);
+		bCruiser.setEnabled(false);
+		bSubmarine.setEnabled(false);
+		bDestroyer.setEnabled(false);
+		bDirection.setEnabled(false);
+		bDeploy.setVisible(false);
+		bDirection.setVisible(false);
+		tvShipDir.setVisible(false);
+		
+		bAircraftCarrier.setEnabled(false);
+		bBattleship.setEnabled(false);
+		bCruiser.setEnabled(false);
+		bSubmarine.setEnabled(false);
+		bDestroyer.setEnabled(false);
+		bDirection.setEnabled(false);
+		
+		for(int i = 0; i < 10; ++i)
+		{
+			for(int j = 0; j < 10; ++j)
+			{
+				grid[i][j].setEnabled(false);
+				oppGrid[i][j].setEnabled(true);
+				oppGrid[i][j].addMouseListener(new myActionListener());
+			}
+		}
+	}
+	
+	public void set_oppBoard(ArrayList<Ship> shipList)
+	{
+		oppShips = shipList;
+	}
+	
+	private boolean checkWin()
+	{
+		return destroyCounter == 5;
+	}
+	
+	private boolean checkLost()
+	{
+		int count = 0;
+		for(Ship s : bsGame.get_ships())
+		{
+			if(s.checkDestroy())
+				count++;
+		};
+		return count == 5;
+	}
+	
+	private class myActionListener implements MouseListener
+	{
 
-//	private void paintLengthOfShip(Ship ship, String type, String o)
-//	{
-//		System.out.println("PLACE SHIP");
-//		int len = ship.get_shipLength();
-//		Ship c = ship;
-//		String orientation = o; //get ship orientation NEED TO CHANGE CONSTRUCTOR
-//			
-//		//place ship on board
-//		int x = 0, y=0;
-//		click = false;
-//		for(int i = 0; i < 10; ++i)
-//		{
-//			for(int j = 0; j < 10; ++j )
-//			{		
-//				
-//				
-//				grid[i][j].addActionListener(new ActionListener() {					
-//					@Override
-//					public void actionPerformed(ActionEvent e)
-//					{
-//						click = false;
-//						// TODO Auto-generated method stub
-//						for(int i = 0; i < 10;++i)
-//						{
-//							for(int j = 0; j < 10; ++j)
-//							{
-//								if(grid[i][j] == e.getSource())
-//								{		
-//									//clear ships
-//									//NEED A METHOD THAT GETS THE COORDINATES OF THE SHIPS
-//									if(currentShip.get_xCoord() != -1 ||currentShip.get_yCoord() != -1)	//SET xCoord and yCoord to -1
-//									{
-//										
-//									}	
-//									click=true;
-//								}
-//								if(click)
-//									break;
-//							}
-//							if(click)
-//								break;
-//						}
-//						
-//						//vertical
-//						for(int i = 0; i < 10-len+1; ++i) //y
-//						{
-//							for(int j = 0; j < 10; ++j) //x
-//							{
-//								if(grid[i][j] == e.getSource())
-//								{
-//									int t = 0;
-//									while(t!=len)
-//									{
-//										grid[i+t][j].setText(type);
-//										grid[i+t][j].setBackground(Color.green);
-//										t++;
-//									}									
-//								}
-//							}
-//						}								
-//					}
-//				});
-////				grid[i][j].addMouseListener(new MouseListener()
-////				{			
-////					@Override
-////					public void mouseReleased(MouseEvent e)
-////					{
-////						// TODO Auto-generated method stub
-////						
-////					}
-////					
-////					@Override
-////					public void mousePressed(MouseEvent e)
-////					{
-//						
-//						// TODO Auto-generated method stub
-////						for(int i = 0; i < 10; ++i) //y
-////						{
-////							for(int j = 0; j < 10; ++j) //x
-////							{
-////								if(grid[i][j] == e.getSource())
-////								{
-////									xCord = j;
-////									yCord = i;
-////								}
-////								//clear ships
-////								//NEED A METHOD THAT GETS THE COORDINATES OF THE SHIPS
-////								if(currentShip.get_xCoord() != -1 ||currentShip.get_yCoord() != -1)	//SET xCoord and yCoord to -1
-////								{
-////									
-////								}
-////								if(grid[i][j].getText().toString().equalsIgnoreCase(type))
-////								{
-////									grid[i][j].setText("");
-////									grid[i][j].setBackground(null);
-////								}
-////								
-////								//check if other ships
-////								
-////								//place ships
-////								//bsGame.placeShip(currentShip, yCord, xCord, orientation);
-////								
-////								//color grid
-////								
-////							}
-////						}
-//						
-//						//Horizontal
-////						for(int i = 0; i < 10; ++i) //y
-////						{
-////							for(int j = 0; j < 10-len+1; ++j) //x
-////							{
-////								if(grid[i][j] == e.getSource())
-////								{
-////									grid[i][j].setText(type);
-////									grid[i][j+1].setText(type);
-////									grid[i][j+2].setText(type);
-////									grid[i][j+3].setText(type);
-////									grid[i][j+4].setText(type);
-////									grid[i][j].setBackground(Color.green);
-////									grid[i][j+1].setBackground(Color.green);
-////									grid[i][j+2].setBackground(Color.green);
-////									grid[i][j+3].setBackground(Color.green);
-////									grid[i][j+4].setBackground(Color.green);
-////								}
-////							}
-////						}
-//
-////						//vertical
-////						for(int i = 0; i < 10-len+1; ++i) //y
-////						{
-////							for(int j = 0; j < 10; ++j) //x
-////							{
-////								if(grid[i][j] == e.getSource())
-////								{
-////									grid[i][j].setText(type);
-////									grid[i+1][j].setText(type);
-////									grid[i+2][j].setText(type);
-////									grid[i+3][j].setText(type);
-////									grid[i+4][j].setText(type);
-////									grid[i][j].setBackground(Color.green);
-////									grid[i+1][j].setBackground(Color.green);
-////									grid[i+2][j].setBackground(Color.green);
-////									grid[i+3][j].setBackground(Color.green);
-////									grid[i+4][j].setBackground(Color.green);
-////								}
-////							}
-////						}
-////					}
-//					
-////					@Override
-////					public void mouseExited(MouseEvent e)
-////					{
-////						for(int i = 0; i < 10-subtractY; ++i) //y
-////						{
-////							for(int j = 0; j < 10-subtractX; ++j) //x
-////							{
-////								if(grid[i][j] == e.getSource())
-////								{
-////									grid[i][j].setBackground(null);
-////									grid[i][j+1].setBackground(null);
-////									grid[i][j+2].setBackground(null);
-////									grid[i][j+3].setBackground(null);
-////									grid[i][j+4].setBackground(null);
-////								}
-////							}
-////						}
-//					}
-//					
-////					@Override
-////					public void mouseEntered(MouseEvent e)
-////					{
-////						for(int i = 0; i < 10-subtractY; ++i) //y
-////						{
-////							for(int j = 0; j < 10-subtractX; ++j) //x
-////							{
-////								if(grid[i][j] == e.getSource())
-////								{
-////									grid[i][j].setBackground(Color.green);
-////									grid[i][j+1].setBackground(Color.green);
-////									grid[i][j+2].setBackground(Color.green);
-////									grid[i][j+3].setBackground(Color.green);
-////									grid[i][j+4].setBackground(Color.green);
-////								}
-////							}
-////						}
-////					}
-////					
-////					@Override
-////					public void mouseClicked(MouseEvent e)
-////					{
-////						// TODO Auto-generated method stub
-////						click = true;
-////					}
-////				});
-////	
-////			}
-//			if(click)
-//				break;
-//		}
-//		
-//	}
+		@Override
+		public void mouseClicked(MouseEvent e)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e)
+		{
+			// TODO Auto-generated method stub
+			for(int i = 0; i < 10; i++) //y
+			{
+				for(int j = 0; j < 10; j++) //x
+				{
+					if(oppGrid[i][j] == e.getSource())
+					{
+						xCord = j;
+						yCord = i;
+						
+						if(shot(xCord, yCord))
+						{
+							oppGrid[i][j].setBackground(Color.ORANGE);							
+						}
+
+						oppGrid[i][j].setEnabled(false);
+						if(checkWin())
+						{
+							int value = JOptionPane.showConfirmDialog(BattleshipGUI1.this, "All enemy ship sunk, you Win", "Play Again?", JOptionPane.YES_NO_OPTION);
+							if(value == 0)
+								reset();						
+						}
+						
+						if(checkLost())
+						{
+							int value = JOptionPane.showConfirmDialog(BattleshipGUI1.this, "Enemy sunk all your ship, you lose", "Play Again?", JOptionPane.YES_NO_OPTION);
+							if(value == 0)
+								reset();
+						}
+					}
+				}
+			}			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+		
+		private boolean shot(int x, int y)
+		{
+			if(enemeyShip.get_hit(x, y))
+			{
+				Ship temp = enemeyShip.set_hit(x, y);
+				if(temp != null)
+				{
+					if(temp.checkDestroy())
+					{
+						JOptionPane.showMessageDialog(BattleshipGUI1.this, temp.get_type() + " has been sunk");
+						destroyCounter++;
+						if(temp.get_type().equalsIgnoreCase("aircraft carrier"))
+							bAircraftCarrier.setBackground(Color.RED);
+						if(temp.get_type().equalsIgnoreCase("battleship"))
+							bBattleship.setBackground(Color.RED);
+						if(temp.get_type().equalsIgnoreCase("cruiser"))
+							bCruiser.setBackground(Color.RED);
+						if(temp.get_type().equalsIgnoreCase("submarine"))
+							bSubmarine.setBackground(Color.RED);
+						if(temp.get_type().equalsIgnoreCase("destroyer"))
+							bDestroyer.setBackground(Color.RED);
+					}
+					return true;
+				}
+				else
+				{
+					oppGrid[yCord][xCord].setBackground(Color.BLUE);	
+				}
+			}			
+			return false;
+		}
+		
+		private void reset() 
+		{	
+			for(int i = 0; i < 10; ++i)
+			{
+				for(int j = 0; j < 10; ++j)
+				{
+					grid[i][j].setBackground(null);
+					grid[i][j].setEnabled(true);
+					
+					oppGrid[i][j].setBackground(null);
+					oppGrid[i][j].setEnabled(false);
+				}
+			}
+			bAircraftCarrier.setBackground(null);
+			bBattleship.setBackground(null);
+			bSubmarine.setBackground(null);
+			bDestroyer.setBackground(null);
+			bCruiser.setBackground(null);
+			bsGame = new Battleship();		
+			enemeyShip = new Battleship();
+			currentShip = null;
+			destroyCounter = 0;
+			AC_Deployed = false;
+			B_Deployed = false;
+			S_Deployed = false;
+			C_Deployed = false;
+			D_Deployed = false;
+			oppShips = new ArrayList<>();	
+			
+			bAircraftCarrier.setEnabled(true);
+			bBattleship.setEnabled(true);
+			bCruiser.setEnabled(true);
+			bSubmarine.setEnabled(true);
+			bDestroyer.setEnabled(true);
+			bDirection.setEnabled(true);
+			bDeploy.setVisible(true);
+			bDirection.setVisible(true);
+		}
+				
+	}
+	private class boardAction implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			// TODO Auto-generated method stub
+			if(currentShip!=null)
+			{
+				for(int i = 0; i < 10; i++) //y
+				{
+					for(int j = 0; j < 10; j++) //x
+					{
+						if(grid[i][j] == e.getSource())
+						{
+							xCord = j;
+							yCord = i;
+							
+							boolean isOutOfBound = false;
+							//check if ship is within grid
+							if(direction.equalsIgnoreCase(VERTICAL))
+								if(yCord+currentShip.get_shipLength()>10) { 
+									isOutOfBound = true; 
+									}
+							if(direction.equalsIgnoreCase(HORIZONTAL))
+								if(xCord+currentShip.get_shipLength()>10) 
+							{ 
+								isOutOfBound = true; 						
+							}
+						
+	
+							if(isOutOfBound)
+							{
+								JOptionPane.showMessageDialog(BattleshipGUI1.this, currentShip.get_type() + 
+										" can't be placed here, ship-overboard.", "Out-of-bound Error!", JOptionPane.ERROR_MESSAGE	);
+							}
+							else //need to debug more
+							{
+								if(checkOther(currentShip))
+								{
+									JOptionPane.showMessageDialog(BattleshipGUI1.this, currentShip.get_type() + 
+											" can't be placed here, another ship is here", "Error!, Ships-collide", JOptionPane.ERROR_MESSAGE	);
+								//	System.out.println("SHIP IN THE WAY");
+								}
+								else
+								{
+									//clear Ship coordinates
+									//METHOD TO CLEAR SHIP; needs to be implemented
+									clearBoard(currentShip);
+									
+									//place ship coordinates
+									setShipCord(currentShip, xCord, yCord, direction);
+									
+									//set board with ship coordinates
+									setBoard(currentShip);
+								}
+							}
+						}
+					}
+				}
+			}	
+		}					
+	}	
 }
+
+
+
+
 
 

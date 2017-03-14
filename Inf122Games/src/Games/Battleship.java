@@ -75,21 +75,24 @@ public class Battleship extends Game
 	}
 	
 	//setters
-	public void set_hit(int x, int y) 
+	public Ship set_hit(int x, int y) 
 	{ 
 		if(isValid[x][y])
 		{
+			isValid[x][y] = false;
 			//check all ships
 			for(Ship s : ships)
 			{
-				if(s.checkShot(x, y))
+				if(s.checkShot(y, x))
+				{
 					s.incementHits();
-				else
-					System.out.println("YOU SUCK");
-			}			
-			isValid[x][y] = false;
+					return s;
+				}
+			}				
 		}
+		return null;
 	}
+	
 	public void set_move(int x, int y) 
 	{ 
 		if(isValid[x][y]) //returns TRUE if move is not yet made
