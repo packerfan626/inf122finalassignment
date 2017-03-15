@@ -13,6 +13,8 @@ public class ClientServerController
 	public void ServerToClientMessage(PrintWriter output, String message)
 	{
 		// TODO Auto-generated method stub
+		output.print("BOB");
+		System.out.println("BOB");
 		output.print(message);
 		output.flush();
 	}

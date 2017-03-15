@@ -3,24 +3,28 @@ package Server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class ClientGUI
 {
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private String serverIP;
-	private int portValue;
+	private final String serverIP = "127.0.0.1";
+	private final int portValue = 9090;
 	private ClientLogic clientLogic;
-	
+	private String username;
+	private PrintWriter output;
 	public ClientGUI()
 	{
 		// TODO Auto-generated constructor stub
 		try
 		{
-			System.out.println("Enter servername or IP");
-			serverIP = br.readLine();
-			System.out.println("Please Enter the port number:");
-			portValue = Integer.parseInt(br.readLine());
-			clientLogic = new ClientLogic(serverIP, portValue, this);
+//			System.out.println("Enter servername or IP");
+//			serverIP = br.readLine();
+//			System.out.println("Please Enter the port number:");
+//			portValue = Integer.parseInt(br.readLine());
+			System.out.println("enter username: ");
+			username = br.readLine();
+			clientLogic = new ClientLogic(serverIP, portValue, this, username);
 		}
 		catch (IOException e)
 		{
@@ -70,6 +74,7 @@ public class ClientGUI
 		try
 		{
 			client.TakeInputAndAct();
+			
 		}
 		catch (IOException e)
 		{
@@ -80,4 +85,6 @@ public class ClientGUI
 	{
 		System.out.println(reply);
 	}
+	
+	public String getUsername() { return username; }
 }

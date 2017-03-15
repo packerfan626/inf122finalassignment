@@ -17,16 +17,21 @@ public class ClientLogic implements Runnable
 	private Thread thread;
 	private Socket server;
 	private ClientServerController CSC;
+	private String username;
 	
-	public ClientLogic(String name, int port, ClientGUI clientGUI) throws IOException
+	public ClientLogic(String name, int port, ClientGUI clientGUI, String username) throws IOException
 	{
 		// TODO Auto-generated constructor stub
 		server = new Socket(name, port);
 		output = new PrintWriter(server.getOutputStream(), false);
+		output.println(username);
+		output.println(server);
+		output.println(port); //client number
+		output.flush();
 		input = new BufferedReader(new InputStreamReader(server.getInputStream()));
 		CSC = new ClientServerController();
 		this.clientGUI = clientGUI;
-		
+		this.username = username;
 		//start thread
 		thread = new Thread(this);
 		thread.start();
