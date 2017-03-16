@@ -4,10 +4,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import Games.Game;
+
 public class Client {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Socket socket;
+	private Game board;
 	
 	private String server = "localhost";
 	private String username;
@@ -50,8 +53,8 @@ public class Client {
 		public void run(){
 			while(true){
 				try{
-					String message = (String)in.readObject();
-					System.out.println(message);
+					Game temp = (Game)in.readObject();
+					System.out.println(temp.getGoal());
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -59,9 +62,9 @@ public class Client {
 		}
 	}
 	
-	public void sendMessage(String message){
+	public void sendMessage(Game board){
 		try{
-			out.writeObject(message);
+			out.writeObject(board);
 			out.flush();
 		}catch (Exception e){
 			e.printStackTrace();

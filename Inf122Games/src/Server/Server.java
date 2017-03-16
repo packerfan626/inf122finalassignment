@@ -6,17 +6,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Games.Game;
+
 public class Server {
 	
 	//Set port number
 	private int port = 4444;
 	
 	private ArrayList<PlayerThread> playerThread;
+	static private Game currentGame;
+	
 	
 	//Create server instance
 	public Server(int port){
 		this.port = port;
 		playerThread = new ArrayList<>();
+		currentGame = null;
 	}
 	
 	public void startServer(){
@@ -71,17 +76,22 @@ public class Server {
 		}
 		
 		public void run(){
-			while(true){				
+			//while(true){				
 				try {
-					String message = (String)in.readObject();
+					
+					//get game selection and make that game..."
+					currentGame = new Game();
+					System.out.println("Making a new game...");
+					
 					for(PlayerThread player: playerThread){
-						player.out.writeObject(message);
+						//player.out.writeObject(message);
+						player.out.writeObject(currentGame);
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			//}
 		}
 	}	
 }
