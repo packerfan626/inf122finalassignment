@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -12,38 +13,34 @@ public class Server {
 	
 	//Set port number
 	private int port = 4444;
-	
-	private ArrayList<PlayerThread> playerThread;
+	private ServerSocket serverSocket;
+	private ArrayList<PlayerThread> playerThread = new ArrayList<>();
 	static private Game currentGame;
 	
 	
 	//Create server instance
-	public Server(int port){
+	public Server(int port) throws IOException
+	{
 		this.port = port;
-		playerThread = new ArrayList<>();
+		serverSocket = new ServerSocket(port);
 		currentGame = null;
 	}
 	
-	public void startServer(){
-		System.out.println("Starting Server...");
-		try{
-			ServerSocket serverSocket = new ServerSocket(port);
-			
-			while(true){
+	public void waitForPlayer() throws IOException
+	{
+		while(true)
+		{
 				Socket socket = serverSocket.accept();
 				System.out.println("Accepted Client");
 				
 				PlayerThread player = new PlayerThread(socket);
 				playerThread.add(player);
 				player.start();
-			}
-			
-		} catch(Exception e){
-			System.out.println("Failed to connect " + e);
-		}
+		}	
 	}
 	
-	public class PlayerThread extends Thread{
+	public class PlayerThread extends Thread
+	{
 
 		//Server side communication
 		Socket socket;
@@ -92,6 +89,19 @@ public class Server {
 					e.printStackTrace();
 				}
 			//}
+		}
+	}
+
+	public void kill()
+	{
+		// TODO Auto-generated method stub
+		try
+		{
+			serverSocket.close();
+		}
+		catch (IOException IOE)
+		{
+			System.out.println("Server socket not closed");
 		}
 	}	
 }

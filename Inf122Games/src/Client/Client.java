@@ -53,8 +53,8 @@ public class Client {
 		public void run(){
 			while(true){
 				try{
-					Game temp = (Game)in.readObject();
-					System.out.println(temp.getGoal());
+//					Game temp = (Game)in.readObject();
+//					System.out.println(temp.getGoal());
 				} catch (Exception e){
 					e.printStackTrace();
 				}
