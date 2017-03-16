@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import Games.Game;
 import Server.Server;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
