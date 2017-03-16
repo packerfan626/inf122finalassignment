@@ -27,12 +27,12 @@ public class Client {
 			return false;
 		}
 		
-		System.out.println("Client connected successfully");
+		System.out.println("Client connected successfully!!");
 		
 		try{
-			in = new ObjectInputStream(socket.getInputStream());
 			out = new ObjectOutputStream(socket.getOutputStream());
-			
+			in = new ObjectInputStream(socket.getInputStream());
+
 			out.writeObject(username);
 			out.flush();
 		} catch(Exception e){
@@ -40,9 +40,32 @@ public class Client {
 			System.out.print("Error connecting");
 			return false;
 		}
+		
+		new serverListener().start();
+		
 		return true;
-		
-		
+	}
+	
+	class serverListener extends Thread {
+		public void run(){
+			while(true){
+				try{
+					String message = (String)in.readObject();
+					System.out.println(message);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void sendMessage(String message){
+		try{
+			out.writeObject(message);
+			out.flush();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 }
