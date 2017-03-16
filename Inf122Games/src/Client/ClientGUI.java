@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 import Games.Game;
 import Server.Server;
@@ -23,18 +25,19 @@ public class ClientGUI extends JFrame
 	private JTextField tfUsername;
 	private static String username;
 	private static boolean created = false;
-	private JTextField textField;
 	private JButton bBattleship;
 	private JTextPane textPane;
 	private JTextField testTextBox;
 	private JButton bTestButton;
 	private String testString;
+	private static Client client;
+	private static Document doc; 
 	
 	public ClientGUI()
 	{
 		super("Client GUI");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 458, 242);
+		setBounds(100, 100, 468, 357);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		setVisible(true);
@@ -52,23 +55,20 @@ public class ClientGUI extends JFrame
 		contentPane.add(tfUsername);
 		tfUsername.setColumns(10);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("ok");		
+		btnNewButton.setBounds(311, 24, 89, 23);
+		contentPane.add(btnNewButton);
+		btnNewButton.setBounds(329, 25, 89, 23);
+		contentPane.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				tfUsername.setEditable(false);
+				btnNewButton.setVisible(false);
 				username = tfUsername.getText().toString();
-				Client client = new Client("localhost", port, username);
+				client = new Client("localhost", port, username);
 				client.connect();
 			}
 		});
-		btnNewButton.setBounds(311, 24, 89, 23);
-		contentPane.add(btnNewButton);
-			
-		textField = new JTextField();
-		textField.setBounds(176, 26, 130, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		btnNewButton.setBounds(329, 25, 89, 23);
-		contentPane.add(btnNewButton);
 		
 		bBattleship = new JButton("Battleship");
 		bBattleship.addActionListener(new ActionListener() {
@@ -83,6 +83,7 @@ public class ClientGUI extends JFrame
 		textPane.setBounds(23, 90, 232, 233);
 		textPane.setEditable(false);
 		contentPane.add(textPane);
+		doc = textPane.getStyledDocument();
 		
 		JTextArea txtrActiveGames = new JTextArea();
 		txtrActiveGames.setText("Joinable games");
@@ -108,9 +109,7 @@ public class ClientGUI extends JFrame
 			}
 		} );
 		
-		repaint();		
-	
-		
+		repaint();				
 		
 		System.out.println("Enter Message: ");
 		//send game selection
@@ -122,5 +121,17 @@ public class ClientGUI extends JFrame
 	public static void main(String[] args) 
 	{
 		ClientGUI clientGUI = new ClientGUI();
+	}
+	
+	public static void updateServer(String s)
+	{
+		try
+		{
+			doc.insertString(doc.getLength(), s + "\n", null);
+		} catch (BadLocationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -62,13 +62,22 @@ public class Client {
 		}
 	}
 	
-	public void sendMessage(Game board){
+	public void sendMessage(String message){
 		try{
-			out.writeObject(board);
+			out.writeObject(message);
 			out.flush();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
+	
+//	public void sendMessage(Game board){
+//		try{
+//			out.writeObject(board);
+//			out.flush();
+//		}catch (Exception e){
+//			e.printStackTrace();
+//		}
+//	}
 	
 }

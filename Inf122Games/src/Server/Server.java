@@ -79,10 +79,10 @@ public class Server {
 					//get game selection and make that game..."
 					currentGame = new Game();
 					System.out.println("Making a new game...");
-					
+					String message = (String) in.readObject();
 					for(PlayerThread player: playerThread){
-						//player.out.writeObject(message);
-						player.out.writeObject(currentGame);
+						player.out.writeObject(message);
+//						player.out.writeObject(currentGame);
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
