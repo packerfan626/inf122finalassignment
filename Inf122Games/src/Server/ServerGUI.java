@@ -3,10 +3,14 @@ package Server;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ServerGUI extends JFrame
 {
@@ -14,7 +18,11 @@ public class ServerGUI extends JFrame
 	private static Server server;
 	private JPanel contentPane = new JPanel();
 	private static boolean created = false;
+	private static JTextPane tpListOfUsers;
+	//private static ArrayList<ClientThread> clients = new ArrayList<>();
+	private static Document doc; 
 	
+
 	public ServerGUI() {
 		super("Game Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,13 +37,23 @@ public class ServerGUI extends JFrame
 		txtrServerOnline.setForeground(new Color(0, 153, 0));
 		txtrServerOnline.setText("Server Online");
 		txtrServerOnline.setBounds(164, 35, 108, 22);
+		txtrServerOnline.setEditable(false);
 		contentPane.add(txtrServerOnline);
 		
 		JTextArea taPort = new JTextArea();
 		taPort.setLineWrap(true);
+		taPort.setEditable(false);
 		taPort.setBounds(164, 79, 108, 22);
 		contentPane.add(taPort);
 		taPort.setText("Port use: " + port);	
+		
+		tpListOfUsers = new JTextPane();
+		tpListOfUsers.setBounds(0, 96, 408, 206);
+		contentPane.add(tpListOfUsers);
+		tpListOfUsers.setEditable(false);
+		tpListOfUsers.setText("Server starting \n");
+		doc = tpListOfUsers.getStyledDocument();
+
 		repaint();		
 	}	
 
@@ -59,6 +77,18 @@ public class ServerGUI extends JFrame
 				if(server != null)
 					server.kill();
 			}
+		}
+	}
+	
+	public static void updateServer(String s)
+	{
+		try
+		{
+			doc.insertString(doc.getLength(), s + "\n", null);
+		} catch (BadLocationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
