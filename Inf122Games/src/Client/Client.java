@@ -71,6 +71,8 @@ public class Client {
 						String game = strings[1] + "_" + username;
 						String str = strings[1] + "_" + strings[2];
 						
+						System.out.println(message);
+						
 						//Checks if game = str; if it does not then add the game to the list; prevents user from viewing their own game
 						if(!(game.equals(str))){
 							availGames.add(str);

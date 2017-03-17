@@ -86,7 +86,7 @@ public class Server {
 						this.username = strings[1];
 						
 						//Outputs who has joined the server
-						System.out.println(this.username + " joined successfully");
+						ServerGUI.updateServer(this.username + " has joined the server");
 						for(PlayerThread player: playerThread){
 							player.out.writeObject(this.username + " has joined the lobby");
 						}
@@ -119,6 +119,7 @@ public class Server {
 					
 					//Listens for the NEWGAME; will output to all users that there is a new game available.
 					else if (strings[0].equals("NEWGAME")){
+						ServerGUI.updateServer(message);
 						for(PlayerThread player: playerThread){
 							player.out.writeObject(message);
 						}
