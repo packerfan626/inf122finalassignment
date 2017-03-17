@@ -1,5 +1,6 @@
 package Client;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -74,13 +75,26 @@ public class Client {
 		}
 	}
 	
-//	public void sendMessage(Game board){
-//		try{
-//			out.writeObject(board);
-//			out.flush();
-//		}catch (Exception e){
-//			e.printStackTrace();
-//		}
-//	}
+	public void createGame (Game board){
+		try{
+			out.writeObject(board);
+			out.flush();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void kill()
+	{
+		// TODO Auto-generated method stub
+		try
+		{
+			socket.close();
+		}
+		catch (IOException IOE)
+		{
+			System.out.println("Server socket not closed");
+		}
+	}
 	
 }
