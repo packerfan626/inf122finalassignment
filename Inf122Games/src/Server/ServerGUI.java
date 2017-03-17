@@ -84,7 +84,7 @@ public class ServerGUI extends JFrame
 	{
 		try
 		{
-			doc.insertString(doc.getLength(), s + "\n", null);
+			doc.insertString(doc.getLength(), s + " connected to the server\n", null);
 		} catch (BadLocationException e)
 		{
 			// TODO Auto-generated catch block

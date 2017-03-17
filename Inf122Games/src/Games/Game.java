@@ -4,21 +4,15 @@ import java.io.Serializable;
 
 import Server.Server.PlayerThread;
 
-public class Game implements Createable, Serializable 
+public class Game implements Createable 
 {
-	Player player1;
-	Player player2;
+	Player player1 = null;
+	Player player2 = null;
+	String whoseTurn = "player1";
 	
 	public void makeBoard(int x, int y)
 	{
 		// TODO Auto-generated method stub
-	}
-
-	public String getGoal()
-	{
-		// TODO Auto-generated method stub
-		System.out.println("In getgoal");
-		return null;
 	}
 
 	public void die(Player player)

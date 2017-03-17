@@ -16,14 +16,14 @@ public class Server {
 	private ServerSocket serverSocket;
 	private ArrayList<PlayerThread> playerThread = new ArrayList<>();
 	static private Game currentGame;
-	
+	private static ArrayList<Game> gameList = new ArrayList<>();
 	
 	//Create server instance
 	public Server(int port) throws IOException
 	{
 		this.port = port;
 		serverSocket = new ServerSocket(port);
-		currentGame = null;
+		//currentGame = null;
 	}
 	
 	public void waitForPlayer() throws IOException
@@ -49,7 +49,7 @@ public class Server {
 		
 		//Username and Opponent
 		String username;
-		PlayerThread opponent;
+//		PlayerThread opponent;
 		
 		public PlayerThread(Socket socket){
 			this.socket = socket;
@@ -61,20 +61,22 @@ public class Server {
 				
 				//Reads in username as a String
 				this.username = in.readObject().toString();
-
+				ServerGUI.updateServer(this.username);
 			}catch(Exception e){
 				System.out.print("Failed: " + e);
 				System.exit(1);
 			}
 		}
 		
-		public void setOpponent(PlayerThread opponent){
-			this.opponent = opponent;
-		}
+//		public void setOpponent(PlayerThread opponent){
+//			this.opponent = opponent;
+//		}
 		
 		public void run(){
-			//while(true){				
+			while(true){				
 				try {
+//					Game game = (Game) in.readObject();
+//					gameList.add(game);
 					
 					//get game selection and make that game..."
 					currentGame = new Game();
@@ -88,7 +90,7 @@ public class Server {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			//}
+			}
 		}
 	}
 

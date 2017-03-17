@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import Games.Game;
+import Server.ServerGUI;
 
 public class Client {
 	private ObjectInputStream in;
@@ -31,7 +32,7 @@ public class Client {
 		}
 		
 		System.out.println("Client connected successfully!!");
-		
+	
 		try{
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
@@ -55,6 +56,8 @@ public class Client {
 				try{
 //					Game temp = (Game)in.readObject();
 //					System.out.println(temp.getGoal());
+					String temp = (String) in .readObject();
+					ClientGUI.updateServer(temp);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
