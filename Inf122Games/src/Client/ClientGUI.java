@@ -26,7 +26,7 @@ public class ClientGUI extends JFrame implements ActionListener
 	private static int port = 4444;
 	private JPanel contentPane = new JPanel();
 	private JTextField tfUsername;
-	private static JButton bBattleship, bTicTacToe, bOthello;
+	private static JButton bBattleship, bTicTacToe, bOthello, btnTESTjoingame;
 	public ClientGUI()
 	{
 		super("Game Server");
@@ -51,8 +51,9 @@ public class ClientGUI extends JFrame implements ActionListener
 		bUsernameOK.setBounds(314, 18, 97, 28);
 		contentPane.add(bUsernameOK);
 		
-		JButton btnTESTjoingame = new JButton("");
+		btnTESTjoingame = new JButton("");
 		btnTESTjoingame.setBounds(173, 85, 141, 35);
+		btnTESTjoingame.addActionListener(this);
 		contentPane.add(btnTESTjoingame);
 		
 		JButton bHostGame = new JButton("Host Game");
@@ -147,6 +148,12 @@ public class ClientGUI extends JFrame implements ActionListener
 		client.sendMessage("NEWGAME_" + str);
 	}
 
+	public static void updateGames()
+	{
+		
+//		String [] gameInfo = s.split("_");
+		btnTESTjoingame.setText(availGames.get(0));
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -164,6 +171,10 @@ public class ClientGUI extends JFrame implements ActionListener
 		{
 			startGame("Othello");
 		}
-		
-	}
+		if(e.getSource() == btnTESTjoingame)
+		{
+			//Display the list of games in the list
+			client.sendMessage("JOINGAME_" + availGames.get(0));
+		}
+	}		
 }

@@ -74,20 +74,16 @@ public class Client {
 						System.out.println(message);
 						
 						//Checks if game = str; if it does not then add the game to the list; prevents user from viewing their own game
-						if(!(game.equals(str))){
-							availGames.add(str);
-						}else{
-							System.out.println("New game added; waiting for user to join");
-						}
+						availGames.add(str);
+						ClientGUI.updateGames();
+						System.out.println("New game added; waiting for user to join");
 					}
 					
 					//Listens for if they Joined the Game Successfully and will start the game
 					else if(strings[0].equals("JOINGAME")){
 						//String of the game that is to be played
 						String game = strings[1];
-						
 						//use "game" to set up what game is to be started
-						
 						
 					}
 					

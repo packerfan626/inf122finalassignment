@@ -95,10 +95,13 @@ public class Server {
 					//Joins the game of the desired host
 					else if (strings[0].equals("JOINGAME")){
 						for(PlayerThread player: playerThread){
-							if(player.username.equals(strings[1])){
+							if(player.username.equals(strings[2])){
 								//Setting each player as opponents
 								player.opponent = this.username;
-								this.opponent = strings[1];
+								this.opponent = strings[2];
+								
+								ServerGUI.updateServer("Setting: " + player.opponent + " and " + 
+										this.opponent);
 								
 								player.out.writeObject(message);
 								this.out.writeObject(message);
