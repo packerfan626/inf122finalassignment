@@ -7,21 +7,20 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import Games.Game;
+import Games.Player;
 
 public class Server {
 	
 	//Set port number
 	private int port = 4444;
-	
+
+	//ArrayList of PlayerThreads
 	private ArrayList<PlayerThread> playerThread;
-	static private Game currentGame;
-	
 	
 	//Create server instance
 	public Server(int port){
 		this.port = port;
 		playerThread = new ArrayList<>();
-		currentGame = null;
 	}
 	
 	public void startServer(){
@@ -30,16 +29,17 @@ public class Server {
 			ServerSocket serverSocket = new ServerSocket(port);
 			
 			while(true){
+				//Accept new clients to server
 				Socket socket = serverSocket.accept();
-				System.out.println("Accepted Client");
 				
+				//Create a new player thread and add player to ArrayList and start run()
 				PlayerThread player = new PlayerThread(socket);
 				playerThread.add(player);
 				player.start();
-			}
-			
+			}			
 		} catch(Exception e){
-			System.out.println("Failed to connect " + e);
+			System.out.println("Failed to connect");
+			e.printStackTrace();
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class Server {
 		
 		//Username and Opponent
 		String username;
-		PlayerThread opponent;
+		String opponent;
 		
 		public PlayerThread(Socket socket){
 			this.socket = socket;
@@ -61,37 +61,75 @@ public class Server {
 				//Sets up input and object streams
 				in = new ObjectInputStream(socket.getInputStream());
 				out = new ObjectOutputStream(socket.getOutputStream());
-				
-				//Reads in username as a String
-				this.username = in.readObject().toString();
-
 			}catch(Exception e){
-				System.out.print("Failed: " + e);
+				//Output error messages and exits the Stream setup
+				System.out.print("Failed to set streams for client");
+				e.printStackTrace();
 				System.exit(1);
 			}
 		}
 		
-		public void setOpponent(PlayerThread opponent){
+		//Set opponent for the user; this is important to distinguish who the user is connected to
+		public void setOpponent(String opponent){
 			this.opponent = opponent;
 		}
 		
 		public void run(){
-			//while(true){				
+			while(true){			
 				try {
+					//Read in message and set protocol string based on message
+					String message = (String)in.readObject();
+					String []strings = message.split("_");
+						
+					//Checks if it is a new user and sets their username and outputs to the lobby of the new user joined
+					if(strings[0].equals("REG")){
+						this.username = strings[1];
+						
+						//Outputs who has joined the server
+						System.out.println(this.username + " joined successfully");
+						for(PlayerThread player: playerThread){
+							player.out.writeObject(this.username + " has joined the lobby");
+						}
+					}
 					
-					//get game selection and make that game..."
-					currentGame = new Game();
-					System.out.println("Making a new game...");
+					//Joins the game of the desired host
+					else if (strings[0].equals("JOINGAME")){
+						for(PlayerThread player: playerThread){
+							if(player.username.equals(strings[1])){
+								//Setting each player as opponents
+								player.opponent = this.username;
+								this.opponent = strings[1];
+								
+								player.out.writeObject(message);
+								this.out.writeObject(message);
+							}
+							break;
+						}
+					}
 					
-					for(PlayerThread player: playerThread){
-						//player.out.writeObject(message);
-						player.out.writeObject(currentGame);
+					//Makes move in game and displays it to the user
+					else if (strings[0].equals("MOVE")){
+						for(PlayerThread player: playerThread){
+							if(player.opponent.equals(username)){
+								//Strings[1] = x; Strings[2] = y
+								player.out.writeObject(message);
+							}
+						}
+					}
+					
+					//Listens for the NEWGAME; will output to all users that there is a new game available.
+					else if (strings[0].equals("NEWGAME")){
+						for(PlayerThread player: playerThread){
+							player.out.writeObject(message);
+						}
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
+					System.out.println("Failed to run thread for client: ");
 					e.printStackTrace();
+					break;
 				}
-			//}
+			}
 		}
 	}	
 }

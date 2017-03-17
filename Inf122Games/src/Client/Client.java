@@ -3,49 +3,58 @@ package Client;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import Games.Game;
+import Games.GameFactory;
 
 public class Client {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Socket socket;
-	private Game board;
 	
 	private String server = "localhost";
 	private String username;
 	private int port = 4444;
+	boolean isHost = false;
+	private ArrayList<String> availGames;
 	
-	public Client(String server, int port, String username){
+	//Use to start the game
+	private GameFactory gameFactory;
+	
+	public Client(String server, ArrayList<String> availGames ,int port, String username){
 		this.server = server;
 		this.port = port;
 		this.username = username;
+		this.availGames = availGames;
 	}
 	
 	public boolean connect(){
+		//Establish socket connection
 		try{
 			socket = new Socket("localhost", port);
 		} catch(Exception e){
-			System.out.println("Failed to connect");
+			System.out.println("Failed to connect to the desired server");
+			e.printStackTrace();
 			return false;
 		}
 		
-		System.out.println("Client connected successfully!!");
+		//Output successful connection to server
+		System.out.println("You have connected to the server successfully");
 		
+		//Setup the output and input streams for the socket/server.
 		try{
 			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
-
-			out.writeObject(username);
-			out.flush();
 		} catch(Exception e){
+			System.out.print("Error setting up input streams");
 			e.printStackTrace();
-			System.out.print("Error connecting");
 			return false;
 		}
 		
+		//Start listening for messages from the server
+		//and return true
 		new serverListener().start();
-		
 		return true;
 	}
 	
@@ -53,20 +62,53 @@ public class Client {
 		public void run(){
 			while(true){
 				try{
-					Game temp = (Game)in.readObject();
-					System.out.println(temp.getGoal());
+					String message = (String)in.readObject();
+					String []strings = message.split("_");
+					
+					//Listens for a new Game
+					if(strings[0].equals("NEWGAME")){
+						//String game contains the name of the game if the User Hosted it
+						String game = strings[1] + "_" + username;
+						String str = strings[1] + "_" + strings[2];
+						
+						//Checks if game = str; if it does not then add the game to the list; prevents user from viewing their own game
+						if(!(game.equals(str))){
+							availGames.add(str);
+						}else{
+							System.out.println("New game added; waiting for user to join");
+						}
+					}
+					
+					//Listens for if they Joined the Game Successfully and will start the game
+					else if(strings[0].equals("JOINGAME")){
+						//String of the game that is to be played
+						String game = strings[1];
+						
+						//use "game" to set up what game is to be started
+						
+						
+					}
+					
+					//Listens for the move from the user
+					else if(strings[0].equals("MOVE")){
+						
+					}
+					
 				} catch (Exception e){
+					System.out.println("Failed to Listen to server object");
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 	
-	public void sendMessage(Game board){
+	//Outputs message to the user
+	public void sendMessage(String message){
 		try{
-			out.writeObject(board);
+			out.writeObject(message);
 			out.flush();
 		}catch (Exception e){
+			System.out.println("Failed to send message to the server");
 			e.printStackTrace();
 		}
 	}
