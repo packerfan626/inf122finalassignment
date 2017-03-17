@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import Games.Game;
 import Games.GameFactory;
+import TicTacToe.TicTacToeView;
 
 public class Client {
 	private ObjectInputStream in;
@@ -84,6 +85,10 @@ public class Client {
 						//String of the game that is to be played
 						String game = strings[1];
 						//use "game" to set up what game is to be started
+						
+						if(strings[1].equals("TicTacToe")){
+							TicTacToeView ttt = new TicTacToeView();
+						}
 						
 					}
 					
