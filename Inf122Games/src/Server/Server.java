@@ -77,7 +77,7 @@ public class Server {
 				try {
 //					Game game = (Game) in.readObject();
 //					gameList.add(game);
-					
+			
 					//get game selection and make that game..."
 					currentGame = new Game();
 					System.out.println("Making a new game...");

@@ -70,8 +70,11 @@ public class ClientGUI extends JFrame implements ActionListener
 				tfUsername.setEditable(false);
 				btnNewButton.setVisible(false);
 				username = tfUsername.getText().toString();
-				client = new Client("localhost", port, username);
-				client.connect();
+				if(username != null)
+				{
+					client = new Client("localhost", port, username);
+					client.connect();
+				}
 			}
 		});
 		
@@ -145,10 +148,8 @@ public class ClientGUI extends JFrame implements ActionListener
 			return game = new Game();	//battleship class
 		else if(gameSelect.equalsIgnoreCase("TicTacToe"))
 			return game = new Game();	//tictactoe class
-		else if(gameSelect.equalsIgnoreCase("Othello"))
-			return game = new Game();	//Othello
 		else
-			return null;
+			return game = new Game();	//Othello
 	}
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -164,7 +165,16 @@ public class ClientGUI extends JFrame implements ActionListener
 		{
 			System.out.println("GAME SELECTED: " + gameSelection);
 			game  = factory(gameSelection);
+			client.createGame(game);
 			gameSelection = null;
+		}
+		
+		//WHEN THE OK BUTTON IS PRESSED SEND MESSAGE TO ALL CLIENT
+		if(bTestButton == e.getSource())
+		{
+			String temp = testTextBox.getText().toString();
+			client.sendMessage(temp);
+//			updateServer(temp);
 		}
 	}
 }

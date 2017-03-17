@@ -51,13 +51,18 @@ public class Client {
 		return true;
 	}
 	
+	//READ MESSAGE FROM SERVER
 	class serverListener extends Thread {
 		public void run(){
 			while(true){
 				try{
 //					Game temp = (Game)in.readObject();
 //					System.out.println(temp.getGoal());
-					String temp = (String) in .readObject();
+					
+					//TAKE THE MESSAGE FROM SERVER
+					String temp = (String) in.readObject();
+					
+					//OUTPUT IT TO THE CLIENT
 					ClientGUI.updateServer(temp);
 				} catch (Exception e){
 					e.printStackTrace();
