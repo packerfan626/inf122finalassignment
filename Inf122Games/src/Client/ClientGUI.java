@@ -38,7 +38,7 @@ public class ClientGUI extends JFrame implements ActionListener
 	
 	public ClientGUI()
 	{
-		super("Game Server");
+		super("Client Window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 479, 361);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,8 +62,8 @@ public class ClientGUI extends JFrame implements ActionListener
             public void actionPerformed(ActionEvent e)
             {
                 JFrame newGame = new JFrame();
-                newGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                newGame.setBounds(100, 100, 300, 300);
+                newGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                newGame.setBounds(200, 200, 300, 300);
                 JPanel gameContents = new JPanel();
                 gameContents.setBorder(new EmptyBorder(5, 5, 5, 5));
                 newGame.setContentPane(gameContents);

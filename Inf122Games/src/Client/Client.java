@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Battleship.Battleship;
 import Games.Game;
 import Games.GameFactory;
 import TicTacToe.TicTacToeView;
@@ -91,6 +92,10 @@ public class Client {
 						
 						if(strings[1].equals("TicTacToe")){
 							clientGame = new TicTacToeView(Client.this);
+						}
+						
+						if(strings[1].equals("Battleship")){
+							clientGame = new Battleship(Client.this);
 						}
 						
 					}
