@@ -6,8 +6,8 @@ import Server.Server.PlayerThread;
 
 public abstract class Game implements Createable, Serializable 
 {
-	Player player1;
-	Player player2;
+	String player1;
+	String player2;
 	
 
 	

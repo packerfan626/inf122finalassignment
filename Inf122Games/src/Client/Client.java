@@ -23,7 +23,7 @@ public class Client {
 	//Use to start the game
 	private GameFactory gameFactory;
 	
-	private Game clientGame;
+	public Game clientGame;
 	
 	
 	public Client(String server, ArrayList<String> availGames ,int port, String username){

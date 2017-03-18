@@ -24,7 +24,11 @@ public class TicTacToeView extends Game{
 	public TicTacToeView(Client client) {
 		
 		_client = client;
-		frame = new JFrame("Tic-Tac-Toe - "+_client.username);
+		frame = new JFrame("Tic-Tac-Toe - PLAYER"+_client.username);
+		
+		
+		
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
