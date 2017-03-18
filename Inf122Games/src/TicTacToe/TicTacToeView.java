@@ -71,12 +71,65 @@ public class TicTacToeView extends Game{
 	public void receiveMove(int x, int y) {
 		System.out.println("received move" );
 		// TODO Auto-generated method stub
+		int index = 0;
+		
+		switch(y)
+		{
+		case 0: 
+			if (x == 0)
+			{
+				index = 0;
+			} 
+			else if (x == 1)
+			{
+				index = 1;
+			}
+			else if (x == 2)
+			{
+				index = 2;
+			}
+		break;
+		case 1:
+			if (x == 0)
+			{
+				index = 3;
+			} 
+			else if (x == 1)
+			{
+				index = 4;
+			}
+			else if (x == 2)
+			{
+				index = 5;
+			}
+		break;
+		
+		case 2:
+			if (x == 0)
+			{
+				index = 6;
+			} 
+			else if (x == 1)
+			{
+				index = 7;
+			}
+			else if (x == 2)
+			{
+				index = 8;
+			}
+		break;
+			
+		}
+			
+			
+		ActionEvent actionevent = new ActionEvent(buttons[index],0,null);
+		((TicTacToeButton) buttons[index]).actionPerformed(actionevent);
 		
 		
 		//Driver.updateBoard(x,y);
 		//Driver.CheckForWin();
 		
-		Driver.getInput(x, y);
+		//Driver.getInput(x, y);
 	};
 
 }

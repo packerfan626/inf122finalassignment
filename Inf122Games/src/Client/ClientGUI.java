@@ -18,6 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
+import java.awt.Font;
+import java.awt.Color;
 //import TicTacToe.TicTacToe;
 //import TicTacToe.TicTacToeView;
 
@@ -38,7 +40,7 @@ public class ClientGUI extends JFrame implements ActionListener
 	
 	public ClientGUI()
 	{
-		super("Game Server");
+		super("LOBBY");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 479, 361);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -46,6 +48,8 @@ public class ClientGUI extends JFrame implements ActionListener
         setVisible(true);
         contentPane.setLayout(null);
         JTextArea txtrEnterUsername = new JTextArea();
+        txtrEnterUsername.setBackground(Color.WHITE);
+        txtrEnterUsername.setFont(new Font("Book Antiqua", Font.PLAIN, 17));
         txtrEnterUsername.setText("Enter username:");
         txtrEnterUsername.setBounds(21, 21, 129, 22);
         contentPane.add(txtrEnterUsername);
@@ -62,7 +66,7 @@ public class ClientGUI extends JFrame implements ActionListener
             public void actionPerformed(ActionEvent e)
             {
                 JFrame newGame = new JFrame();
-                newGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                newGame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 newGame.setBounds(100, 100, 300, 300);
                 JPanel gameContents = new JPanel();
                 gameContents.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,7 +118,7 @@ public class ClientGUI extends JFrame implements ActionListener
                     
             }
         });
-        bHostGame.setBounds(0, 255, 141, 35);
+        bHostGame.setBounds(173, 255, 141, 35);
         contentPane.add(bHostGame);
 //        bBattleship = new JButton("Battleship");
 //        bBattleship.setBounds(291, 184, 141, 35);
@@ -131,14 +135,14 @@ public class ClientGUI extends JFrame implements ActionListener
 //        bOthello.addActionListener(this);
 //        contentPane.add(bOthello);
         JoinableGamesList = new JScrollPane();
-        JoinableGamesList.setBounds(21, 67, 249, 167);
+        JoinableGamesList.setBounds(110, 75, 249, 167);
         JoinableGamesList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         JoinableGamesList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         joinPanel.setLayout(new GridLayout(10, 1));
         JoinableGamesList.setViewportView(joinPanel);
         contentPane.add(JoinableGamesList);
         btnTESTjoingame = new JButton("");
-        btnTESTjoingame.setBounds(291, 67, 141, 35);
+        btnTESTjoingame.setBounds(308, 59, 141, 35);
         contentPane.add(btnTESTjoingame);
         btnTESTjoingame.setVisible(false);
         btnTESTjoingame.addActionListener(this);
