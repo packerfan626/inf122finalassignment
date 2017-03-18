@@ -79,6 +79,7 @@ public class Server {
 				try {
 					//Read in message and set protocol string based on message
 					String message = (String)in.readObject();
+					System.out.println("Message that server reads: " + message);
 					String []strings = message.split("_");
 						
 					//Checks if it is a new user and sets their username and outputs to the lobby of the new user joined
@@ -93,10 +94,11 @@ public class Server {
 					}
 					
 					//Joins the game of the desired host
-					else if (strings[0].equals("JOINGAME")){
-						for(PlayerThread player: playerThread){
+					if (strings[0].equals("JOINGAME")){
+						for(PlayerThread player: playerThread){	//joined order
 							if(player.username.equals(strings[2])){
 								//Setting each player as opponents
+								System.out.println("this.username:" + this.username);
 								player.opponent = this.username;
 								this.opponent = strings[2];
 								
@@ -106,7 +108,6 @@ public class Server {
 								player.out.writeObject(message);
 								this.out.writeObject(message);
 							}
-							break;
 						}
 					}
 					

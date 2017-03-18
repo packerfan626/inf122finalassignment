@@ -152,12 +152,13 @@ public class ClientGUI extends JFrame implements ActionListener
 	{
 		
 //		String [] gameInfo = s.split("_");
-		btnTESTjoingame.setText(availGames.get(0));
+		btnTESTjoingame.setText(availGames.get(availGames.size()-1));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		
 		// TODO Auto-generated method stub
 		if(e.getSource() == bBattleship)
 		{
@@ -174,7 +175,9 @@ public class ClientGUI extends JFrame implements ActionListener
 		if(e.getSource() == btnTESTjoingame)
 		{
 			//Display the list of games in the list
-			client.sendMessage("JOINGAME_" + availGames.get(0));
+			String text = btnTESTjoingame.getText();
+			String[] messages = text.split("");
+			client.sendMessage("JOINGAME_" + text);
 		}
 	}		
 }
