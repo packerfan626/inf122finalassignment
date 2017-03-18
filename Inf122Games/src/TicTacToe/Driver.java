@@ -128,9 +128,7 @@ public class Driver {
 		}
 	}
 	
-	public static void createPlayers() {
-		System.out.println("Creating players here...");
-	}
+
 	
 /*	public static void checkRows() {
 		int i, j, total_row = 0;

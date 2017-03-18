@@ -15,6 +15,7 @@ import Games.Game;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JList;
 //import TicTacToe.TicTacToe;
 //import TicTacToe.TicTacToeView;
 
@@ -52,7 +53,7 @@ public class ClientGUI extends JFrame implements ActionListener
 		contentPane.add(bUsernameOK);
 		
 		btnTESTjoingame = new JButton("");
-		btnTESTjoingame.setBounds(173, 85, 141, 35);
+		btnTESTjoingame.setBounds(270, 86, 141, 35);
 		btnTESTjoingame.addActionListener(this);
 		contentPane.add(btnTESTjoingame);
 		
@@ -78,6 +79,10 @@ public class ClientGUI extends JFrame implements ActionListener
 		bOthello.setBounds(291, 255, 141, 35);
 		bOthello.addActionListener(this);
 		contentPane.add(bOthello);
+		
+		JList list = new JList();
+		list.setBounds(58, 211, 141, -139);
+		contentPane.add(list);
 		
 		bUsernameOK.addActionListener(new ActionListener()
 		{

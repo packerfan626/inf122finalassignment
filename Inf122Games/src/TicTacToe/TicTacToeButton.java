@@ -21,11 +21,14 @@ public class TicTacToeButton extends JButton implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//player1's turn and theres no X or O there yet, and the turns haven't exceeded 9.
 		if(Driver.getFlagTotal()%2 == 0 && getText().equals(" ") && Driver.getFlagTotal() < 9){
 			letter="X";
 			Driver.askForInput(((TicTacToeButton)e.getSource()).getButtonIndex(), 1);
 			TTTboard.incMoveCounter();
 		} 
+		//player2's turn and theres no X or O there yet, and the turns haven't exceeded 9.
+
 		else if(Driver.getFlagTotal()%2 != 0 && getText().equals(" ") && Driver.getFlagTotal() < 9){
 			letter="O";
 			Driver.askForInput(((TicTacToeButton)e.getSource()).getButtonIndex(), 2);
@@ -34,7 +37,6 @@ public class TicTacToeButton extends JButton implements ActionListener{
 		setText(letter);
 		Driver.updateBoard();
 		Driver.checkForWin();
-		//System.out.println((((TicTacToeButton)e.getSource()).getButtonIndex()));
 		if (Driver.hasWinner || Driver.getFlagTotal() == 9){
 			System.out.println("Game over");
 			TTTboard.printWinner();
@@ -42,6 +44,7 @@ public class TicTacToeButton extends JButton implements ActionListener{
 	}
 	
 	public int getButtonIndex(){
+		//need to change this to x and y coordinate to send across the server.
 		return this.index;
 	}
 

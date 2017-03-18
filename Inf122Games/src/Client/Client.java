@@ -23,6 +23,9 @@ public class Client {
 	//Use to start the game
 	private GameFactory gameFactory;
 	
+	private Game clientGame;
+	
+	
 	public Client(String server, ArrayList<String> availGames ,int port, String username){
 		this.server = server;
 		this.port = port;
@@ -87,15 +90,25 @@ public class Client {
 						//use "game" to set up what game is to be started
 						
 						if(strings[1].equals("TicTacToe")){
-							TicTacToeView ttt = new TicTacToeView();
+							clientGame = new TicTacToeView(Client.this);
 						}
 						
 					}
 					
-					//Listens for the move from the user
+					//Listens for the move from the server (aka other user)
 					else if(strings[0].equals("MOVE")){
+						//parse the move and update my board
+						//token1 = x and token 2 = y (or something)
+						
+						//game receives a move
+						//clientGame.receiveMove(int, int);
 						
 					}
+					
+					
+					
+					
+					
 					
 				} catch (Exception e){
 					System.out.println("Failed to Listen to server object");
