@@ -16,20 +16,20 @@ public class TicTacToeView extends Game{
 	static JButton buttons[] = new JButton[9];
 	boolean gameOver = false;
 	int moveCounter = 0;
-	
+	int moveX;
+	int moveY;
 	Client _client;		//current client
-	
+	JFrame frame;
 
 	public TicTacToeView(Client client) {
 		
 		_client = client;
-		JFrame frame = new JFrame("Tic-Tac-Toe");
+		frame = new JFrame("Tic-Tac-Toe - "+_client.username);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3, 3));
 		panel.setBorder(BorderFactory.createLineBorder(Color.darkGray, 3));
-		panel.setBackground(Color.cyan);
 
 		for (int i = 0; i < 9; i++) {
 			buttons[i] = new TicTacToeButton(this, i);
@@ -54,16 +54,12 @@ public class TicTacToeView extends Game{
 			System.exit(0);
 			return;
 		}
-		JOptionPane.showMessageDialog(null, winner + " has won the game!");
+		JOptionPane.showMessageDialog(frame, winner + " has won the game!");
 		System.exit(0);
 	}
 
 	@Override
 	public void sendMove(int x, int y) {
-
-		
-		//y = TicTacToeButton.getButtonRow();
-		//x = TicTacToeButton.getButtonCol();
 		_client.sendMessage("MOVE_" +x+ "_"+y );
 	}
 
@@ -125,11 +121,7 @@ public class TicTacToeView extends Game{
 		ActionEvent actionevent = new ActionEvent(buttons[index],0,null);
 		((TicTacToeButton) buttons[index]).actionPerformed(actionevent);
 		
-		
-		//Driver.updateBoard(x,y);
-		//Driver.CheckForWin();
-		
-		//Driver.getInput(x, y);
+
 	};
 
 }

@@ -15,7 +15,7 @@ public class Client {
 	private Socket socket;
 	
 	private String server = "localhost";
-	private String username;
+	public String username;
 	private int port = 4444;
 	boolean isHost = false;
 	private ArrayList<String> availGames;
@@ -121,6 +121,7 @@ public class Client {
 	//Outputs message to the user
 	public void sendMessage(String message){
 		try{
+					
 			out.writeObject(message);
 			out.flush();
 		}catch (Exception e){

@@ -66,7 +66,7 @@ public class ClientGUI extends JFrame implements ActionListener
             public void actionPerformed(ActionEvent e)
             {
                 JFrame newGame = new JFrame();
-                newGame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                newGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 newGame.setBounds(100, 100, 300, 300);
                 JPanel gameContents = new JPanel();
                 gameContents.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -97,6 +97,8 @@ public class ClientGUI extends JFrame implements ActionListener
                     {
                         // TODO Auto-generated method stub
                         startGame("TicTacToe");
+                        bHostGame.setVisible(false);
+
                     }
                 });
                 gameContents.add(bTicTacToe);
