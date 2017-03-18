@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
@@ -24,6 +25,18 @@ public class ServerGUI extends JFrame
 	private static JTextArea txtrServerOnline;
 	private static JTextArea taPort;
 	private static boolean created = false;
+	
+	
+	private JScrollPane scrollPane;
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public ServerGUI()
 	{
 		super("Game Server");
@@ -47,16 +60,21 @@ public class ServerGUI extends JFrame
 		taPort.setBounds(141, 31, 108, 22);
 		contentPane.add(taPort);
 			
-		
-		tpListOfUsers = new JTextPane();
-		tpListOfUsers.setBounds(0, 96, 408, 206);
-		contentPane.add(tpListOfUsers);
-		tpListOfUsers.setEditable(false);
+
 		
 		JButton bStartServer = new JButton("Start Server");
 		bStartServer.setBounds(270, 22, 141, 35);
 		contentPane.add(bStartServer);
-		doc = tpListOfUsers.getStyledDocument();
+		scrollPane = new JScrollPane();
+        scrollPane.setBounds(21, 91, 390, 225);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        contentPane.add(scrollPane);    
+        
+        tpListOfUsers = new JTextPane();
+        scrollPane.setViewportView(tpListOfUsers);
+        tpListOfUsers.setEditable(false);
+        doc = tpListOfUsers.getStyledDocument();
 		
 		bStartServer.addActionListener(new ActionListener()
 		{

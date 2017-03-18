@@ -90,7 +90,7 @@ public class Client {
 						//use "game" to set up what game is to be started
 						
 						if(strings[1].equals("TicTacToe")){
-							clientGame = new TicTacToeView(Client.this);
+							//clientGame = new TicTacToeView(Client.this);
 						}
 						
 					}

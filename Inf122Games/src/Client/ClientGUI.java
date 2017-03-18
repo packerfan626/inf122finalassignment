@@ -1,5 +1,6 @@
 package Client;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import Games.Game;
@@ -28,6 +30,12 @@ public class ClientGUI extends JFrame implements ActionListener
 	private JPanel contentPane = new JPanel();
 	private JTextField tfUsername;
 	private static JButton bBattleship, bTicTacToe, bOthello, btnTESTjoingame;
+	
+	private static int numGameCount = 0;
+    private static JScrollPane JoinableGamesList;
+    private static JPanel joinPanel = new JPanel();
+    private static JButton joinGame[] = new JButton[10];
+	
 	public ClientGUI()
 	{
 		super("Game Server");
@@ -53,8 +61,7 @@ public class ClientGUI extends JFrame implements ActionListener
 		contentPane.add(bUsernameOK);
 		
 		btnTESTjoingame = new JButton("");
-		btnTESTjoingame.setBounds(270, 86, 141, 35);
-		btnTESTjoingame.addActionListener(this);
+		btnTESTjoingame.setVisible(false);
 		contentPane.add(btnTESTjoingame);
 		
 		JButton bHostGame = new JButton("Host Game");
@@ -80,9 +87,16 @@ public class ClientGUI extends JFrame implements ActionListener
 		bOthello.addActionListener(this);
 		contentPane.add(bOthello);
 		
-		JList list = new JList();
-		list.setBounds(58, 211, 141, -139);
-		contentPane.add(list);
+		
+		JoinableGamesList = new JScrollPane();
+        JoinableGamesList.setBounds(21, 67, 249, 167);
+        JoinableGamesList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        JoinableGamesList.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        joinPanel.setLayout(new GridLayout(10, 1));
+        JoinableGamesList.setViewportView(joinPanel);
+        contentPane.add(JoinableGamesList);
+        
+		
 		
 		bUsernameOK.addActionListener(new ActionListener()
 		{
@@ -154,11 +168,32 @@ public class ClientGUI extends JFrame implements ActionListener
 	}
 
 	public static void updateGames()
-	{
-		
-//		String [] gameInfo = s.split("_");
-		btnTESTjoingame.setText(availGames.get(availGames.size()-1));
-	}
+    {
+        
+//        String [] gameInfo = s.split("_");
+        joinGame[numGameCount % 10] = new JButton();
+        joinGame[numGameCount % 10].setText(availGames.get(availGames.size()-1));
+        joinPanel.add(joinGame[numGameCount % 10]);
+//        JoinableGamesList.add(joinGame[numGameCount % 10]);
+        joinGame[numGameCount % 10].addActionListener(new ActionListener()
+        {        
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                // TODO Auto-generated method stub
+                for(int i = 0; i < 10; ++i)
+                {
+                    if(e.getSource() == joinGame[i])
+                    {
+                        client.sendMessage("JOINGAME_" + availGames.get(availGames.size()-1));
+                    }
+                }
+            }
+        });
+        numGameCount++;
+        btnTESTjoingame.setVisible(false);
+        btnTESTjoingame.setText(availGames.get(availGames.size()-1));
+    }
 
 	@Override
 	public void actionPerformed(ActionEvent e)
