@@ -90,7 +90,7 @@ public class Client {
 						//use "game" to set up what game is to be started
 						
 						if(strings[1].equals("TicTacToe")){
-							//clientGame = new TicTacToeView(Client.this);
+							clientGame = new TicTacToeView(Client.this);
 						}
 						
 					}
@@ -103,11 +103,11 @@ public class Client {
 						//game receives a move
 						//clientGame.receiveMove(int, int);
 						
+						int x = Integer.parseInt(strings[1]);
+						int y = Integer.parseInt(strings[2]);
+						
+						clientGame.receiveMove(x, y);
 					}
-					
-					
-					
-					
 					
 					
 				} catch (Exception e){

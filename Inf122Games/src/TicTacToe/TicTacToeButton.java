@@ -64,7 +64,8 @@ public class TicTacToeButton extends JButton implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		boolean validClick = false;
-		int y,x;
+		int y = 0;
+		int x = 0;
 		System.out.println("Current cell: " + getText()); 
 		if (Driver.flagTotal % 2 == 0 && getText().equals(" ") && Driver.flagTotal < 9) {
 			Driver.p1sTurn = true;
@@ -73,6 +74,7 @@ public class TicTacToeButton extends JButton implements ActionListener {
 			y = ((TicTacToeButton) e.getSource()).getButtonRow();
 			x = ((TicTacToeButton) e.getSource()).getButtonCol();
 			Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
+			TTTboard.sendMove(x, y);
 			validClick = true;
 		} else if (Driver.flagTotal % 2 != 0 && getText().equals(" ") && Driver.flagTotal < 9) {
 			letter = "O";
@@ -81,6 +83,7 @@ public class TicTacToeButton extends JButton implements ActionListener {
 			y = ((TicTacToeButton) e.getSource()).getButtonRow();
 			x = ((TicTacToeButton) e.getSource()).getButtonCol();
 			Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
+			TTTboard.sendMove(x, y);
 			validClick = true;
 		}
 		if (validClick){ 
@@ -91,7 +94,7 @@ public class TicTacToeButton extends JButton implements ActionListener {
 														 //print the winner pop-up screen
 			TTTboard.printWinner(); 
 		}
-
+	
 	}
 	
 	public int getButtonRow(){
@@ -110,5 +113,5 @@ public class TicTacToeButton extends JButton implements ActionListener {
 	public String getLetter() {
 		return this.letter;
 	}
-
+	
 }

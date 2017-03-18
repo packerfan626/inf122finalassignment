@@ -30,13 +30,6 @@ public class ServerGUI extends JFrame
 	private JScrollPane scrollPane;
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	public ServerGUI()
 	{
 		super("Game Server");
@@ -95,8 +88,6 @@ public class ServerGUI extends JFrame
 			}
 		});
 		repaint();		
-
-		
 	}
 	
 	

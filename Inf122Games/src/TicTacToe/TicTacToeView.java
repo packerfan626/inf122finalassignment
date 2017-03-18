@@ -65,7 +65,6 @@ public class TicTacToeView extends Game{
 		//y = TicTacToeButton.getButtonRow();
 		//x = TicTacToeButton.getButtonCol();
 		_client.sendMessage("MOVE_" +x+ "_"+y );
-		
 	}
 
 	@Override
@@ -77,6 +76,7 @@ public class TicTacToeView extends Game{
 		//Driver.updateBoard(x,y);
 		//Driver.CheckForWin();
 		
+		Driver.getInput(x, y);
 	};
 
 }

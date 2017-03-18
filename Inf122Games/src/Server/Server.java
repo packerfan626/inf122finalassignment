@@ -113,6 +113,7 @@ public class Server {
 					
 					//Makes move in game and displays it to the user
 					else if (strings[0].equals("MOVE")){
+						ServerGUI.updateServer(message);
 						for(PlayerThread player: playerThread){
 							if(player.opponent.equals(username)){
 								//Strings[1] = x; Strings[2] = y
