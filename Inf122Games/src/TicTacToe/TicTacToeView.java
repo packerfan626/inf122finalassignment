@@ -20,15 +20,25 @@ public class TicTacToeView extends Game{
 	int moveY;
 	Client _client;		//current client
 	JFrame frame;
-
+	private static String letter;
+	private static boolean turn;
+	
 	public TicTacToeView(Client client) {
 		
 		_client = client;
+		
+		if(_client.isHost)
+		{
+			turn =true;
+			letter = "X";
+		}
+		else
+		{
+			turn = false;
+			letter = "O";
+		}		
+		
 		frame = new JFrame("Tic-Tac-Toe - PLAYER"+_client.username);
-		
-		
-		
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -69,7 +79,7 @@ public class TicTacToeView extends Game{
 
 	@Override
 	public void receiveMove(int x, int y) {
-		System.out.println("received move" );
+		System.out.println("received move" + x + " y: "+ y);
 		// TODO Auto-generated method stub
 		int index = 0;
 		
@@ -120,12 +130,27 @@ public class TicTacToeView extends Game{
 		break;
 			
 		}
-			
-			
+		String oppLetter;
+		if(letter.equalsIgnoreCase("x"))
+			oppLetter = "O";
+		else
+			oppLetter = "X";
+		TicTacToeButton.updateBoard(index);
 		ActionEvent actionevent = new ActionEvent(buttons[index],0,null);
-		((TicTacToeButton) buttons[index]).actionPerformed(actionevent);
-		
+		((TicTacToeButton) buttons[index]).setText(oppLetter);
+		switchPlayer();
 
 	};
-
+	
+	public void switchPlayer(){
+		if(turn == true){
+			turn = false;
+		}else{
+			turn = true;
+		}	
+	}
+	
+	public static void changeTurn(boolean tun) { turn = tun; }
+	public static boolean get_turn() {	return turn; }
+	public static String get_piece() {	return letter; }
 }

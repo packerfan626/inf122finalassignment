@@ -236,12 +236,11 @@ public class Battleship extends Game
 	}
 	
 	public void switchPlayer(){
-		if(turn = true){
+		if(turn == true){
 			turn = false;
 		}else{
 			turn = true;
-		}
-		
+		}	
 	}
 	
 	public void reset()
