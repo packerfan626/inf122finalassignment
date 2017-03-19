@@ -2,6 +2,8 @@ package Othello;
 
 import java.util.ArrayList;
 
+import Client.Client;
+
 public class Othello 
 {
 	OthelloPlayer player1;
@@ -16,13 +18,28 @@ public class Othello
     final static int COLUMNS = 8;
     final static int ROWS = 8;
     OthelloGUI ogui;
+    Piece temp;
+    Client _client;
+    public Boolean turn = false;
     
-	public void initializeGame()
+	public void initializeGame(Client client)
 	{
-		player1 = new OthelloPlayer("Chris", Piece.BLACK); // SAMPLE
-		player2 = new OthelloPlayer("Janay", Piece.WHITE); // SAMPLE
-		currentPlayer = player1;
-		oppositePlayer = player2;
+		_client = client;
+		System.out.println(_client.username + " " + _client.isHost);
+		if(_client.isHost == true){
+			player1 = new OthelloPlayer(_client.username, Piece.BLACK); // SAMPLE
+			player2 = new OthelloPlayer("opponent", Piece.WHITE); // SAMPLE
+			currentPlayer = player1;
+			oppositePlayer = player2;
+			turn = true;
+		}else{
+			player1 = new OthelloPlayer("opponent", Piece.BLACK); // SAMPLE
+			player2 = new OthelloPlayer(_client.username, Piece.WHITE); // SAMPLE
+			currentPlayer = player2;
+			oppositePlayer = player1;
+			turn = false;
+		}
+
 		board = new Piece[ROWS][COLUMNS];
 		for(int i = 0; i < ROWS; i++)
 			for(int j = 0; j < COLUMNS; j++)
@@ -33,14 +50,19 @@ public class Othello
 		board[4][4] = Piece.WHITE;
 	}
 	
+	
+	
+	/*HERE: turn is a local variable here. If the player is the host (which is given FROM the client that is passed in). Then 
+	 * then set the host as the first person to go by setting turn to true for host and turn to "false" for the joinee. 
+	 * Call switchPlayer everytime a VALID move is sent (made) and recieved (made by opponent)
+	 */
 	public void switchPlayer(){
-		if(currentPlayer == player1){
-			currentPlayer = player2;
-			oppositePlayer = player1;
+		if(turn = true){
+			turn = false;
 		}else{
-			currentPlayer = player1;
-			oppositePlayer = player2;
+			turn = true;
 		}
+		
 	}
 	
 	public boolean isValid(int row, int column, OthelloPlayer p){
@@ -375,9 +397,12 @@ public class Othello
 			int currentY;
 			
 			boolean isEmpty;
-			Piece current; 
+			Piece current = null; 
 			
-			this.currentPlayer.addPiecesOwned(1);
+			if(p.equals(this.currentPlayer))
+				this.currentPlayer.addPiecesOwned(1);
+			else
+				this.oppositePlayer.addPiecesOwned(1);
 			
 			for (int x = -1; x <= 1; x++)
 			{
@@ -421,8 +446,15 @@ public class Othello
 							while(current != Piece.EMPTY)
 							{
 								board[currentY][currentX] = p.getPlayerColor();
-								this.currentPlayer.addPiecesOwned(1);
-								this.oppositePlayer.addPiecesOwned(-1);
+								
+								if(p.equals(this.currentPlayer)){
+									this.currentPlayer.addPiecesOwned(1);
+									this.oppositePlayer.addPiecesOwned(-1);
+								}
+								else{
+									this.currentPlayer.addPiecesOwned(-1);
+									this.oppositePlayer.addPiecesOwned(1);
+								}
 								currentX -= x;
 								currentY -= y;
 								current = board[currentY][currentX];
@@ -437,11 +469,13 @@ public class Othello
 					}
 				}
 			}
+			
+			temp = current;
 		}
+		
 		//Send move to other client		
 		System.out.println(this.currentPlayer.getPlayerColor() + " has " + this.currentPlayer.getPieces() + " pieces");
 		System.out.println(this.oppositePlayer.getPlayerColor() + " has " + this.oppositePlayer.getPieces() + " pieces");
-
 	}
 	
 	public void run()
@@ -455,4 +489,5 @@ public class Othello
 			System.out.println("");
 		}
 	}
+	
 }

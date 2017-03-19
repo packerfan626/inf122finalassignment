@@ -3,7 +3,7 @@ package Othello;
 public class OthelloPlayer 
 {
 	private String name;
-	private Piece color;
+	public Piece color;
 	private int numOfPiecesOwned;
 	
 	OthelloPlayer(String n, Piece c)
