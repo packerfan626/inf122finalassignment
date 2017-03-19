@@ -15,6 +15,7 @@ public class Othello
 	ArrayList<Integer> blackPieceException;
     final static int COLUMNS = 8;
     final static int ROWS = 8;
+    OthelloGUI ogui;
     
 	public void initializeGame()
 	{
@@ -440,6 +441,8 @@ public class Othello
 			}
 		}
 		
+		
+		//Send move to other client		
 		System.out.println(this.currentPlayer.getPlayerColor() + " has " + this.currentPlayer.getPieces() + " pieces");
 		System.out.println(this.oppositePlayer.getPlayerColor() + " has " + this.oppositePlayer.getPieces() + " pieces");
 

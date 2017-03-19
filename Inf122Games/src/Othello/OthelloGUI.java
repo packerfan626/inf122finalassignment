@@ -60,6 +60,7 @@ public class OthelloGUI extends Game{
                 	System.out.println("Invalid Move!");
                 }else{
                 	game.makeMove(row, column, game.currentPlayer);
+            		sendMove(row, column);
                 	game.board[row][column] = game.currentPlayer.getPlayerColor();
                 	repaint();
                 	game.switchPlayer();
@@ -116,7 +117,7 @@ public class OthelloGUI extends Game{
 	@Override
 	public void sendMove(int x, int y) {
 		// TODO Auto-generated method stub
-		
+		_client.sendMessage("MOVE_" +x+ "_"+y );
 	}
 
 	@Override
