@@ -24,7 +24,6 @@ public class OthelloGUI extends Game{
 	public OthelloGUI(Client client){
 		super();
 		_client = client;
-		OthelloGUI oth;
 		game = new Othello();
 		
 		JFrame frame = new JFrame("Othello Game");
@@ -65,14 +64,8 @@ public class OthelloGUI extends Game{
                 	repaint();
                 	game.switchPlayer();
                 }
-
-               
-                
-
             }
         });
-
-        
 	}
     
 	 public void paintComponent(Graphics g) {
@@ -123,7 +116,10 @@ public class OthelloGUI extends Game{
 	@Override
 	public void receiveMove(int x, int y) {
 		// TODO Auto-generated method stub
-		
+		game.makeMove(x, y, game.player2);
+		game.board[x][y] = game.currentPlayer.getPlayerColor();
+		repaint();
+		game.switchPlayer();
 	}
 
 }

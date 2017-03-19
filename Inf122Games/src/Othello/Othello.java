@@ -363,13 +363,11 @@ public class Othello
 	
 	public void makeMove(int row, int column, OthelloPlayer p)
 	{
-	
 		System.out.println(p.getPlayerName() + ", make your move!");
 		
 		// PLAYER CHOOSES MOVE
 		// GUI FLIPS TILES
 		// ADD FLIPPED TILES TO TOTAL NUMBER OF PIECES OWNED FOR PLAYER
-		
 		
 		if (board[row][column] == Piece.EMPTY)
 		{
@@ -440,8 +438,6 @@ public class Othello
 				}
 			}
 		}
-		
-		
 		//Send move to other client		
 		System.out.println(this.currentPlayer.getPlayerColor() + " has " + this.currentPlayer.getPieces() + " pieces");
 		System.out.println(this.oppositePlayer.getPlayerColor() + " has " + this.oppositePlayer.getPieces() + " pieces");
