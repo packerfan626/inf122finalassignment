@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import Games.Game;
 import Games.GameFactory;
+import Othello.OthelloGUI;
 import TicTacToe.TicTacToeView;
 
 public class Client {
@@ -91,6 +92,10 @@ public class Client {
 						
 						if(strings[1].equals("TicTacToe")){
 							clientGame = new TicTacToeView(Client.this);
+						}
+						
+						if(strings[1].equals("Othello")){
+							clientGame = new OthelloGUI(Client.this);
 						}
 						
 					}
