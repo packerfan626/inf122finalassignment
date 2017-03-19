@@ -20,20 +20,27 @@ public class OthelloGUI extends Game{
     
     private Othello game;
     Client _client;		//current client
+    
+    //This enables the mouse click for the screen. Deactivates/activates depending on the opponents turn
+    boolean enabled = false;
 	
 	public OthelloGUI(Client client){
 		super();
 		_client = client;
 		game = new Othello();
 		
-		JFrame frame = new JFrame("Othello Game");
+		//if host; then activate the mouse click
+		if(_client.isHost)
+			enabled = true;
+		
+		JFrame frame = new JFrame("Othello Game -- " + _client.username);
 		frame.setContentPane(this);
 		frame.setSize(530,528);
 		frame.setLocation(700,100);
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.setVisible(true);
 		
-		game.initializeGame();
+		game.initializeGame(_client);
 
         setBackground(Color.GREEN);
         
@@ -46,24 +53,29 @@ public class OthelloGUI extends Game{
         
         addMouseListener( new MouseAdapter() {
             public void mousePressed(MouseEvent evt) {
+            	//Depending on whose turn it is allow for moves
+            	if(enabled){
                 // Find out which square was clicked
-                int x = evt.getX();
-                int y = evt.getY();
-                int screenWidth = getWidth();
-                int screenHeight = getHeight();
-                int column = (x*game.COLUMNS)/screenWidth;
-                int row = (y*game.ROWS)/screenHeight;
-
-                
-                if(!game.isValid(row, column, game.currentPlayer)){
-                	System.out.println("Invalid Move!");
-                }else{
-                	game.makeMove(row, column, game.currentPlayer);
-            		sendMove(row, column);
-                	game.board[row][column] = game.currentPlayer.getPlayerColor();
-                	repaint();
-                	game.switchPlayer();
-                }
+	                int x = evt.getX();
+	                int y = evt.getY();
+	                int screenWidth = getWidth();
+	                int screenHeight = getHeight();
+	                int column = (x*game.COLUMNS)/screenWidth;
+	                int row = (y*game.ROWS)/screenHeight;
+	
+	                if(!game.isValid(row, column, game.currentPlayer)){
+	                	System.out.println("Invalid Move!");
+	                }else{
+	                	game.makeMove(row, column, game.currentPlayer);
+	            		sendMove(row, column);
+	                	game.board[row][column] = game.currentPlayer.getPlayerColor();
+	                	repaint();
+	                	game.switchPlayer();
+	                }
+	            }
+            	else{
+            		System.out.println("Disabled");
+            	}
             }
         });
 	}
@@ -101,23 +113,24 @@ public class OthelloGUI extends Game{
 	           }
 	       }
 	 }
-	
-	public static void main(String[] args)
-	{
-
-	}
 
 	@Override
 	public void sendMove(int x, int y) {
 		// TODO Auto-generated method stub
-		_client.sendMessage("MOVE_" +x+ "_"+y );
+		_client.sendMessage("MOVE_" + x + "_"+ y);
+		
+		//change enabled to false to deactivate screen when move it sent and wait for other turn
+		enabled = false;
 	}
 
 	@Override
 	public void receiveMove(int x, int y) {
 		// TODO Auto-generated method stub
-		game.makeMove(x, y, game.player2);
-		game.board[x][y] = game.currentPlayer.getPlayerColor();
+		
+		//change enabled to true to activate the screen when a move is received and deactivates other user screen
+		enabled = true;
+		game.makeMove(x, y, game.oppositePlayer);
+		game.board[x][y] = game.oppositePlayer.getPlayerColor();
 		repaint();
 		game.switchPlayer();
 	}

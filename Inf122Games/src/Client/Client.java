@@ -18,13 +18,14 @@ public class Client {
 	private String server = "localhost";
 	public String username;
 	private int port = 4444;
-	boolean isHost = false;
+	public boolean isHost = false;
 	private ArrayList<String> availGames;
 	
 	//Use to start the game
 	private GameFactory gameFactory;
 	
 	public Game clientGame;
+	
 	
 	
 	public Client(String server, ArrayList<String> availGames ,int port, String username){
@@ -89,7 +90,7 @@ public class Client {
 						//String of the game that is to be played
 						String game = strings[1];
 						//use "game" to set up what game is to be started
-						
+
 						if(strings[1].equals("TicTacToe")){
 							clientGame = new TicTacToeView(Client.this);
 						}
