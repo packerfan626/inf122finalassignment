@@ -1,6 +1,8 @@
 package Battleship;
 
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,7 +40,7 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 	private String direction = VERTICAL;
 	private static boolean AC_Deployed, B_Deployed, S_Deployed, C_Deployed, D_Deployed;
 	private static JTextField tvShipDir;
-	private static boolean wait = false;
+	private static boolean waiting = true;
 	
 	public BattleshipGUI1(Battleship bs)
 	{
@@ -187,8 +189,24 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		{
 			//disable all ships button
 			disableShipPlacementButtons();
-			
-	
+			bsGame.sendDeployStatus(false);
+			while(waiting)
+			{
+				
+			}
+			if(!waiting)
+			{
+				if(bsGame.get_turn())
+				{
+					JOptionPane.showMessageDialog(null, 
+							"Your move first", "Battle Started", JOptionPane.INFORMATION_MESSAGE	);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, 
+							"Waiting for player to make move", "Battle Started", JOptionPane.INFORMATION_MESSAGE	);
+				}
+			}		
 		}
 		//System.out.println(length);	//test 
 	}
@@ -342,12 +360,8 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 				oppGrid[i][j].addActionListener(new myActionListener());
 			}
 		}
+		
 	}
-	
-//	public void set_oppBoard(ArrayList<Ship> shipList)
-//	{
-//		oppShips = shipList;
-//	}
 	
 	private static boolean checkWin()
 	{
@@ -363,35 +377,6 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 				count++;
 		};
 		return count == 5;
-	}
-	
-	private class myActionListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			for(int i = 0; i < 10; i++) //y
-			{
-				for(int j = 0; j < 10; j++) //x
-				{
-					if(oppGrid[i][j] == e.getSource())
-					{
-						xCord = j;
-						yCord = i;
-						
-						bsGame.sendMove(xCord,yCord);
-						//shot(xCord, yCord);
-						oppGrid[i][j].setEnabled(false);
-						bsGame.switchPlayer();
-					}
-				}
-			}				
-		}
-		
-//		private void shot(int x, int y)
-//		{
-//			bsGame.sendMove(x, y);
-//		}					
 	}
 	
 	private static void reset() 
@@ -551,6 +536,47 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			if(value == 0)
 				reset();
 		}
+		bsGame.changeTurn(true);
+	}
+
+	public static void updateOppDeployed(boolean deployed)
+	{
+		// TODO Auto-generated method stub
+		waiting = deployed;		
+	}
+	
+	private static class myActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			
+			for(int i = 0; i < 10; i++) //y
+			{
+				for(int j = 0; j < 10; j++) //x
+				{
+					if(oppGrid[i][j] == e.getSource())
+					{
+						if(bsGame.get_turn())
+						{
+							xCord = j;
+							yCord = i;
+							
+							bsGame.sendMove(xCord,yCord);
+							//shot(xCord, yCord);
+							oppGrid[i][j].setEnabled(false);
+							bsGame.changeTurn(false);;
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, 
+									"Not your turn.", "Error! Not your turn", JOptionPane.ERROR_MESSAGE	);
+						}
+					}
+				}
+			}
+			
+		}				
 	}
 }
 

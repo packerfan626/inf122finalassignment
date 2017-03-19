@@ -18,7 +18,7 @@ public class Battleship extends Game
 	private static int board[][];	
 	private static ArrayList<Ship> ships = new ArrayList<Ship>();
 	static Client client;
-	private boolean turn = false;
+	private boolean turn;
 	
 	public Battleship()
 	{
@@ -45,6 +45,8 @@ public class Battleship extends Game
 		frame.setVisible(true);	
 		if(client.isHost)
 			turn = true;
+		else
+			turn = false;
 	}
 	
 	public void makeBoard(int x, int y)
@@ -218,6 +220,21 @@ public class Battleship extends Game
 		set_move(x, y);
 			
 	}
+	
+	public void receiveDeployStatus(boolean deployed)
+	{
+		System.out.println("DEPLOYEDSTATUS_"+ deployed);
+		//update opponents board here
+		BattleshipGUI1.updateOppDeployed(deployed);		
+	}
+	
+	public void sendDeployStatus(boolean deployed)
+	{
+		
+		System.out.println("DEPLOYED = : " + deployed);
+		client.sendMessage("DEPLOYED_"+ deployed);
+	}
+	
 	public void switchPlayer(){
 		if(turn = true){
 			turn = false;
@@ -239,4 +256,7 @@ public class Battleship extends Game
 		ships.add(new Ship(DESTROYER, 2));
 		makeBoard(10,10);
 	}
+	
+	public void changeTurn(boolean turn) {	this.turn = turn; }
+	public boolean get_turn() {	return turn; }
 }

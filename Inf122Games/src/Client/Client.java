@@ -135,7 +135,7 @@ public class Client
 						clientGame.receiveMove(x, y);
 					}	
 					
-					//Listens for the move from the server (aka other user)
+					//Battleship, update opponents board
 					else if(strings[0].equals("UPDATEBOARD"))
 					{
 						//parse the move and update my board
@@ -149,6 +149,20 @@ public class Client
 						int y = Integer.parseInt(strings[3]);
 						boolean shipDestroy = Boolean.valueOf(strings[5]);
 						clientGame.receiveUpdateBoard(hasHit, x, y, strings[4], shipDestroy);
+					}
+					
+					//Battleship, deployed
+					else if(strings[0].equals("DEPLOYED"))
+					{
+						//parse the move and update my board
+						//token1 = x and token 2 = y (or something)
+						
+						//game receives a move
+						//clientGame.receiveMove(int, int);
+						
+						boolean deployed = Boolean.valueOf(strings[1]);
+						
+						clientGame.receiveDeployStatus(deployed);
 					}
 					
 				} 

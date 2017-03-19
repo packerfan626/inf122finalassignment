@@ -11,13 +11,9 @@ public abstract class Game extends JPanel implements Createable, Serializable
 	String player1;
 	String player2;
 	
-	
-	public void receiveUpdateBoard(boolean hasHit, int x, int y, String s, boolean des)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
+	//METHODS For Battleship
+	public void receiveUpdateBoard(boolean hasHit, int x, int y, String s, boolean des) { }
+	public void receiveDeployStatus(boolean deployed){ }	
 
 	
 	//some functions that each game implements
