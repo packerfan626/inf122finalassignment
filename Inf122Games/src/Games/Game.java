@@ -12,7 +12,7 @@ public abstract class Game extends JPanel implements Createable, Serializable
 	String player2;
 	
 	
-	public void receiveUpdateBoard(boolean x)
+	public void receiveUpdateBoard(boolean hasHit, int x, int y, String s, boolean des)
 	{
 		// TODO Auto-generated method stub
 		

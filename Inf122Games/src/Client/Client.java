@@ -106,8 +106,7 @@ public class Client
 						if(strings[1].equals("TicTacToe"))
 						{
 							clientGame = new TicTacToeView(Client.this);
-						}
-						
+						}						
 
 						if(strings[1].equals("Battleship"))
 						{
@@ -134,7 +133,24 @@ public class Client
 						int y = Integer.parseInt(strings[2]);
 						
 						clientGame.receiveMove(x, y);
-					}					
+					}	
+					
+					//Listens for the move from the server (aka other user)
+					else if(strings[0].equals("UPDATEBOARD"))
+					{
+						//parse the move and update my board
+						//token1 = x and token 2 = y (or something)
+						
+						//game receives a move
+						//clientGame.receiveMove(int, int);
+						
+						boolean hasHit = Boolean.valueOf(strings[1]);
+						int x = Integer.parseInt(strings[2]);
+						int y = Integer.parseInt(strings[3]);
+						boolean shipDestroy = Boolean.valueOf(strings[5]);
+						clientGame.receiveUpdateBoard(hasHit, x, y, strings[4], shipDestroy);
+					}
+					
 				} 
 				catch (Exception e)
 				{
@@ -150,7 +166,6 @@ public class Client
 	{
 		try
 		{
-
 			out.writeObject(message);
 			out.flush();
 		} catch (Exception e)

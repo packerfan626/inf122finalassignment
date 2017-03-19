@@ -129,6 +129,18 @@ public class Server {
 							player.out.writeObject(message);
 						}
 					}
+					
+					//UPDATE BOARD FOR BATTLESHIP
+					else if (strings[0].equals("UPDATEBOARD")){
+						ServerGUI.updateServer(message);
+						for(PlayerThread player: playerThread){
+							if(player.opponent.equals(username)){
+								//Strings[1] = x; Strings[2] = y
+								player.out.writeObject(message);
+							}
+						}
+					}
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println("Failed to run thread for client: ");
