@@ -139,7 +139,7 @@ public class Server {
 								player.out.writeObject(message);
 							}
 						}
-					}
+					}					
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

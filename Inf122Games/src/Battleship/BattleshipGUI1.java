@@ -20,24 +20,24 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 	private JPanel contentPane, opponentView, yourView;
 	private static JButton[][] grid = new JButton[10][10];
 	private static JButton[][] oppGrid = new JButton[10][10]; 
-	Battleship bsGame;
+	static Battleship bsGame;
 	private JTextField txtYourBoard;
 	private JTextField txtOpponentsBoard;
-	private JButton bAircraftCarrier, 		
-		bBattleship,
-		bSubmarine,
-		bCruiser, 
-		bDestroyer,
-		bQuit,
-		bDeploy,
-		bDirection;
-	private Ship currentShip;
+	private static JButton bAircraftCarrier;
+	private static JButton bBattleship;
+	private static JButton bSubmarine;
+	private static JButton bCruiser;
+	private static JButton bDestroyer;
+	private static JButton bQuit;
+	private static JButton bDeploy;
+	private static JButton bDirection;
+	private static Ship currentShip;
 	private static int xCord;
 	private static int yCord;
 	private static int destroyEnemyShipCounter = 0;
 	private String direction = VERTICAL;
-	private boolean AC_Deployed, B_Deployed, S_Deployed, C_Deployed, D_Deployed;
-	private JTextField tvShipDir;
+	private static boolean AC_Deployed, B_Deployed, S_Deployed, C_Deployed, D_Deployed;
+	private static JTextField tvShipDir;
 	private static boolean wait = false;
 	
 	public BattleshipGUI1(Battleship bs)
@@ -89,6 +89,11 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		panel_ships.add(bSubmarine);
 		panel_ships.add(bCruiser);
 		panel_ships.add(bDestroyer);
+		bAircraftCarrier.setForeground(Color.BLACK);
+		bBattleship.setForeground(Color.BLACK);
+		bSubmarine.setForeground(Color.BLACK);
+		bCruiser.setForeground(Color.BLACK);
+		bDestroyer.setForeground(Color.BLACK);
 		bAircraftCarrier.addActionListener(this);
 		bBattleship.addActionListener(this);
 		bSubmarine.addActionListener(this);
@@ -183,127 +188,11 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			//disable all ships button
 			disableShipPlacementButtons();
 			
-			//REPLACE WITH OPPONENT SHIPS
-//			oppShips = enemeyShip.get_ships();
-//			oppShips.get(0).set_xCoord(0);
-//			oppShips.get(0).set_yCoord(0);
-//			oppShips.get(0).set_direction(VERTICAL);
-//			oppShips.get(0).setShipCoordinates();
-//			
-//			oppShips.get(1).set_xCoord(1);
-//			oppShips.get(1).set_yCoord(0);
-//			oppShips.get(1).set_direction(VERTICAL);
-//			oppShips.get(1).setShipCoordinates();
-//			
-//			oppShips.get(2).set_xCoord(2);
-//			oppShips.get(2).set_yCoord(0);
-//			oppShips.get(2).set_direction(VERTICAL);
-//			oppShips.get(2).setShipCoordinates();
-//			
-//			oppShips.get(3).set_xCoord(3);
-//			oppShips.get(3).set_yCoord(0);
-//			oppShips.get(3).set_direction(VERTICAL);
-//			oppShips.get(3).setShipCoordinates();
-//			
-//			oppShips.get(4).set_xCoord(4);
-//			oppShips.get(4).set_yCoord(0);
-//			oppShips.get(4).set_direction(VERTICAL);
-//			oppShips.get(4).setShipCoordinates();
-			
-//			set_oppBoard(oppShips);
+	
 		}
 		//System.out.println(length);	//test 
 	}
 
-//	@Override
-//	public void mouseClicked(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//		
-//	}
-//
-//	@Override
-//	public void mouseEntered(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mouseExited(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-//
-//	@Override
-//	public void mousePressed(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		if(currentShip!=null)
-//		{
-//			for(int i = 0; i < 10; i++) //y
-//			{
-//				for(int j = 0; j < 10; j++) //x
-//				{
-//					if(grid[i][j] == e.getSource())
-//					{
-//						xCord = j;
-//						yCord = i;
-//						
-//						boolean isOutOfBound = false;
-//						//check if ship is within grid
-//						if(direction.equalsIgnoreCase(VERTICAL))
-//							if(yCord+currentShip.get_shipLength()>10) { 
-//								isOutOfBound = true; 
-//								}
-//						if(direction.equalsIgnoreCase(HORIZONTAL))
-//							if(xCord+currentShip.get_shipLength()>10) 
-//						{ 
-//							isOutOfBound = true; 						
-//						}
-//					
-//
-//						if(isOutOfBound)
-//						{
-//							JOptionPane.showMessageDialog(this, currentShip.get_type() + 
-//									" can't be placed here, ship-overboard.", "Out-of-bound Error!", JOptionPane.ERROR_MESSAGE	);
-//						}
-//						else //need to debug more
-//						{
-//							if(checkOther(currentShip))
-//							{
-//								JOptionPane.showMessageDialog(this, currentShip.get_type() + 
-//										" can't be placed here, another ship is here", "Error!, Ships-collide", JOptionPane.ERROR_MESSAGE	);
-//							//	System.out.println("SHIP IN THE WAY");
-//							}
-//							else
-//							{
-//								//clear Ship coordinates
-//								//METHOD TO CLEAR SHIP; needs to be implemented
-//								clearBoard(currentShip);
-//								
-//								//place ship coordinates
-//								setShipCord(currentShip, xCord, yCord, direction);
-//								
-//								//set board with ship coordinates
-//								setBoard(currentShip);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//
-//	@Override
-//	public void mouseReleased(MouseEvent e)
-//	{
-//		// TODO Auto-generated method stub
-//		
-//	}
-	
 	private boolean checkOther(Ship ship)
 	{
 		ArrayList<Ship> tempList = bsGame.get_ships();
@@ -415,7 +304,14 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		if(!AC_Deployed || !B_Deployed || !S_Deployed || !C_Deployed || !D_Deployed)
 			bDeploy.setEnabled(false);
 		else
+		{
 			bDeploy.setEnabled(true);
+			bAircraftCarrier.setForeground(Color.BLACK);
+			bBattleship.setForeground(Color.BLACK);
+			bSubmarine.setForeground(Color.BLACK);
+			bCruiser.setForeground(Color.BLACK);
+			bDestroyer.setForeground(Color.BLACK);
+		}
 	}
 	
 	private void disableShipPlacementButtons()
@@ -453,12 +349,12 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 //		oppShips = shipList;
 //	}
 	
-	private boolean checkWin()
+	private static boolean checkWin()
 	{
 		return destroyEnemyShipCounter == 5;
 	}
 	
-	private boolean checkLost()
+	private static boolean checkLost()
 	{
 		int count = 0;
 		for(Ship s : bsGame.get_ships())
@@ -483,109 +379,60 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 						xCord = j;
 						yCord = i;
 						
-						shot(xCord, yCord);
-//									if()
-//									{
-//										oppGrid[i][j].setBackground(Color.ORANGE);							
-//									}
-
+						bsGame.sendMove(xCord,yCord);
+						//shot(xCord, yCord);
 						oppGrid[i][j].setEnabled(false);
-						if(wait)
-						{
-							if(checkWin())
-							{
-								int value = JOptionPane.showConfirmDialog(BattleshipGUI1.this, "All enemy ship sunk, you Win", "Play Again?", JOptionPane.YES_NO_OPTION);
-								if(value == 0)
-									reset();						
-							}
-							
-							if(checkLost())
-							{
-								int value = JOptionPane.showConfirmDialog(BattleshipGUI1.this, "Enemy sunk all your ship, you lose", "Play Again?", JOptionPane.YES_NO_OPTION);
-								if(value == 0)
-									reset();
-							}
-							wait = false;
-						}
+						bsGame.switchPlayer();
 					}
 				}
-			}			
+			}				
 		}
 		
-		private void shot(int x, int y)
-		{
-			bsGame.sendMove(x, y);
-//			return false;
-//			if(enemeyShip.get_hit(x, y))
-//			{
-//				Ship temp = enemeyShip.set_hit(x, y);
-//				bsGame.sendMove(x, y);
-//				if(temp != null)
-//				{
-//					if(temp.checkDestroy())
-//					{
-//						JOptionPane.showMessageDialog(BattleshipGUI1.this, temp.get_type() + " has been sunk");
-//						destroyCounter++;
-//						if(temp.get_type().equalsIgnoreCase("aircraft carrier"))
-//							bAircraftCarrier.setBackground(Color.RED);
-//						if(temp.get_type().equalsIgnoreCase("battleship"))
-//							bBattleship.setBackground(Color.RED);
-//						if(temp.get_type().equalsIgnoreCase("cruiser"))
-//							bCruiser.setBackground(Color.RED);
-//						if(temp.get_type().equalsIgnoreCase("submarine"))
-//							bSubmarine.setBackground(Color.RED);
-//						if(temp.get_type().equalsIgnoreCase("destroyer"))
-//							bDestroyer.setBackground(Color.RED);
-//					}
-//					return true;
-//				}
-//				else
-//				{
-//					oppGrid[yCord][xCord].setBackground(Color.BLUE);	
-//				}
-//			}			
-//			return false;
-		}
-		
-		private void reset() 
-		{	
-			for(int i = 0; i < 10; ++i)
-			{
-				for(int j = 0; j < 10; ++j)
-				{
-					grid[i][j].setBackground(null);
-					grid[i][j].setEnabled(true);
-					
-					oppGrid[i][j].setBackground(null);
-					oppGrid[i][j].setEnabled(false);
-				}
-			}
-			bAircraftCarrier.setBackground(null);
-			bBattleship.setBackground(null);
-			bSubmarine.setBackground(null);
-			bDestroyer.setBackground(null);
-			bCruiser.setBackground(null);
-			bsGame = new Battleship();		
-//			enemeyShip = new Battleship();
-			currentShip = null;
-			destroyEnemyShipCounter = 0;
-			AC_Deployed = false;
-			B_Deployed = false;
-			S_Deployed = false;
-			C_Deployed = false;
-			D_Deployed = false;
-//			oppShips = new ArrayList<>();	
-			
-			bAircraftCarrier.setEnabled(true);
-			bBattleship.setEnabled(true);
-			bCruiser.setEnabled(true);
-			bSubmarine.setEnabled(true);
-			bDestroyer.setEnabled(true);
-			bDirection.setEnabled(true);
-			bDeploy.setVisible(true);
-			bDirection.setVisible(true);
-		}				
+//		private void shot(int x, int y)
+//		{
+//			bsGame.sendMove(x, y);
+//		}					
 	}
+	
+	private static void reset() 
+	{	
+		bsGame.reset();	
+		for(int i = 0; i < 10; ++i)
+		{
+			for(int j = 0; j < 10; ++j)
+			{
+				grid[i][j].setBackground(null);
+				grid[i][j].setEnabled(true);
+				
+				oppGrid[i][j].setBackground(null);
+				oppGrid[i][j].setEnabled(false);
+			}
+		}
+		bAircraftCarrier.setBackground(null);
+		bBattleship.setBackground(null);
+		bSubmarine.setBackground(null);
+		bDestroyer.setBackground(null);
+		bCruiser.setBackground(null);
+		currentShip = null;
+		destroyEnemyShipCounter = 0;
+		AC_Deployed = false;
+		B_Deployed = false;
+		S_Deployed = false;
+		C_Deployed = false;
+		D_Deployed = false;
+//		oppShips = new ArrayList<>();	
+		
+		bAircraftCarrier.setEnabled(true);
+		bBattleship.setEnabled(true);
+		bCruiser.setEnabled(true);
+		bSubmarine.setEnabled(true);
+		bDestroyer.setEnabled(true);
+		bDirection.setEnabled(true);
+		bDeploy.setVisible(true);
+		tvShipDir.setVisible(true);
+		bDirection.setVisible(true);
+	}	
+	
 	private class boardAction implements ActionListener
 	{
 		@Override
@@ -661,9 +508,30 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		}
 		
 		if(destroy)
+		{
 			destroyEnemyShipCounter++;
+			JOptionPane.showMessageDialog(null, ship + " has been sunk");
+
+			if(ship.equalsIgnoreCase("aircraft carrier"))
+				bAircraftCarrier.setBackground(Color.RED);
+			if(ship.equalsIgnoreCase("battleship"))
+				bBattleship.setBackground(Color.RED);
+			if(ship.equalsIgnoreCase("cruiser"))
+				bCruiser.setBackground(Color.RED);
+			if(ship.equalsIgnoreCase("submarine"))
+				bSubmarine.setBackground(Color.RED);
+			if(ship.equalsIgnoreCase("destroyer"))
+				bDestroyer.setBackground(Color.RED);
 			
-		wait = true;
+			if(checkWin())
+			{
+				int value = JOptionPane.showConfirmDialog(null, "All enemy ship sunk, you Win", "Play Again?", JOptionPane.YES_NO_OPTION);
+				if(value == 0)
+					reset();						
+			}
+		}
+			
+		
 	}
 	
 	public static void updateYourBoard(boolean hasHit, int x, int y)
@@ -675,6 +543,13 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		else
 		{
 			grid[x][y].setBackground(Color.BLUE);
+		}
+		
+		if(checkLost())
+		{
+			int value = JOptionPane.showConfirmDialog(null, "Enemy sunk all your ship, you lose", "Play Again?", JOptionPane.YES_NO_OPTION);
+			if(value == 0)
+				reset();
 		}
 	}
 }

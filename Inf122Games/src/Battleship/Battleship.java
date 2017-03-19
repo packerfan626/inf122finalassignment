@@ -9,17 +9,16 @@ import Games.Game;
 
 public class Battleship extends Game
 {
-	final private String AIRCRAFT_CARRIER = "Aircraft Carrier", //length 5
+	final static private String AIRCRAFT_CARRIER = "Aircraft Carrier", //length 5
 			BATTLESHIP = "Battleship", 	//length 4
 			SUBMARINE = "Submarine", 	//length 3
 			CRUISER = "Cruiser", 		//length 3
 			DESTROYER = "Destroyer";	//length 2
-	private boolean isValid [][];
-	private int board[][];	
-	private ArrayList<Ship> ships = new ArrayList<Ship>();
-	private ArrayList<Ship> enemyShips = new ArrayList<Ship>();
+	private static boolean isValid [][];
+	private static int board[][];	
+	private static ArrayList<Ship> ships = new ArrayList<Ship>();
 	static Client client;
-	
+	private boolean turn = false;
 	
 	public Battleship()
 	{
@@ -44,6 +43,8 @@ public class Battleship extends Game
 		BattleshipGUI1 frame = new BattleshipGUI1(this);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);	
+		if(client.isHost)
+			turn = true;
 	}
 	
 	public void makeBoard(int x, int y)
@@ -199,7 +200,6 @@ public class Battleship extends Game
 		
 		System.out.println("UPDATE BOARD = x: " + x + " y: " + y);
 		client.sendMessage("UPDATEBOARD_"+ hasHit + "_" + x + "_" + y + "_" + ship + "_" + destroy);
-//		client.sendMessage("UPDATEBOARD_"+ hasHit);
 	}
 	
 	@Override
@@ -214,12 +214,29 @@ public class Battleship extends Game
 	{
 		System.out.println("received move" );		
 		System.out.println("X CORD: " + x + " Y CORD: " + y);
-		//Driver.updateBoard(x,y);
-		//Driver.CheckForWin();
-		
-		//hit your opponent ships
+
 		set_move(x, y);
+			
+	}
+	public void switchPlayer(){
+		if(turn = true){
+			turn = false;
+		}else{
+			turn = true;
+		}
 		
-//		Driver.getInput(x, y);		
+	}
+	
+	public void reset()
+	{
+		isValid = new boolean[10][10];
+		board = new int[10][10];	
+		ships = new ArrayList<Ship>();
+		ships.add(new Ship(AIRCRAFT_CARRIER, 5));
+		ships.add(new Ship(BATTLESHIP, 4));
+		ships.add(new Ship(SUBMARINE, 4));
+		ships.add(new Ship(CRUISER, 3));
+		ships.add(new Ship(DESTROYER, 2));
+		makeBoard(10,10);
 	}
 }

@@ -42,6 +42,7 @@ public class ServerGUI extends JFrame
 		
 		
 		txtrServerOnline = new JTextArea();
+		txtrServerOnline.setForeground(Color.RED);
 		txtrServerOnline.setBounds(21, 31, 108, 22);
 		txtrServerOnline.setText("Server offline");
 		txtrServerOnline.setEditable(false);
