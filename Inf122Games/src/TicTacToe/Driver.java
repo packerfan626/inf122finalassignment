@@ -48,12 +48,12 @@ public class Driver{
 	public static void getInput(int row, int col) { //row is y value. col is x value
 		if (p1sTurn == true) 
 		{
-			board[row][col] = 1;	
+			board[row][col] = 1;
 		}
 
 		else
 		{
-			board[row][col] = 2;	
+			board[row][col] = 2;
 		}
 		++flagTotal;
 	}

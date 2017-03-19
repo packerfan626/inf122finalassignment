@@ -66,28 +66,32 @@ public class TicTacToeButton extends JButton implements ActionListener {
 		boolean validClick = false;
 		int y = 0;
 		int x = 0;
-		System.out.println("Current cell: " + getText()); 
+		//System.out.println("Current cell: " + getText()); 
+		//PLAYER 1 TURN
 		if (Driver.flagTotal % 2 == 0 && getText().equals(" ") && Driver.flagTotal < 9) {
-			Driver.p1sTurn = true;
-			Driver.p2sTurn = false;
+			
 			letter = "X";
 			y = ((TicTacToeButton) e.getSource()).getButtonRow();
 			x = ((TicTacToeButton) e.getSource()).getButtonCol();
 			Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
-			TTTboard.sendMove(x, y);
+			Driver.p1sTurn = !Driver.p1sTurn;
 			validClick = true;
+			
+			
+		//PLAYER 2 TURNS
 		} else if (Driver.flagTotal % 2 != 0 && getText().equals(" ") && Driver.flagTotal < 9) {
 			letter = "O";
-			Driver.p1sTurn = false;
-			Driver.p2sTurn = true;
+			
 			y = ((TicTacToeButton) e.getSource()).getButtonRow();
 			x = ((TicTacToeButton) e.getSource()).getButtonCol();
 			Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
-			TTTboard.sendMove(x, y);
+			Driver.p1sTurn = !Driver.p1sTurn;
 			validClick = true;
 		}
 		if (validClick){ 
-			setText(letter); //Change the current button to reflect the X or O move
+			setText(letter); 
+			TTTboard.sendMove(x, y);
+					//Change the current button to reflect the X or O move
 			Driver.checkForWin();
 		}
 		if (Driver.hasWinner || Driver.flagTotal == 9) { //If there is a winner,
