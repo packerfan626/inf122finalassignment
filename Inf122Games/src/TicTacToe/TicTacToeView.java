@@ -40,7 +40,7 @@ public class TicTacToeView extends Game{
 		}		
 		
 		frame = new JFrame("Tic-Tac-Toe - PLAYER"+_client.username);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3, 3));
@@ -142,6 +142,7 @@ public class TicTacToeView extends Game{
 		else
 			oppLetter = "X";
 		TicTacToeButton.updateBoard(index);
+		
 		ActionEvent actionevent = new ActionEvent(buttons[index],0,null);
 		((TicTacToeButton) buttons[index]).setText(oppLetter);
 		switchPlayer();
