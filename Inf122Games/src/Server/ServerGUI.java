@@ -1,11 +1,13 @@
 package Server;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -33,7 +35,7 @@ public class ServerGUI extends JFrame
 	public ServerGUI()
 	{
 		super("Game Server");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 458, 408);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,7 +88,21 @@ public class ServerGUI extends JFrame
 				
 			}
 		});
-		repaint();		
+		repaint();
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter(){
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(bStartServer, 
+		            "Are you sure to close this window?", "Really Closing?", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		        	server.stopServer();
+		        	server = null;
+		        }
+		    }
+		});
+		
 	}
 	
 	

@@ -1,5 +1,6 @@
 package Server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -68,6 +69,11 @@ public class Server {
 		}
 	}
 	
+	
+	public void stopServer(){
+		isActive = false;
+	}
+	
 	public class PlayerThread extends Thread{
 
 		//Server side communication
@@ -98,10 +104,7 @@ public class Server {
 		public void setOpponent(String opponent){
 			this.opponent = opponent;
 		}
-		
-		public void stopServer(){
-			isActive = false;
-		}
+
 		
 		public void run(){
 			while(isActive){			
