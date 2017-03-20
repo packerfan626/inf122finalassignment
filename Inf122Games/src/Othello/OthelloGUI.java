@@ -34,7 +34,16 @@ public class OthelloGUI extends Game{
 		if(_client.isHost)
 			enabled = true;
 		
-		JFrame frame = new JFrame("Othello Game -- " + _client.username);
+		JFrame frame;
+		if (_client.isHost)
+		{
+			frame = new JFrame("Othello - " + _client.username + " (Host)");
+		}
+		
+		else
+			frame = new JFrame("Othello - " + _client.username);
+
+
 		frame.setContentPane(this);
 		frame.setSize(530,528);
 		frame.setLocation(700,100);
