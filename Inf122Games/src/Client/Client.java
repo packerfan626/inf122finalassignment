@@ -155,6 +155,12 @@ public class Client
 						clientGame.receiveDeployStatus(deployed);
 					}
 					
+					
+					//
+					else if (strings[0].equals("QUITGAME")){
+						
+					}
+					
 					if(!isActive){
 						sendMessage("EXIT_" + username);
 						//Close server communication

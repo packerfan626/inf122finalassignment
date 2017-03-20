@@ -183,6 +183,7 @@ public class Server {
 						}
 					}
 					
+					//EXIT SERVER
 					else if (strings[0].equals("EXIT")){
 						for(PlayerThread player: playerThread){
 							if(player.username.equals(strings[1])){
@@ -192,6 +193,19 @@ public class Server {
 								playerThread.remove(strings[1]);
 								
 								System.out.println(playerThread.contains(strings[1]));
+							}
+						}
+					}
+					
+					//QUITGAME
+					else if (strings[0].equals("QUITGAME")){
+						for(PlayerThread player: playerThread){
+							if(player.opponent.equals(this.opponent)){
+								ServerGUI.updateServer("User has left game");
+								player.out.writeObject(message);
+								
+								this.opponent = null;
+								player.opponent = null;
 							}
 						}
 					}
