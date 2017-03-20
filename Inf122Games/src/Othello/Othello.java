@@ -6,15 +6,10 @@ import Client.Client;
 
 public class Othello 
 {
-	OthelloPlayer player1;
-	OthelloPlayer player2;
-	OthelloPlayer currentPlayer;
-	OthelloPlayer oppositePlayer;
+	OthelloPlayer player1, player2, currentPlayer, oppositePlayer, winner, loser;
 	Piece[][] board;
 	ArrayList<Integer> validMovesRow;
 	ArrayList<Integer> validMovesColumn;
-	ArrayList<String> directions;
-	ArrayList<Integer> blackPieceException;
     final static int COLUMNS = 8;
     final static int ROWS = 8;
     OthelloGUI ogui;
@@ -65,6 +60,26 @@ public class Othello
 		
 	}
 	
+	public boolean checkForWin()
+	{
+		checkValidMoves(currentPlayer);
+		if(validMovesRow.size() == 0 && validMovesColumn.size() == 0)
+		{
+			if(player1.getPieces() > player2.getPieces())
+			{
+				winner = player1;
+				loser = player2;
+			}
+			else
+			{
+				winner = player2;
+				loser = player1;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean isValid(int row, int column, OthelloPlayer p){
 		checkValidMoves(p);
 		boolean isValid = false;
@@ -80,8 +95,6 @@ public class Othello
 	{
 		validMovesRow = new ArrayList<Integer>();
 		validMovesColumn = new ArrayList<Integer>();
-		directions = new ArrayList<String>();
-		blackPieceException = new ArrayList<Integer>();
 		
 			for(int i = 0; i < 8; i++)
 			{
@@ -114,8 +127,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Diagonal Up Left");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								
@@ -150,8 +161,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Diagonal Up Right");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								
@@ -187,8 +196,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Diagonal Down Right");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								}
@@ -224,8 +231,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Diagonal Down Left");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								}
@@ -261,8 +266,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Up");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								}
@@ -297,8 +300,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Down");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								}
@@ -333,8 +334,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Left");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								}
@@ -368,8 +367,6 @@ public class Othello
 									{
 										validMovesRow.add(row);
 										validMovesColumn.add(column);
-										directions.add("Right");
-										blackPieceException.add(numPiecesTake);
 										break;
 									}
 								

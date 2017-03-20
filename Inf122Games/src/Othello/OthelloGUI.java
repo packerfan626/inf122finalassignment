@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Client.Client;
@@ -46,7 +47,6 @@ public class OthelloGUI extends Game{
         
         timer = new javax.swing.Timer(0, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //Insert player move here, tba
                 repaint();
             }
         });
@@ -71,6 +71,10 @@ public class OthelloGUI extends Game{
 	                	game.board[row][column] = game.currentPlayer.getPlayerColor();
 	                	repaint();
 	                	game.switchPlayer();
+	                	
+	                }
+	                if(game.checkForWin()){
+	                	JOptionPane.showMessageDialog(frame, game.winner.getPlayerName() + " has won the game!");
 	                }
 	            }
             	else{
