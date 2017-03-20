@@ -71,7 +71,7 @@ public class TicTacToeView extends Game{
 //			System.exit(0);
 			return;
 		}
-		JOptionPane.showMessageDialog(frame, winner + " has won the game!");
+		JOptionPane.showMessageDialog(frame, _client.username + " has won the game!");
 //		System.exit(0);
 	}
 
