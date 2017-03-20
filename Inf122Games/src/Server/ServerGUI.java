@@ -54,8 +54,6 @@ public class ServerGUI extends JFrame
 		taPort.setBounds(141, 31, 108, 22);
 		contentPane.add(taPort);
 			
-
-		
 		JButton bStartServer = new JButton("Start Server");
 		bStartServer.setBounds(270, 22, 141, 35);
 		contentPane.add(bStartServer);

@@ -22,6 +22,7 @@ public class Client
 	private int port = 4444;
 	public boolean isHost = false;
 	private ArrayList<String> availGames;
+	boolean isActive = false;
 
 	// Use to start the game
 	private GameFactory gameFactory;
@@ -66,6 +67,7 @@ public class Client
 
 		// Start listening for messages from the server
 		// and return true
+		isActive = true;
 		new serverListener().start();
 		return true;
 	}
@@ -74,7 +76,7 @@ public class Client
 	{
 		public void run()
 		{
-			while(true)
+			while(isActive)
 			{
 				try
 				{
@@ -115,7 +117,6 @@ public class Client
 						if(strings[1].equals("Othello"))
 						{
 							clientGame = new OthelloGUI(Client.this);
-
 						}
 						
 					}
@@ -163,6 +164,15 @@ public class Client
 						boolean deployed = Boolean.valueOf(strings[1]);
 						
 						clientGame.receiveDeployStatus(deployed);
+					}
+					
+					if(!isActive){
+						sendMessage("EXIT_" + username);
+						//Close server communication
+						in.close();
+						out.close();
+						socket.close();
+						break;
 					}
 					
 				} 

@@ -17,6 +17,8 @@ public class Server {
 	//ArrayList of PlayerThreads
 	private ArrayList<PlayerThread> playerThread;
 	
+	boolean isActive = false;
+	
 	//Create server instance
 	public Server(int port){
 		this.port = port;
@@ -25,20 +27,43 @@ public class Server {
 	
 	public void startServer(){
 		System.out.println("Starting Server...");
+		isActive = true;
 		try{
 			ServerSocket serverSocket = new ServerSocket(port);
-			
-			while(true){
+
+			while(isActive){
 				//Accept new clients to server
 				Socket socket = serverSocket.accept();
+				
+				if(!isActive){
+					System.out.println("Here");
+					break;
+				}
 				
 				//Create a new player thread and add player to ArrayList and start run()
 				PlayerThread player = new PlayerThread(socket);
 				playerThread.add(player);
 				player.start();
-			}			
+			}
+			try{
+				serverSocket.close();
+				
+				for(PlayerThread player: playerThread){
+					try{
+						player.in.close();
+						player.out.close();
+						player.socket.close();
+					}catch (Exception e){
+						e.printStackTrace();
+						System.err.println("Failed to close in/out streams");
+					}
+				}
+			} catch (Exception e){
+				e.printStackTrace();
+				System.err.println("Failed to close server");
+			}
 		} catch(Exception e){
-			System.out.println("Failed to connect");
+			System.out.println("Failed to connect server");
 			e.printStackTrace();
 		}
 	}
@@ -74,8 +99,12 @@ public class Server {
 			this.opponent = opponent;
 		}
 		
+		public void stopServer(){
+			isActive = false;
+		}
+		
 		public void run(){
-			while(true){			
+			while(isActive){			
 				try {
 					//Read in message and set protocol string based on message
 					String message = (String)in.readObject();
@@ -102,8 +131,8 @@ public class Server {
 								player.opponent = this.username;
 								this.opponent = strings[2];
 								
-								ServerGUI.updateServer("Setting: " + player.opponent + " and " + 
-										this.opponent);
+								ServerGUI.updateServer("Player '" + this.username + "' has joined '" + 
+										player.opponent + "'s' game!");
 								
 								player.out.writeObject(message);
 								this.out.writeObject(message);
@@ -113,7 +142,6 @@ public class Server {
 					
 					//Makes move in game and displays it to the user
 					else if (strings[0].equals("MOVE")){
-						ServerGUI.updateServer(message);
 						for(PlayerThread player: playerThread){
 							if(player.opponent.equals(username)){
 								//Strings[1] = x; Strings[2] = y
@@ -124,7 +152,7 @@ public class Server {
 					
 					//Listens for the NEWGAME; will output to all users that there is a new game available.
 					else if (strings[0].equals("NEWGAME")){
-						ServerGUI.updateServer(message);
+						ServerGUI.updateServer("New game '" + strings[1] +"' created by user '" + strings[2]);
 						for(PlayerThread player: playerThread){
 							player.out.writeObject(message);
 						}
@@ -150,7 +178,20 @@ public class Server {
 								player.out.writeObject(message);
 							}
 						}
-					}		
+					}
+					
+					else if (strings[0].equals("EXIT")){
+						for(PlayerThread player: playerThread){
+							if(player.username.equals(strings[1])){
+								ServerGUI.updateServer("User: " + strings[1]+ " has exitted the server.");
+								player.in.close();
+								player.out.close();
+								playerThread.remove(strings[1]);
+								
+								System.out.println(playerThread.contains(strings[1]));
+							}
+						}
+					}
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
