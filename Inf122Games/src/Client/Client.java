@@ -104,20 +104,9 @@ public class Client
 						//String of the game that is to be played
 						String game = strings[1];
 						//use "game" to set up what game is to be started
-
-						if(strings[1].equals("TicTacToe"))
-						{
-							clientGame = new TicTacToeView(Client.this);
-						}						
-
-						if(strings[1].equals("Battleship"))
-						{
-							clientGame = new Battleship(Client.this);
-						}
-						if(strings[1].equals("Othello"))
-						{
-							clientGame = new OthelloGUI(Client.this);
-						}
+						GameFactory gameMaker = new GameFactory();
+						clientGame = gameMaker.setGame(Client.this,strings[1]);
+						
 						
 					}
 					
