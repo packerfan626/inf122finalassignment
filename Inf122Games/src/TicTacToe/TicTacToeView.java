@@ -13,6 +13,7 @@ import Client.Client;
 import Games.Game;
 
 public class TicTacToeView extends Game{
+	
 	static JButton buttons[] = new JButton[9];
 	boolean gameOver = false;
 	int moveCounter = 0;
@@ -59,17 +60,22 @@ public class TicTacToeView extends Game{
 
 	public void printWinner() {
 		String winner = "";
-		if (Driver.p1Wins) {
+		if (Driver.p1Wins) 
+		{ 
 			winner = "Player 1";
-		} else if (Driver.p2Wins) {
+		} 
+		else if (Driver.p2Wins) {
 			winner = "Player 2";
-		} else if (!Driver.hasWinner) {
+		} 
+		else if (!Driver.hasWinner) 
+		{
 			JOptionPane.showMessageDialog(null, "Game ended in a draw");
 			System.exit(0);
 			return;
 		}
+		
 		JOptionPane.showMessageDialog(frame, winner + " has won the game!");
-		System.exit(0);
+		System.exit(0);		
 	}
 
 	@Override
@@ -98,7 +104,7 @@ public class TicTacToeView extends Game{
 			{
 				index = 2;
 			}
-		break;
+			break;
 		case 1:
 			if (x == 0)
 			{
@@ -112,8 +118,7 @@ public class TicTacToeView extends Game{
 			{
 				index = 5;
 			}
-		break;
-		
+			break;
 		case 2:
 			if (x == 0)
 			{
@@ -127,9 +132,10 @@ public class TicTacToeView extends Game{
 			{
 				index = 8;
 			}
-		break;
-			
+			break;
 		}
+		
+		
 		String oppLetter;
 		if(letter.equalsIgnoreCase("x"))
 			oppLetter = "O";
@@ -150,7 +156,14 @@ public class TicTacToeView extends Game{
 		}	
 	}
 	
-	public static void changeTurn(boolean tun) { turn = tun; }
-	public static boolean get_turn() {	return turn; }
-	public static String get_piece() {	return letter; }
+	public static void changeTurn(boolean tun) 
+	{ turn = tun; }
+	
+	public static boolean get_turn() 
+	{	return turn; }
+	
+	public static String get_piece() 
+	{	return letter; }
 }
+
+

@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class TicTacToeButton extends JButton implements ActionListener {
+
 	TicTacToeView TTTboard;
 	Driver game;
 	static String letter; // X or O
@@ -15,12 +16,14 @@ public class TicTacToeButton extends JButton implements ActionListener {
 	// each button is initialized to contain an empty string " "
 	int x; //x-coordinate of button
 	int y; //y-coordinate of button
-	public TicTacToeButton(TicTacToeView board, int buttonIndex) {
+	
+	public TicTacToeButton(TicTacToeView board, int buttonIndex) 
+	{
 		TTTboard = board;
-		letter = " ";
+		/*letter = " ";
 		setFont(new Font("Arial", Font.BOLD, 150));
 		setText(letter);
-		addActionListener(this);
+		addActionListener(this);*/
 		index = buttonIndex;
 		switch (index){
 		case 0:
@@ -57,6 +60,10 @@ public class TicTacToeButton extends JButton implements ActionListener {
 			x = y = 2;
 			break;
 		}
+		letter = " ";
+		setFont(new Font("Arial", Font.BOLD, 150));
+		setText(letter);
+		addActionListener(this);
 	}
 
 	// Even Driver.flagtotal means it's player 1's turn.
@@ -71,12 +78,18 @@ public class TicTacToeButton extends JButton implements ActionListener {
 		{
 			//PLAYER 1 TURN
 //			if (Driver.flagTotal % 2 == 0 && getText().equals(" ") && Driver.flagTotal < 9) {
+			
+				Driver.p1sTurn = TTTboard._client.isHost;
+				Driver.p2sTurn = !Driver.p1sTurn;
 				
 				letter = TicTacToeView.get_piece();
 				y = ((TicTacToeButton) e.getSource()).getButtonRow();
 				x = ((TicTacToeButton) e.getSource()).getButtonCol();
+				
+				
 				Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
-				Driver.p1sTurn = !Driver.p1sTurn;
+				Driver.p2sTurn = Driver.p1sTurn;
+				Driver.p1sTurn = !Driver.p2sTurn;
 				validClick = true;
 				
 				
@@ -131,3 +144,5 @@ public class TicTacToeButton extends JButton implements ActionListener {
 	}
 	
 }
+
+
