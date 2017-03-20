@@ -9,6 +9,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import Client.Client;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
@@ -47,9 +50,20 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 	private static JTextArea tvShipDir;
 	private static boolean waiting = true;
 	
-	public BattleshipGUI1(Battleship bs)
+	public BattleshipGUI1(Client _client, Battleship bs)
 	{
-		super("Battleships");
+		//super("Battleship - " + _client.username);
+		
+		if (_client.isHost)
+		{
+			setTitle("Battleship - " +_client.username + " (Host)");
+		}
+		else 
+			setTitle("Battleship - " +_client.username);
+
+		
+		
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 826, 432);
 		contentPane = new JPanel();
@@ -290,7 +304,7 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			JFrame waitFrame = new JFrame("Waiting to start game");
 	        waitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	
-	        waitFrame.setBounds(200, 200, 300, 300);
+	        waitFrame.setBounds(100, 100, 500, 500);
 	
 	        JPanel waitPanel = new JPanel();
 	        waitPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

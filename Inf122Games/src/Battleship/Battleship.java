@@ -30,7 +30,7 @@ public class Battleship extends Game
 		ships.add(new Ship(DESTROYER, 2));
 	}
 	
-	public Battleship(Client client)
+	public Battleship(Client _client)
 	{
 		makeBoard(10,10);
 		ships.add(new Ship(AIRCRAFT_CARRIER, 5));
@@ -39,8 +39,8 @@ public class Battleship extends Game
 		ships.add(new Ship(CRUISER, 3));
 		ships.add(new Ship(DESTROYER, 2));
 		
-		this.client = client;
-		BattleshipGUI1 frame = new BattleshipGUI1(this);
+		this.client = _client;
+		BattleshipGUI1 frame = new BattleshipGUI1(_client, this);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);	
 		if(client.isHost)
