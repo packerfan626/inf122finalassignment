@@ -30,15 +30,16 @@ public class TicTacToeView extends Game{
 		if(_client.isHost)
 		{
 			turn =true;
+			frame = new JFrame("Tic-Tac-Toe - "+_client.username + " (HOST)");
 			letter = "X";
 		}
 		else
 		{
 			turn = false;
+			frame = new JFrame("Tic-Tac-Toe - "+_client.username);
 			letter = "O";
 		}		
 		
-		frame = new JFrame("Tic-Tac-Toe - PLAYER"+_client.username);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
