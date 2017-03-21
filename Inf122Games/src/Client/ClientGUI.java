@@ -115,8 +115,7 @@ public class ClientGUI extends JFrame implements ActionListener
                 bOthello = new JButton("Othello");
                 bOthello.setBounds(50, 90, 141, 35);
                 bOthello.addActionListener(new ActionListener()
-                {
-                    
+                {           
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
@@ -170,7 +169,8 @@ public class ClientGUI extends JFrame implements ActionListener
             	
             	bUsernameOK.setEnabled(false);
             	bUsernameOK.setVisible(false);
-            	 txtrEnterUsername.setBounds(21, 21, 250, 22);
+            	
+            	txtrEnterUsername.setBounds(21, 21, 250, 22);
                 username = tfUsername.getText().toString();
                 txtrEnterUsername.setText("Username: " + username);
          

@@ -285,6 +285,7 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		
 		if(e.getSource() == bQuit)
 		{
+			bsGame.sendDeployStatus(false);
 			bsGame.sendQuit(true);
 			dispose();		
 		}
@@ -293,52 +294,11 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			//disable all ships button
 			disableShipPlacementButtons();
 			bsGame.sendDeployStatus(false);
-//			
-//			JFrame wait = new JFrame("Waiting to start game");
-//			JPanel waitPanel = new JPanel();
-//			
-//			final JOptionPane optionPane = new JOptionPane("Waiting for other player to deploy ships", 
-//					JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
-//			final JDialog dialog = new JDialog();
-//			dialog.setTitle("Waiting to start game");
-//			dialog.setModal(true);
-//			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			
-//			JFrame waitFrame = new JFrame("Waiting to start game");
-//	        waitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//	
-//	        waitFrame.setBounds(100, 100, 500, 500);
-//	
-//	        JPanel waitPanel = new JPanel();
-//	        waitPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//	        waitFrame.setContentPane(waitPanel);
-//	        waitFrame.setVisible(false);
-//	        waitPanel.setLayout(null);
-//	        JTextArea taWait = new JTextArea("Waiting for player to deploy ships");
-//	        taWait.setBounds(50, 10, 141, 35);
-//            waitPanel.add(taWait);
 			if(waiting)
 			{
 				JOptionPane.showMessageDialog(null, 
 						"Waiting for opponent to deploy ships", "Waiting", JOptionPane.INFORMATION_MESSAGE);
-//				waitFrame.setVisible(true);
-//				dialog.setContentPane(optionPane);
-//				dialog.pack();
-//				dialog.setVisible(true);
-//				wait.setVisible(true);
-//				wait.setBounds(100, 100, 449, 176);
-//				waitPanel.setBackground(Color.WHITE);
-//				waitPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-//				wait.setContentPane(waitPanel);
-//				waitPanel.setLayout(null);
-//				
-//				JTextArea content = new JTextArea();
-//				content.setBounds(77, 50, 283, 30);
-//				content.setFont(new Font("Book Antiqua", Font.PLAIN, 17));
-//			    content.setEditable(false);		    
-//				content.setText("Waiting for player to deploy ships");
-//				waitPanel.add(content);      	 
-//				wait.repaint();
 			}
 			
 			while(waiting != false)
@@ -350,10 +310,6 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 				catch (InterruptedException IE)
 				{ 
 					
-				}
-				if(bsGame.get_hasQuit())
-				{
-					waiting = false;					
 				}
 			}
 			
@@ -369,11 +325,6 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			
 			if(!waiting)
 			{
-//				waitFrame.dispose();
-//				dialog.setModal(false);
-//				dialog.setVisible(false);
-//				dialog.dispose();
-//				wait.dispose();
 				if(bsGame.get_turn())
 				{
 					JOptionPane.showMessageDialog(null, 

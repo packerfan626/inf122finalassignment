@@ -193,9 +193,9 @@ public class Server {
 					}					
 					//QUITGAME
 					else if (strings[0].equals("QUITGAME")){
+						ServerGUI.updateServer(message);
 						for(PlayerThread player: playerThread){
-							if(player.opponent.equals(this.opponent)){
-								ServerGUI.updateServer("User has left game");
+							if(player.opponent.equals(username)){
 								player.out.writeObject(message);
 								
 								this.opponent = null;

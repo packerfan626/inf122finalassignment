@@ -157,7 +157,7 @@ public class Client
 					
 					//
 					else if (strings[0].equals("QUITGAME")){
-						boolean hasQuit = Boolean.getBoolean(strings[1]);
+						boolean hasQuit = Boolean.valueOf(strings[1]);
 						clientGame.receiveQuit(hasQuit);
 					}
 				} 

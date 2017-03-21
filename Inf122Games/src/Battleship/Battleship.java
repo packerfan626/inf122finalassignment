@@ -236,6 +236,21 @@ public class Battleship extends Game
 		client.sendMessage("DEPLOYED_"+ deployed);
 	}
 	
+	@Override
+	public void sendQuit(boolean out)
+	{
+		client.sendMessage("QUITGAME_" + out);
+		//System.out.println("X CORD: " + x + " Y CORD: " + y);
+	}
+
+	@Override
+	public void receiveQuit(boolean out)
+	{
+		System.out.println("received move" );		
+		System.out.println("hasQuitted " + out);
+		playerQuit(out);
+		//set_move(x, y);			
+	}
 	public void switchPlayer(){
 		if(turn == true){
 			turn = false;
@@ -255,22 +270,6 @@ public class Battleship extends Game
 		ships.add(new Ship(CRUISER, 3));
 		ships.add(new Ship(DESTROYER, 2));
 		makeBoard(10,10);
-	}
-	
-	@Override
-	public void sendQuit(boolean out)
-	{
-		client.sendMessage("QUITGAME_" + out);
-		//System.out.println("X CORD: " + x + " Y CORD: " + y);
-	}
-
-	@Override
-	public void receiveQuit(boolean out)
-	{
-		System.out.println("received move" );		
-		System.out.println("hasQuitted " + out);
-		playerQuit(out);
-		//set_move(x, y);			
 	}
 	
 	public void changeTurn(boolean turn) {	this.turn = turn; }
