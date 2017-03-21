@@ -104,8 +104,10 @@ public class Client
 						//String of the game that is to be played
 						String game = strings[1];
 						//use "game" to set up what game is to be started
+
 						GameFactory gameMaker = new GameFactory();
-						clientGame = gameMaker.setGame(Client.this,strings[1]);						
+						clientGame = gameMaker.setGame(Client.this,strings[1]);		
+						isHost = false;
 					}
 					
 					//Listens for if they Joined the Game Successfully and will start the game

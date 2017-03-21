@@ -159,6 +159,7 @@ public class Server {
 								
 								player.out.writeObject(message);
 								this.out.writeObject(message);
+								
 							}
 							
 						}
