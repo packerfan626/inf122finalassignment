@@ -170,7 +170,7 @@ public class ClientGUI extends JFrame implements ActionListener
             	
             	bUsernameOK.setEnabled(false);
             	bUsernameOK.setVisible(false);
-            	
+            	 txtrEnterUsername.setBounds(21, 21, 250, 22);
                 username = tfUsername.getText().toString();
                 txtrEnterUsername.setText("Username: " + username);
          
