@@ -30,6 +30,8 @@ public interface Createable		//PLUG - IN THAT ALL GAMES MUST FOLLOW
 	 * 
 	 * 
 	 */
+	public void sendQuit(boolean out);
+	public void receiveQuit(boolean out);
 	
 	
 }

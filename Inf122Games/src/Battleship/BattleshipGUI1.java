@@ -284,7 +284,10 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			currentShip = bsGame.get_ships().get(4);
 		
 		if(e.getSource() == bQuit)
+		{
+			bsGame.sendQuit(true);
 			dispose();		
+		}
 		if(e.getSource() == bDeploy)
 		{
 			//disable all ships button
@@ -301,22 +304,24 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 //			dialog.setModal(true);
 //			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			
-			JFrame waitFrame = new JFrame("Waiting to start game");
-	        waitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	
-	        waitFrame.setBounds(100, 100, 500, 500);
-	
-	        JPanel waitPanel = new JPanel();
-	        waitPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	        waitFrame.setContentPane(waitPanel);
-	        waitFrame.setVisible(false);
-	        waitPanel.setLayout(null);
-	        JButton taWait = new JButton("Waiting for player to deploy ships");
-	        taWait.setBounds(50, 10, 141, 35);
-            waitPanel.add(taWait);
+//			JFrame waitFrame = new JFrame("Waiting to start game");
+//	        waitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//	
+//	        waitFrame.setBounds(100, 100, 500, 500);
+//	
+//	        JPanel waitPanel = new JPanel();
+//	        waitPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+//	        waitFrame.setContentPane(waitPanel);
+//	        waitFrame.setVisible(false);
+//	        waitPanel.setLayout(null);
+//	        JTextArea taWait = new JTextArea("Waiting for player to deploy ships");
+//	        taWait.setBounds(50, 10, 141, 35);
+//            waitPanel.add(taWait);
 			if(waiting)
 			{
-				waitFrame.setVisible(true);
+				JOptionPane.showMessageDialog(null, 
+						"Waiting for opponent to deploy ships", "Waiting", JOptionPane.INFORMATION_MESSAGE);
+//				waitFrame.setVisible(true);
 //				dialog.setContentPane(optionPane);
 //				dialog.pack();
 //				dialog.setVisible(true);
@@ -346,11 +351,25 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 				{ 
 					
 				}
+				if(bsGame.get_hasQuit())
+				{
+					waiting = false;					
+				}
+			}
+			
+			if(bsGame.get_hasQuit())
+			{
+				int value = JOptionPane.showConfirmDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
+				if(value == 0)
+				{
+					setVisible(false);
+					dispose();
+				}
 			}
 			
 			if(!waiting)
 			{
-				waitFrame.dispose();
+//				waitFrame.dispose();
 //				dialog.setModal(false);
 //				dialog.setVisible(false);
 //				dialog.dispose();
@@ -367,17 +386,11 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 				}
 			}		
 		}
-		//System.out.println(length);	//test 
 	}
 
 	private boolean checkOther(Ship ship)
 	{
 		ArrayList<Ship> tempList = bsGame.get_ships();
-		//tempList.remove(ship);
-		
-		
-		//if direction
-		//boolean isVertical = true;
 	
 		//need ships orientation
 		for(Ship s: tempList)
@@ -532,7 +545,15 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			
+			if(bsGame.get_hasQuit())
+			{
+				int value = JOptionPane.showConfirmDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
+				if(value == 0)
+				{
+					setVisible(false);
+					dispose();
+				}
+			}
 			for(int i = 0; i < 10; i++) //y
 			{
 				for(int j = 0; j < 10; j++) //x

@@ -139,4 +139,18 @@ public class OthelloGUI extends Game{
 		game.switchPlayer();
 	}
 
+	@Override
+	public void sendQuit(boolean out)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receiveQuit(boolean out)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

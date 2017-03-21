@@ -173,4 +173,18 @@ public class TicTacToeView extends Game{
 	}
 	public static boolean get_turn() {	return turn; }
 	public static String get_piece() {	return letter; }
+
+	@Override
+	public void sendQuit(boolean out)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void receiveQuit(boolean out)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

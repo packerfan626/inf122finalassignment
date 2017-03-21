@@ -19,6 +19,7 @@ public class Battleship extends Game
 	private static ArrayList<Ship> ships = new ArrayList<Ship>();
 	static Client client;
 	private boolean turn;
+	private boolean quit = false;
 	
 	public Battleship()
 	{
@@ -39,6 +40,7 @@ public class Battleship extends Game
 		ships.add(new Ship(CRUISER, 3));
 		ships.add(new Ship(DESTROYER, 2));
 		
+		this.quit = false;
 		this.client = _client;
 		BattleshipGUI1 frame = new BattleshipGUI1(_client, this);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -217,8 +219,7 @@ public class Battleship extends Game
 		System.out.println("received move" );		
 		System.out.println("X CORD: " + x + " Y CORD: " + y);
 
-		set_move(x, y);
-			
+		set_move(x, y);			
 	}
 	
 	public void receiveDeployStatus(boolean deployed)
@@ -256,6 +257,24 @@ public class Battleship extends Game
 		makeBoard(10,10);
 	}
 	
+	@Override
+	public void sendQuit(boolean out)
+	{
+		client.sendMessage("QUITGAME_" + out);
+		//System.out.println("X CORD: " + x + " Y CORD: " + y);
+	}
+
+	@Override
+	public void receiveQuit(boolean out)
+	{
+		System.out.println("received move" );		
+		System.out.println("hasQuitted " + out);
+		playerQuit(out);
+		//set_move(x, y);			
+	}
+	
 	public void changeTurn(boolean turn) {	this.turn = turn; }
 	public boolean get_turn() {	return turn; }
+	public void playerQuit(boolean out) {	this.quit = out; }
+	public boolean get_hasQuit() {	return quit; }
 }
