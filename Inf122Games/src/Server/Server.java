@@ -18,7 +18,7 @@ public class Server {
 
 	//ArrayList of PlayerThreads
 	private ArrayList<PlayerThread> playerThread;
-//	private ArrayList<String> avaiableGames = new ArrayList<>();
+	private ArrayList<String> availGames = new ArrayList<>();
 	boolean isActive = false;
 	
 	
@@ -133,7 +133,11 @@ public class Server {
 						//Outputs who has joined the server
 						ServerGUI.updateServer(this.username + " has joined the server");
 						for(PlayerThread player: playerThread){
-							player.out.writeObject(this.username + " has joined the lobby");
+							if(player.username.equals(username)){
+								for(int i = 0; i < availGames.size(); i++){
+									player.out.writeObject("NEWGAME_" + availGames.get(i));
+								}
+							}
 						}
 					}
 					
@@ -177,7 +181,7 @@ public class Server {
 					//Listens for the NEWGAME; will output to all users that there is a new game available.
 					else if (strings[0].equals("NEWGAME")){
 						ServerGUI.updateServer("New game '" + strings[1] +"' created by user '" + strings[2]);
-//						avaiableGames.add(strings[1]+"_"+strings[2]);
+						availGames.add(strings[1] + "_" + strings[2]);
 						for(PlayerThread player: playerThread){
 							player.out.writeObject(message);
 						}

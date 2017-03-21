@@ -32,7 +32,7 @@ public class ClientGUI extends JFrame implements ActionListener
 {
 	static Client client;
 	static String username;
-	static ArrayList<String> availGames = new ArrayList<>();;
+	static ArrayList<String> availGames = new ArrayList<>();
 	private static int port = 4444;
 	private JPanel contentPane = new JPanel();
 	private JTextField tfUsername;
