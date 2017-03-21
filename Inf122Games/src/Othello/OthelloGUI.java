@@ -34,7 +34,16 @@ public class OthelloGUI extends Game{
 		if(_client.isHost)
 			enabled = true;
 		
-		JFrame frame = new JFrame("Othello Game -- " + _client.username);
+		JFrame frame;
+		if (_client.isHost)
+		{
+			frame = new JFrame("Othello - " + _client.username + " (Host)");
+		}
+		
+		else
+			frame = new JFrame("Othello - " + _client.username);
+
+
 		frame.setContentPane(this);
 		frame.setSize(530,528);
 		frame.setLocation(700,100);
@@ -71,7 +80,7 @@ public class OthelloGUI extends Game{
 	                	game.board[row][column] = game.currentPlayer.getPlayerColor();
 	                	repaint();
 	                	game.switchPlayer();
-	                	JOptionPane.showMessageDialog(frame, game.winner.getPlayerName() + ", make your move!");
+	                	JOptionPane.showMessageDialog(frame, game.currentPlayer.getPlayerName() + ", make your move!");
 	                }
 	                if(game.checkForWin()){
 	                	JOptionPane.showMessageDialog(frame, game.winner.getPlayerName() + " has won the game!");

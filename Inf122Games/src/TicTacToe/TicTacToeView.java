@@ -75,10 +75,30 @@ public class TicTacToeView extends Game{
 		} else {
 			JOptionPane.showMessageDialog(frame, "O has won the game!");
 		}
+		if (!playAgain()){
+			System.exit(0);
+		} else {
+			Driver.resetGame();
+			this.clearBoard();
+		}
 		
 			//JOptionPane.showMessageDialog(frame, winner + " has won the game!");
 		//System.exit(0);
 	}
+	
+	public void clearBoard(){
+		for (int i = 0; i < 9; i++) {
+			((TicTacToeButton) buttons[i]).setText(" ");
+		}
+		
+	}
+	
+	public boolean playAgain() {
+        int response = JOptionPane.showConfirmDialog(frame,
+            "Want to play again?", "Tic Tac Toe",
+            JOptionPane.YES_NO_OPTION);
+        return response == JOptionPane.YES_OPTION;
+    }
 
 	@Override
 	public void sendMove(int x, int y) {
@@ -144,11 +164,13 @@ public class TicTacToeView extends Game{
 		else
 			oppLetter = "X";
 		ActionEvent actionevent = new ActionEvent(buttons[index],0,null);
-		((TicTacToeButton) buttons[index]).setText(oppLetter);
-		Driver.buttonLetter = oppLetter;
-		Driver.getInput(y, x);
-		switchPlayer();
-		Driver.checkForWin();
+		if (buttons[index].getText() == " "){
+			((TicTacToeButton) buttons[index]).setText(oppLetter);
+			Driver.buttonLetter = oppLetter;
+			Driver.getInput(y, x);
+			switchPlayer();
+			Driver.checkForWin();
+		}
 		if (Driver.hasWinner || Driver.flagTotal == 9) { //If there is a winner,
 			 //print the winner pop-up screen
 				printWinner(); 
