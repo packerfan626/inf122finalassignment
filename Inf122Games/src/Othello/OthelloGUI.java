@@ -59,7 +59,10 @@ public class OthelloGUI extends Game{
                 repaint();
             }
         });
-        
+        if (_client.isHost)
+	{
+		JOptionPane.showMessageDialog(frame, _client.username + " make your first move!");
+	}
         addMouseListener( new MouseAdapter() {
             public void mousePressed(MouseEvent evt) {
             	//Depending on whose turn it is allow for moves
