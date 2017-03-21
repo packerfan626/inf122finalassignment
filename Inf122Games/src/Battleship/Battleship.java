@@ -3,6 +3,7 @@ package Battleship;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import Client.Client;
 import Games.Game;
@@ -20,7 +21,7 @@ public class Battleship extends Game
 	static Client client;
 	private boolean turn;
 	private boolean quit = false;
-	
+	BattleshipGUI1 frame;
 	public Battleship()
 	{
 		makeBoard(10,10);
@@ -42,7 +43,7 @@ public class Battleship extends Game
 		
 		this.quit = false;
 		this.client = _client;
-		BattleshipGUI1 frame = new BattleshipGUI1(_client, this);
+		frame = new BattleshipGUI1(_client, this);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);	
 		if(client.isHost)
@@ -239,6 +240,7 @@ public class Battleship extends Game
 	@Override
 	public void sendQuit(boolean out)
 	{
+		System.out.println("I QUIT: " + out);
 		client.sendMessage("QUITGAME_" + out);
 		//System.out.println("X CORD: " + x + " Y CORD: " + y);
 	}
@@ -249,6 +251,17 @@ public class Battleship extends Game
 		System.out.println("received move" );		
 		System.out.println("hasQuitted " + out);
 		playerQuit(out);
+		if(out==true)
+		{
+			int input = JOptionPane.showOptionDialog(null, "Opponent has quit, You win!!", "Opponent Quit",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			//JOptionPane.showMessageDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
+			if(input == JOptionPane.OK_OPTION || input == JOptionPane.CANCEL_OPTION)
+			{
+				frame.setVisible(false);
+				frame.dispose();	
+			}
+		}
 		//set_move(x, y);			
 	}
 	public void switchPlayer(){
