@@ -109,11 +109,10 @@ public class Server {
 		public void removeConnection(String username){
 			for (PlayerThread players : playerThread){
 				if(players.username.equals(username)){
-					System.out.println(playerThread.remove(players));
+					playerThread.remove(players);
 				}
 			}
 		}
-
 		
 		public void run(){
 			boolean isActive = true;
@@ -145,7 +144,7 @@ public class Server {
 								this.opponent = strings[2];
 								
 								ServerGUI.updateServer("Player '" + this.username + "' has joined '" + 
-										player.opponent + "'s' game!");
+										this.opponent + "'s' game!");
 								
 								player.out.writeObject(message);
 								this.out.writeObject(message);
