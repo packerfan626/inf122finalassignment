@@ -237,7 +237,14 @@ public class ClientGUI extends JFrame implements ActionListener
                     	}
                 		else
             			{
-                			client.sendMessage("JOINGAME_" + availGames.get(availGames.size()-1));
+                			String avGame = "";
+                			for (String g : availGames){
+                				  if (g.contains(gameName)){
+                				    avGame = g;
+                				  }
+                				}
+                			client.sendMessage("JOINGAME_" + avGame);
+                			joinGame[i].setVisible(false);
 //                			client.sendMessage("REMOVEGAME_"+ gameName);
 //                			joinGame[i%10].setVisible(false);
 //                			availGames.remove(i);
