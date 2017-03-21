@@ -34,4 +34,6 @@ public interface Createable		//PLUG - IN THAT ALL GAMES MUST FOLLOW
 	public void receiveQuit(boolean out);
 	
 	
+
+	public void makeBoard(int x ,int y);
 }

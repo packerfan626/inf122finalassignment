@@ -1,12 +1,10 @@
 package Games;
 
-import java.io.Serializable;
-
 import javax.swing.JPanel;
 
 import Server.Server.PlayerThread;
 
-public abstract class Game extends JPanel implements Createable, Serializable 
+public abstract class Game implements Createable
 {
 	String player1;
 	String player2;
@@ -18,5 +16,10 @@ public abstract class Game extends JPanel implements Createable, Serializable
 	
 	//some functions that each game implements
 	
-	
+	@Override
+	public void makeBoard(int x, int y)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }
