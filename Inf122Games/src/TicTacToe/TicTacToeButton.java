@@ -66,30 +66,14 @@ public class TicTacToeButton extends JButton implements ActionListener {
 		boolean validClick = false;
 		int y = 0;
 		int x = 0;
-		//System.out.println("Current cell: " + getText()); 
+
 		if(TicTacToeView.get_turn())
 		{
-			//PLAYER 1 TURN
-//			if (Driver.flagTotal % 2 == 0 && getText().equals(" ") && Driver.flagTotal < 9) {
-				
 				letter = TicTacToeView.get_piece();
 				y = ((TicTacToeButton) e.getSource()).getButtonRow();
 				x = ((TicTacToeButton) e.getSource()).getButtonCol();
-				//Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
 				Driver.p1sTurn = !Driver.p1sTurn;
 				validClick = true;
-				
-				
-			//PLAYER 2 TURNS
-//			} else if (Driver.flagTotal % 2 != 0 && getText().equals(" ") && Driver.flagTotal < 9) {
-//				letter = "O";
-//				
-//				y = ((TicTacToeButton) e.getSource()).getButtonRow();
-//				x = ((TicTacToeButton) e.getSource()).getButtonCol();
-//				Driver.getInput(y, x); //makes the move given the y(row) and x(col) coordinates.
-//				Driver.p1sTurn = !Driver.p1sTurn;
-//				validClick = true;
-//			}
 			if (((TicTacToeButton) e.getSource()).getText() == " "){ 
 				setText(letter); 
 				TTTboard.sendMove(x, y);
