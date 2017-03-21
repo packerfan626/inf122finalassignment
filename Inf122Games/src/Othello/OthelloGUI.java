@@ -84,6 +84,12 @@ public class OthelloGUI extends Game{
 	                }
 	                if(game.checkForWin()){
 	                	JOptionPane.showMessageDialog(frame, game.winner.getPlayerName() + " has won the game!");
+	                	int response = JOptionPane.showConfirmDialog(frame,
+	                            "Want to play again?", "Othello",
+	                            JOptionPane.YES_NO_OPTION);
+	                    if(response == JOptionPane.YES_OPTION){
+	                    	game.reset();
+	                    }
 	                }
 	            }
             	else{
@@ -148,6 +154,7 @@ public class OthelloGUI extends Game{
 		game.switchPlayer();
 		JOptionPane.showMessageDialog(this, game.currentPlayer.getPlayerName() + ", make your move!");
 	}
+	
 
 	@Override
 	public void sendQuit(boolean out)

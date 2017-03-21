@@ -475,16 +475,20 @@ public class Othello
 		System.out.println(this.oppositePlayer.getPlayerColor() + " has " + this.oppositePlayer.getPieces() + " pieces");
 	}
 	
-	public void run()
+	public void reset()
 	{
-		for(int i = 0; i < this.ROWS; i++)
-		{
-			for(int j = 0; j < this.COLUMNS; j++)
-			{
-				System.out.print(board[i][j] + "   ");
-			}
-			System.out.println("");
-		}
+	    board = new Piece[ROWS][COLUMNS];
+	    for(int i = 0; i < ROWS; i++)
+	    {
+	        for(int j = 0; j < COLUMNS; j++)
+	        {
+	            board[i][j] = Piece.EMPTY;
+	        }
+	    }
+	    board[3][3] = Piece.WHITE;
+	    board[3][4] = Piece.BLACK;
+	    board[4][3] = Piece.BLACK;
+	    board[4][4] = Piece.WHITE;
 	}
 	
 }
