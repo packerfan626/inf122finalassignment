@@ -3,6 +3,8 @@ package Client;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,8 @@ public class ClientGUI extends JFrame implements ActionListener
 	private JPanel contentPane = new JPanel();
 	private JTextField tfUsername;
 	private static JButton bBattleship, bTicTacToe, bOthello, btnTESTjoingame;
+	private static JButton bClose;
+	
 	
 	private static int numGameCount = 0;
     private static JScrollPane JoinableGamesList;
@@ -43,7 +47,8 @@ public class ClientGUI extends JFrame implements ActionListener
 
 		super("LOBBY");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        
         setBounds(100, 100, 479, 361);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -65,6 +70,7 @@ public class ClientGUI extends JFrame implements ActionListener
         bUsernameOK.setBounds(314, 18, 97, 28);
         contentPane.add(bUsernameOK);
         JButton bHostGame = new JButton("Create New Game");
+        
         bHostGame.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -127,6 +133,21 @@ public class ClientGUI extends JFrame implements ActionListener
         bHostGame.setBounds(173, 255, 141, 35);
         contentPane.add(bHostGame);
         
+        JButton close = new JButton("Exit");
+        close.setBounds(0, 255, 141, 35);
+        contentPane.add(close);
+        
+        
+        //Exit ClientGUI
+        close.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				client.exit();
+				System.exit(0);
+			}
+        });
+        
         JoinableGamesList = new JScrollPane();
         JoinableGamesList.setBounds(110, 75, 249, 167);
 //        JoinableGamesList.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -162,6 +183,7 @@ public class ClientGUI extends JFrame implements ActionListener
                 client.sendMessage(message);
             }
         });
+        
         repaint();
 	}
 	
@@ -226,5 +248,5 @@ public class ClientGUI extends JFrame implements ActionListener
 		{
 			startGame("Othello");
 		}
-	}		
+	}
 }

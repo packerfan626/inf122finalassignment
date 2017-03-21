@@ -37,7 +37,6 @@ public class Server {
 				Socket socket = serverSocket.accept();
 				
 				if(!isActive){
-					System.out.println("Here");
 					break;
 				}
 				
@@ -48,7 +47,6 @@ public class Server {
 			}
 			try{
 				serverSocket.close();
-				
 				for(PlayerThread player: playerThread){
 					try{
 						player.in.close();
@@ -56,22 +54,25 @@ public class Server {
 						player.socket.close();
 					}catch (Exception e){
 						e.printStackTrace();
-						System.err.println("Failed to close in/out streams");
+						System.exit(1);
 					}
 				}
 			} catch (Exception e){
-				e.printStackTrace();
 				System.err.println("Failed to close server");
 			}
 		} catch(Exception e){
 			System.out.println("Failed to connect server");
-			e.printStackTrace();
 		}
 	}
 	
 	
 	public void stopServer(){
 		isActive = false;
+        try {
+            new Socket("localhost", port);
+        }catch (IOException e){
+            //end
+        }
 	}
 	
 	public class PlayerThread extends Thread{
@@ -90,8 +91,8 @@ public class Server {
 			
 			try{
 				//Sets up input and object streams
-				in = new ObjectInputStream(socket.getInputStream());
 				out = new ObjectOutputStream(socket.getOutputStream());
+				in = new ObjectInputStream(socket.getInputStream());
 			}catch(Exception e){
 				//Output error messages and exits the Stream setup
 				System.out.print("Failed to set streams for client");
@@ -104,9 +105,18 @@ public class Server {
 		public void setOpponent(String opponent){
 			this.opponent = opponent;
 		}
+		
+		public void removeConnection(String username){
+			for (PlayerThread players : playerThread){
+				if(players.username.equals(username)){
+					System.out.println(playerThread.remove(players));
+				}
+			}
+		}
 
 		
 		public void run(){
+			boolean isActive = true;
 			while(isActive){			
 				try {
 					//Read in message and set protocol string based on message
@@ -181,22 +191,7 @@ public class Server {
 								player.out.writeObject(message);
 							}
 						}
-					}
-					
-					//EXIT SERVER
-					else if (strings[0].equals("EXIT")){
-						for(PlayerThread player: playerThread){
-							if(player.username.equals(strings[1])){
-								ServerGUI.updateServer("User: " + strings[1]+ " has exitted the server.");
-								player.in.close();
-								player.out.close();
-								playerThread.remove(strings[1]);
-								
-								System.out.println(playerThread.contains(strings[1]));
-							}
-						}
-					}
-					
+					}					
 					//QUITGAME
 					else if (strings[0].equals("QUITGAME")){
 						for(PlayerThread player: playerThread){
@@ -217,6 +212,20 @@ public class Server {
 					break;
 				}
 			}
+			
+			//Terminates the client
+
+			removeConnection(username);
+			
+			try {
+				in.close();
+				out.close();
+				socket.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	}	
 }

@@ -1,8 +1,10 @@
 package Client;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import Battleship.Battleship;
@@ -22,8 +24,6 @@ public class Client
 	private int port = 4444;
 	public boolean isHost = false;
 	private ArrayList<String> availGames;
-	boolean isActive = false;
-
 	// Use to start the game
 	private GameFactory gameFactory;
 
@@ -56,8 +56,8 @@ public class Client
 		// Setup the output and input streams for the socket/server.
 		try
 		{
-			out = new ObjectOutputStream(socket.getOutputStream());
 			in = new ObjectInputStream(socket.getInputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
 		} catch (Exception e)
 		{
 			System.out.print("Error setting up input streams");
@@ -67,7 +67,6 @@ public class Client
 
 		// Start listening for messages from the server
 		// and return true
-		isActive = true;
 		new serverListener().start();
 		return true;
 	}
@@ -76,7 +75,7 @@ public class Client
 	{
 		public void run()
 		{
-			while(isActive)
+			while(true)
 			{
 				try
 				{
@@ -161,21 +160,11 @@ public class Client
 						boolean hasQuit = Boolean.getBoolean(strings[1]);
 						clientGame.receiveQuit(hasQuit);
 					}
-					
-					if(!isActive){
-						sendMessage("EXIT_" + username);
-						//Close server communication
-						in.close();
-						out.close();
-						socket.close();
-						break;
-					}
-					
 				} 
 				catch (Exception e)
 				{
 					System.out.println("Failed to Listen to server object");
-					e.printStackTrace();
+					break;
 				}
 			}
 		}
@@ -193,5 +182,32 @@ public class Client
 			System.out.println("Failed to send message to the server");
 			e.printStackTrace();
 		}
-	}	
+	}
+	
+	
+	public void exit(){
+		try{
+			if(out!=null)
+				out.close();
+		}catch(Exception e){
+		}
+		
+		try {
+			if(in!=null)
+				in.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		}
+		
+		try{
+			if(socket!=null)
+				socket.close();
+		}catch(SocketException e){
+			System.exit(1);
+		}catch(IOException e){
+			System.exit(1);
+		}
+		
+		
+	}
 }

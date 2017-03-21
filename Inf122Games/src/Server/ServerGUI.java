@@ -99,12 +99,11 @@ public class ServerGUI extends JFrame
 		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
 		        	server.stopServer();
 		        	server = null;
+		        	System.exit(0);
 		        }
 		    }
 		});
-		
 	}
-	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -115,7 +114,10 @@ public class ServerGUI extends JFrame
 			{
 				ServerGUI run = new ServerGUI();
 				server = new Server(port);
-				server.startServer();		
+				server.startServer();	
+				
+				//If server failed or stopped
+				server = null;
 			}
 			catch (Exception IOE)
 			{
