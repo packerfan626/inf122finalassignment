@@ -103,9 +103,7 @@ public class ClientGUI extends JFrame implements ActionListener
                     {
                         // TODO Auto-generated method stub
                         startGame("TicTacToe");
-                        bHostGame.setVisible(false);
-
-                    }
+                     }
                 });
                 gameContents.add(bTicTacToe);
                 bOthello = new JButton("Othello");

@@ -158,7 +158,8 @@ public class Client
 					
 					//
 					else if (strings[0].equals("QUITGAME")){
-						
+						boolean hasQuit = Boolean.getBoolean(strings[1]);
+						clientGame.receiveQuit(hasQuit);
 					}
 					
 					if(!isActive){
