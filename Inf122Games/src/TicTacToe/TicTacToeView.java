@@ -45,7 +45,7 @@ public class TicTacToeView extends Game{
 		else
 			frame = new JFrame("TTT - " + _client.username);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3, 3));

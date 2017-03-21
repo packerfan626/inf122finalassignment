@@ -315,15 +315,17 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			
 			if(bsGame.get_hasQuit())
 			{
-				int value = JOptionPane.showConfirmDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
-				if(value == 0)
+				int input = JOptionPane.showOptionDialog(null, "Opponent has quit, You win!!", "Opponent Quit",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+				//JOptionPane.showMessageDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
+				if(input == JOptionPane.OK_OPTION || input == JOptionPane.CANCEL_OPTION)
 				{
 					setVisible(false);
-					dispose();
+					dispose();	
 				}
 			}
 			
-			if(!waiting)
+			else if(!waiting)
 			{
 				if(bsGame.get_turn())
 				{

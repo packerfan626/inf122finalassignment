@@ -47,7 +47,7 @@ public class OthelloGUI extends Game{
 		frame.setContentPane(this);
 		frame.setSize(530,528);
 		frame.setLocation(700,100);
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		frame.setVisible(true);
 		
 		game.initializeGame(_client);
