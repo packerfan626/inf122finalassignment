@@ -80,7 +80,7 @@ public class OthelloGUI extends Game{
 	                	game.board[row][column] = game.currentPlayer.getPlayerColor();
 	                	repaint();
 	                	game.switchPlayer();
-	                	JOptionPane.showMessageDialog(frame, game.currentPlayer.getPlayerName() + ", make your move!");
+	                	
 	                }
 	                if(game.checkForWin()){
 	                	JOptionPane.showMessageDialog(frame, game.winner.getPlayerName() + " has won the game!");
@@ -146,6 +146,7 @@ public class OthelloGUI extends Game{
 		game.board[x][y] = game.oppositePlayer.getPlayerColor();
 		repaint();
 		game.switchPlayer();
+		JOptionPane.showMessageDialog(this, game.currentPlayer.getPlayerName() + ", make your move!");
 	}
 
 	@Override

@@ -40,7 +40,12 @@ public class TicTacToeView extends Game{
 			letter = "O";
 		}		
 		
-		frame = new JFrame("Tic-Tac-Toe - PLAYER"+_client.username);
+		if (_client.isHost)
+			frame = new JFrame("TTT - " + _client.username + "(Host)");
+		else
+			frame = new JFrame("TTT - " + _client.username);
+		
+		frame = new JFrame("Tic-Tac-Toe -"+_client.username);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
