@@ -65,6 +65,7 @@ public class ServerGUI extends JFrame
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         contentPane.add(scrollPane);    
         
+        
         tpListOfUsers = new JTextPane();
         scrollPane.setViewportView(tpListOfUsers);
         tpListOfUsers.setEditable(false);

@@ -71,6 +71,7 @@ public class Client
 		return true;
 	}
 
+	
 	class serverListener extends Thread
 	{
 		public void run()
@@ -177,7 +178,8 @@ public class Client
 			}
 		}
 	}
-
+//
+	
 	// Outputs message to the user
 	public void sendMessage(String message)
 	{

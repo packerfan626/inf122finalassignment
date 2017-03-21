@@ -21,6 +21,7 @@ public class Server {
 	private ArrayList<String> avaiableGames = new ArrayList<>();
 	boolean isActive = false;
 	
+	
 	//Create server instance
 	public Server(int port){
 		this.port = port;
