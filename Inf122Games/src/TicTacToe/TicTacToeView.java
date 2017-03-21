@@ -45,7 +45,6 @@ public class TicTacToeView extends Game{
 		else
 			frame = new JFrame("TTT - " + _client.username);
 		
-		frame = new JFrame("Tic-Tac-Toe -"+_client.username);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = new JPanel();
@@ -76,9 +75,15 @@ public class TicTacToeView extends Game{
 			return;
 		}*/
 		if (Driver.buttonLetter.equalsIgnoreCase("x") && Driver.p1Wins){
-			JOptionPane.showMessageDialog(frame, "X has won the game!");
+			if(_client.isHost)
+				JOptionPane.showMessageDialog(frame, "You have won the game--Congrats!");
+			else
+				JOptionPane.showMessageDialog(frame,  "You lost the game!");
 		} else {
-			JOptionPane.showMessageDialog(frame, "O has won the game!");
+			if(_client.isHost)
+				JOptionPane.showMessageDialog(frame, "You lost the game!");
+			else
+				JOptionPane.showMessageDialog(frame,  "You have won the game--Congrats!");
 		}
 		if (!playAgain()){
 			System.exit(0);

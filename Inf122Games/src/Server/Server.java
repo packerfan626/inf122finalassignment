@@ -214,8 +214,8 @@ public class Server {
 			
 			//Terminates the client
 
+			ServerGUI.updateServer(username + " has left the server lobby!");
 			removeConnection(username);
-			
 			try {
 				in.close();
 				out.close();
