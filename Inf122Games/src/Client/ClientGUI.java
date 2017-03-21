@@ -20,6 +20,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 //import TicTacToe.TicTacToe;
@@ -154,8 +156,10 @@ public class ClientGUI extends JFrame implements ActionListener
         joinPanel.setLayout(new GridLayout(10, 1));
         JoinableGamesList.setViewportView(joinPanel);
         contentPane.add(JoinableGamesList);
+      
         btnTESTjoingame = new JButton("");
         btnTESTjoingame.setBounds(308, 59, 141, 35);
+        
         contentPane.add(btnTESTjoingame);
         btnTESTjoingame.setVisible(false);
         btnTESTjoingame.addActionListener(this);
@@ -216,12 +220,27 @@ public class ClientGUI extends JFrame implements ActionListener
             @Override
             public void actionPerformed(ActionEvent e)
             {
+            	
                 // TODO Auto-generated method stub
                 for(int i = 0; i < 10; ++i)
-                {
-                    if(e.getSource() == joinGame[i])
+                {        	                	
+        
+                	if(e.getSource() == joinGame[i])
                     {
-                        client.sendMessage("JOINGAME_" + availGames.get(availGames.size()-1));
+                		String gameName = joinGame[i].getText().toString();            	
+                    	String user[] = gameName.split("_");
+                		if(user[1].equals(username))
+                    	{
+                			JOptionPane.showMessageDialog(null, 
+									"Can't join your own game.", "Error! ", JOptionPane.ERROR_MESSAGE	);
+                    	}
+                		else
+            			{
+                			client.sendMessage("JOINGAME_" + availGames.get(availGames.size()-1));
+                			client.sendMessage("REMOVEGAME_"+ gameName);
+                			joinGame[i%10].setVisible(false);
+                			availGames.remove(i);
+            			}
                     }
                 }
             }
@@ -231,6 +250,18 @@ public class ClientGUI extends JFrame implements ActionListener
         btnTESTjoingame.setText(availGames.get(availGames.size()-1));
     }
 
+	public static void deleteGame(String u, String g)
+	{
+		 for(int i = 0; i < 10; ++i)
+         {        	                	
+			String buttonName = joinGame[i].getText().toString();
+         	if( buttonName.equalsIgnoreCase(u+"_"+g))
+             {
+         		joinGame[i%10].setVisible(false);
+     			availGames.remove(i);
+             }
+         }
+	}
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -248,5 +279,85 @@ public class ClientGUI extends JFrame implements ActionListener
 		{
 			startGame("Othello");
 		}
+	}
+
+
+	public static void updateNewPlayer(ArrayList<String> avaiableGames)
+	{
+		availGames = avaiableGames;	
+		for(int i = 0; i < avaiableGames.size();++i)
+		{
+			joinGame[i] = new JButton();
+	        joinGame[i].setText(availGames.get(i));
+	        joinPanel.add(joinGame[i]);
+	       
+	        joinGame[i].addActionListener(new ActionListener()
+	        {        
+	            @Override
+	            public void actionPerformed(ActionEvent e)
+	            {
+	            	
+	                // TODO Auto-generated method stub
+	                for(int i = 0; i < 10; ++i)
+	                {        	                	
+	        
+	                	if(e.getSource() == joinGame[i])
+	                    {
+	                		String gameName = joinGame[i].getText().toString();            	
+	                    	String user[] = gameName.split("_");
+	                		if(user[1].equals(username))
+	                    	{
+	                			JOptionPane.showMessageDialog(null, 
+										"Can't join your own game.", "Error! ", JOptionPane.ERROR_MESSAGE	);
+	                    	}
+	                		else
+	            			{
+	                			client.sendMessage("JOINGAME_" + availGames.get(availGames.size()-1));
+	                			client.sendMessage("REMOVEGAME_"+ gameName);
+	                			joinGame[i%10].setVisible(false);
+	                			availGames.remove(i);
+	            			}
+	                    }
+	                }
+	            }
+	        });
+		}
+		
+		
+		
+//	        JoinableGamesList.add(joinGame[numGameCount % 10]);
+//        joinGame[numGameCount % 10].addActionListener(new ActionListener()
+//        {        
+//            @Override
+//            public void actionPerformed(ActionEvent e)
+//            {
+//            	
+//                // TODO Auto-generated method stub
+//                for(int i = 0; i < 10; ++i)
+//                {        	                	
+//        
+//                	if(e.getSource() == joinGame[i])
+//                    {
+//                		String gameName = joinGame[i].getText().toString();            	
+//                    	String user[] = gameName.split("_");
+//                		if(user[1].equals(username))
+//                    	{
+//                			JOptionPane.showMessageDialog(null, 
+//									"Can't join your own game.", "Error! ", JOptionPane.ERROR_MESSAGE	);
+//                    	}
+//                		else
+//            			{
+//                			client.sendMessage("JOINGAME_" + availGames.get(availGames.size()-1));
+//                			client.sendMessage("REMOVEGAME_"+ gameName);
+//                			joinGame[i%10].setVisible(false);
+//                			availGames.remove(i);
+//            			}
+//                    }
+//                }
+//            }
+//        });
+//        numGameCount++;
+//        btnTESTjoingame.setVisible(false);
+//        btnTESTjoingame.setText(availGames.get(availGames.size()-1));
 	}
 }

@@ -104,9 +104,17 @@ public class Client
 						String game = strings[1];
 						//use "game" to set up what game is to be started
 						GameFactory gameMaker = new GameFactory();
-						clientGame = gameMaker.setGame(Client.this,strings[1]);
-						
-						
+						clientGame = gameMaker.setGame(Client.this,strings[1]);						
+					}
+					
+					//Listens for if they Joined the Game Successfully and will start the game
+					else if(strings[0].equals("REMOVEGAME"))
+					{
+						//String of the game that is to be played
+						String game = strings[1];
+						String name = strings[2];
+						//use "game" to set up what game is to be started
+						ClientGUI.deleteGame(game, name);				
 					}
 					
 					//Listens for the move from the server (aka other user)

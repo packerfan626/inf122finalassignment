@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Client.ClientGUI;
 import Games.Game;
 import Games.Player;
 
@@ -17,7 +18,7 @@ public class Server {
 
 	//ArrayList of PlayerThreads
 	private ArrayList<PlayerThread> playerThread;
-	
+	private ArrayList<String> avaiableGames = new ArrayList<>();
 	boolean isActive = false;
 	
 	//Create server instance
@@ -126,11 +127,20 @@ public class Server {
 					//Checks if it is a new user and sets their username and outputs to the lobby of the new user joined
 					if(strings[0].equals("REG")){
 						this.username = strings[1];
-						
+						if(avaiableGames.size() >= 1)
+							ClientGUI.updateNewPlayer(avaiableGames);
 						//Outputs who has joined the server
 						ServerGUI.updateServer(this.username + " has joined the server");
 						for(PlayerThread player: playerThread){
 							player.out.writeObject(this.username + " has joined the lobby");
+						}
+					}
+					
+					//remove games from all clients
+					if (strings[0].equals("REMOVEGAME")){						
+						avaiableGames.remove(strings[1]+"_"+strings[2]);
+						for(PlayerThread player: playerThread){	//joined order							
+							player.out.writeObject(message);
 						}
 					}
 					
@@ -149,6 +159,7 @@ public class Server {
 								player.out.writeObject(message);
 								this.out.writeObject(message);
 							}
+							
 						}
 					}
 					
@@ -165,6 +176,7 @@ public class Server {
 					//Listens for the NEWGAME; will output to all users that there is a new game available.
 					else if (strings[0].equals("NEWGAME")){
 						ServerGUI.updateServer("New game '" + strings[1] +"' created by user '" + strings[2]);
+						avaiableGames.add(strings[1]+"_"+strings[2]);
 						for(PlayerThread player: playerThread){
 							player.out.writeObject(message);
 						}
