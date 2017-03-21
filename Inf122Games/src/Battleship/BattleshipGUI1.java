@@ -497,16 +497,7 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 	{
 		@Override
 		public void actionPerformed(ActionEvent e)
-		{
-			if(bsGame.get_hasQuit())
-			{
-				int value = JOptionPane.showConfirmDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
-				if(value == 0)
-				{
-					setVisible(false);
-					dispose();
-				}
-			}
+		{			
 			for(int i = 0; i < 10; i++) //y
 			{
 				for(int j = 0; j < 10; j++) //x
@@ -532,6 +523,21 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 			}
 			
 		}				
+	}
+	
+	public void playerLeft()
+	{
+		if(bsGame.get_hasQuit())
+		{
+			int input = JOptionPane.showOptionDialog(null, "Opponent has quit, You win!!", "Opponent Quit",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			//JOptionPane.showMessageDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
+			if(input == JOptionPane.OK_OPTION || input == JOptionPane.CANCEL_OPTION)
+			{
+				setVisible(false);
+				dispose();	
+			}
+		}
 	}
 	
 	private static boolean checkWin()
@@ -650,6 +656,22 @@ public class BattleshipGUI1 extends JFrame implements ActionListener//, MouseLis
 	{
 		// TODO Auto-generated method stub
 		waiting = deployed;		
+	}
+	
+	public static void playerQuited()
+	{
+		if(bsGame.get_hasQuit())
+		{
+			int input = JOptionPane.showOptionDialog(null, "Opponent has quit, You win!!", "Opponent Quit",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			//JOptionPane.showMessageDialog(null, "Opponent has quit", "Opponent Quit", JOptionPane.INFORMATION_MESSAGE);
+			if(input == JOptionPane.OK_OPTION || input == JOptionPane.CANCEL_OPTION)
+			{
+//				BattleshipGUI1.se
+//				setVisible(false);
+//				dispose();	
+			}
+		}
 	}
 
 }

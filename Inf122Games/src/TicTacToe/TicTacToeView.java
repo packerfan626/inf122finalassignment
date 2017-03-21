@@ -85,8 +85,10 @@ public class TicTacToeView extends Game{
 			else
 				JOptionPane.showMessageDialog(frame,  "You have won the game--Congrats!");
 		}
+		
+			
 		if (!playAgain()){
-			System.exit(0);
+			frame.dispose();
 		} else {
 			Driver.resetGame();
 			this.clearBoard();
